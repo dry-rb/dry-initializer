@@ -1,0 +1,82 @@
+---
+Lint/HandleExceptions:
+  Exclude:
+    - '**/*_spec.rb'
+
+Lint/RescueException:
+  Exclude:
+    - '**/*_spec.rb'
+
+Metrics/LineLength:
+  Max: 80
+  Exclude:
+    - 'spec/**/*.rb'
+
+Style/AccessorMethodName:
+  Exclude:
+    - '**/*_spec.rb'
+
+Style/Alias:
+  EnforcedStyle: prefer_alias_method
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/CaseEquality:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/DoubleNegation:
+  Enabled: false
+
+Style/EmptyLinesAroundClassBody:
+  Enabled: false
+
+Style/EmptyLinesAroundModuleBody:
+  Enabled: false
+
+Style/EmptyLineBetweenDefs:
+  Enabled: false
+
+Style/FileName:
+  Enabled: false
+
+Style/ModuleFunction:
+  Enabled: false
+
+Style/RaiseArgs:
+  EnforcedStyle: compact
+
+Style/Semicolon:
+  Exclude:
+    - '**/*_spec.rb'
+
+Style/SingleLineBlockParams:
+  Enabled: false
+
+Style/SingleLineMethods:
+  Exclude:
+    - '**/*_spec.rb'
+
+Style/SingleSpaceBeforeFirstArg:
+  Enabled: false
+
+Style/SpecialGlobalVars:
+  Exclude:
+    - '**/Gemfile'
+    - '**/*.gemspec'
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: double_quotes
+
+Style/TrivialAccessors:
+  Exclude:
+    - '**/*_spec.rb'
