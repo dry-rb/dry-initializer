@@ -3,7 +3,7 @@ Gem::Specification.new do |gem|
   gem.version  = "0.0.1"
   gem.author   = ["Vladimir Kochnev (marshall-lee)", "Andrew Kozin (nepalez)"]
   gem.email    = ["hashtable@yandex.ru", "andrew.kozin@gmail.com"]
-  gem.homepage = "https://github.com/nepalez/query_builder"
+  gem.homepage = "https://github.com/dryrb/dry-initializer"
   gem.summary  = "DSL for declaring params and options of the initializer"
   gem.license  = "MIT"
 
@@ -14,7 +14,6 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version = ">= 2.2"
 
   gem.add_development_dependency "guard-rspec", "~> 4.0"
-
   gem.add_development_dependency "rake", "~> 10.5"
   gem.add_development_dependency "dry-types", "~> 0.5.1"
 end
