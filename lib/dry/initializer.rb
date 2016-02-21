@@ -14,8 +14,10 @@ module Dry
     #
     # @param [#to_sym] name
     #
-    # @option options [Object] :default The default value
-    # @option options [#call]  :type    The type constraings via `dry-types`
+    # @option options [Object]  :default The default value
+    # @option options [#call]   :type    The type constraings via `dry-types`
+    # @option options [Boolean] :reader (true)  Whether to define attr_reader
+    # @option options [Boolean] :writer (false) Whether to define attr_writer
     #
     # @return [self] itself
     #
@@ -26,9 +28,9 @@ module Dry
 
     # Declares a named argument
     #
-    # @param  (see #argument)
-    # @option (see #argument)
-    # @return (see #argument)
+    # @param  (see #param)
+    # @option (see #param)
+    # @return (see #param)
     #
     def option(name, **options)
       arguments_builder.call(name, option: true, **options)

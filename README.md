@@ -58,7 +58,7 @@ class User
 end
 ```
 
-### Arguments vs. Attributes
+### Params and Options
 
 Use `param` to define plain argument:
 
@@ -90,7 +90,7 @@ user.name  # => 'Andrew'
 user.email # => 'andrew@email.com'
 ```
 
-Because we define a reader for every param/option, all names should be unique.
+All names should be unique:
 
 ```ruby
 class User
@@ -122,6 +122,23 @@ user.name  # => 'Vladimir'
 user.email # => 'vladimir@example.com'
 ```
 
+Set `nil` as a default value explicitly:
+
+```ruby
+class User
+  extend Dry::Initializer
+
+  param :name
+  artument :email, default: nil
+end
+
+user = User.new 'Andrew'
+user.email # => nil
+
+user = User.new
+# => #<ArgumentError ...>
+```
+
 You can use lambdas|procs as well:
 
 ```ruby
@@ -146,23 +163,6 @@ end
 
 user = User.new
 user.name_proc.call # => 'Unknown user'
-```
-
-Set `nil` as a default value explicitly:
-
-```ruby
-class User
-  extend Dry::Initializer
-
-  param :name
-  artument :email, default: nil
-end
-
-user = User.new 'Andrew'
-user.email # => nil
-
-user = User.new
-# => #<ArgumentError ...>
 ```
 
 ### Order of Declarations
@@ -220,6 +220,45 @@ user = User.new name: 'Andrew'
 ```
 
 [dry-types]: https://github.com/dryrb/dry-types
+
+### Reader and Writer
+
+By default `attr_reader` is defined for every param and option.
+
+To skip the reader, use `reader: false`:
+
+```ruby
+class User
+  extend Dry::Initializer
+
+  param :name
+  param :email, reader: false
+end
+
+user = User.new 'Luke', 'luke@example.com'
+user.name  # => 'Luke'
+
+user.email                         # => #<NoMethodError ...>
+user.instance_variable_get :@email # => 'luke@example.com'
+```
+
+By default `attr_writer` is NOT defined (we prefer immutable instances).
+
+To define it, use `writer: true` explicitly:
+
+```ruby
+class User
+  extend Dry::Initializer
+
+  param :name
+  param :email, writer: true
+end
+
+user = User.new 'Mark', 'mark@example.com'
+user.email # => 'mark@example.com'
+user.email = nil
+user.email # => nil
+```
 
 ### Reloading the Initializer
 

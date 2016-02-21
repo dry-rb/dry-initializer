@@ -26,12 +26,22 @@ module Dry::Initializer
     attr_reader :default_value
 
     # @!attribute [r] type
-    # @return [#[], nil] a type constraint
+    # @return [Class, nil] a type constraint
     attr_reader :type
 
-    def initialize(name, options = {})
+    # @!attribute [r] reader
+    # @return [Boolean] whether an attribute reader is defined for the argument
+    attr_reader :reader
+
+    # @!attribute [r] writer
+    # @return [Boolean] whether an attribute writer is defined for the argument
+    attr_reader :writer
+
+    def initialize(name, option:, reader: true, writer: false, **options)
       @name   = name.to_sym
-      @option = !!options[:option]
+      @option = option
+      @reader = reader
+      @writer = writer
       assign_default_value(options)
       assign_type(options)
     end
