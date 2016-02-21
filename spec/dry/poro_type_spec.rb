@@ -3,7 +3,7 @@ describe "PORO type" do
     class Test::Foo
       extend Dry::Initializer
 
-      argument :foo, type: String
+      param :foo, type: String
     end
   end
 

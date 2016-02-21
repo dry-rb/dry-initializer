@@ -1,5 +1,5 @@
 module Dry::Initializer
-  # A simple structure describes an argument (either a parameter, or an option)
+  # A simple structure describes an argument (either param, or option)
   #
   # @api private
   #
@@ -10,7 +10,7 @@ module Dry::Initializer
 
     # @!attribute [r] option
     # @return [Boolean]
-    #   Whether this is an option (a named arg) or a parameter (a regular arg)
+    #   Whether this is an option, or param of the initializer
     attr_reader :option
 
     # @!attribute [r] name

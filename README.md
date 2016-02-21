@@ -1,6 +1,6 @@
 # Dry::Initializer
 
-DSL for building class initializer with arguments and attributes.
+DSL for building class initializer with params and options.
 
 ## Installation
 
@@ -30,8 +30,8 @@ require 'dry-initializer'
 class User
   extend Dry::Initializer
 
-  argument :name, type: String
-  argument :type, default: 'customer'
+  param :name, type: String
+  param :type, default: 'customer'
 
   option :admin, default: false
 end
@@ -60,14 +60,14 @@ end
 
 ### Arguments vs. Attributes
 
-Use `argument` (or its alias `parameter`) to define plain parameter. The declaration order is significant.
+Use `param` to define plain argument:
 
 ```ruby
 class User
   extend Dry::Initializer
 
-  argument  :name
-  parameter :email
+  param :name
+  param :email
 end
 
 user = User.new 'Andrew', 'andrew@email.com'
@@ -75,14 +75,14 @@ user.name  # => 'Andrew'
 user.email # => 'andrew@email.com'
 ```
 
-Use `attribute` (or its alias `option`) to define named parameter. The declaration order is not significant:
+Use `option` to define named argument:
 
 ```ruby
 class User
   extend Dry::Initializer
 
-  attribute :name
-  option    :email
+  option :name
+  option :email
 end
 
 user = User.new email: 'andrew@email.com', name: 'Andrew'
@@ -90,27 +90,27 @@ user.name  # => 'Andrew'
 user.email # => 'andrew@email.com'
 ```
 
-Because we define a reader for every parameter/option, all names should be unique. Redefinition is not supported as well.
+Because we define a reader for every param/option, all names should be unique.
 
 ```ruby
 class User
   extend Dry::Initializer
 
-  parameter :name
-  option    :name # => raises #<SyntaxError ...>
+  param  :name
+  option :name # => raises #<SyntaxError ...>
 end
 ```
 
 ### Default Values
 
-By default both arguments and attributes are mandatory. Use `:default` option to make them optional:
+By default both params and options are mandatory. Use `:default` key to make them optional:
 
 ```ruby
 class User
   extend Dry::Initializer
 
-  parameter :name,  default: 'Unknown user'
-  option    :email, default: 'unknown@example.com'
+  param  :name,  default: 'Unknown user'
+  option :email, default: 'unknown@example.com'
 end
 
 user = User.new
@@ -128,7 +128,7 @@ You can use lambdas|procs as well:
 class User
   extend Dry::Initializer
 
-  parameter :name, default: -> { 'Unknown user' }
+  param :name, default: -> { 'Unknown user' }
 end
 
 user = User.new
@@ -141,7 +141,7 @@ If you need to **assign** lambda as a default value, wrap it to another one:
 class User
   extend Dry::Initializer
 
-  parameter :name_proc, default: -> { -> { 'Unknown user' } }
+  param :name_proc, default: -> { -> { 'Unknown user' } }
 end
 
 user = User.new
@@ -154,7 +154,7 @@ Set `nil` as a default value explicitly:
 class User
   extend Dry::Initializer
 
-  argument :name
+  param :name
   artument :email, default: nil
 end
 
@@ -165,15 +165,28 @@ user = User.new
 # => #<ArgumentError ...>
 ```
 
-### Type Constraints
+### Order of Declarations
 
-To set type constraint use `:type` option:
+You cannot define required parameter after optional ones. The following example raises `SyntaxError` exception:
 
 ```ruby
 class User
   extend Dry::Initializer
 
-  argument :name, type: String
+  param :name, default: 'Unknown name'
+  param :email # => #<SyntaxError ...>
+end
+```
+
+### Type Constraints
+
+To set type constraint use `:type` key:
+
+```ruby
+class User
+  extend Dry::Initializer
+
+  param :name, type: String
 end
 
 user = User.new 'Andrew'
@@ -189,7 +202,7 @@ You can use plain Ruby classes and modules as type constraint (see above), or us
 class User
   extend Dry::Initializer
 
-  argument :name, type: Dry::Types::Coercion::String
+  param :name, type: Dry::Types::Coercion::String
 end
 ```
 
@@ -199,7 +212,7 @@ Or you can define custom constraint as a proc:
 class User
   extend Dry::Initializer
 
-  argument :name, type: proc { |v| raise TypeError if String === v }
+  param :name, type: proc { |v| raise TypeError if String === v }
 end
 
 user = User.new name: 'Andrew'
@@ -218,7 +231,7 @@ That's why you can reload the initializer in subclasses using method `super`:
 class User
   extend Dry::Initializer
 
-  argument :name, type: String
+  param :name, type: String
 end
 
 class CustomUser < User
@@ -278,7 +291,8 @@ A corresponding code in plain Ruby was taken for comparison.
 Results for [the examples][benchmark_without_options]
 
 ```
-Benchmark for instantiation of plain arguments (parameters) without options
+Benchmark for instantiation of params without default values and types
+
 Warming up --------------------------------------
           plain Ruby   140.858k i/100ms
          Core Struct   144.816k i/100ms
@@ -307,7 +321,7 @@ Comparison:
 ```
 
 ```
-Benchmark for instantiation of named arguments (attributes) without options
+Benchmark for instantiation of named arguments (options) without options
 
 Warming up --------------------------------------
           plain Ruby    70.050k i/100ms
@@ -332,7 +346,7 @@ Comparison:
 Results for [the examples][benchmark_with_defaults]
 
 ```
-Benchmark for instantiation of named arguments (attributes) with default values
+Benchmark for instantiation of named arguments (options) with default values
 
 Warming up --------------------------------------
           plain Ruby   129.643k i/100ms
@@ -357,7 +371,7 @@ Comparison:
 Results for [the examples][benchmark_with_types]
 
 ```
-Benchmark for instantiation of named arguments (attributes) with type constraints
+Benchmark for instantiation of named arguments (options) with type constraints
 
 Warming up --------------------------------------
           plain Ruby    64.740k i/100ms
@@ -382,7 +396,7 @@ Comparison:
 Results for [the examples][benchmark_with_types_and_defaults]
 
 ```
-Benchmark for instantiation of named arguments (attributes)
+Benchmark for instantiation of named arguments (options)
 with type constraints and default values
 
 Warming up --------------------------------------

@@ -15,8 +15,8 @@ require "dry-initializer"
 class DryTest
   extend Dry::Initializer
 
-  attribute :foo, type: String, default: "FOO"
-  attribute :bar, type: String, default: "BAR"
+  option :foo, type: String, default: "FOO"
+  option :bar, type: String, default: "BAR"
 end
 
 require "virtus"

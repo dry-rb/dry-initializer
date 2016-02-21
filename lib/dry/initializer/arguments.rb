@@ -41,11 +41,11 @@ module Dry::Initializer
       @arguments.each { |_, argument| yield(argument) }
     end
 
-    def parameters
+    def params
       reject(&:option)
     end
 
-    def attributes
+    def options
       select(&:option)
     end
 
@@ -56,13 +56,13 @@ module Dry::Initializer
     def validate_presence_of_default(name, options)
       return if options.key? :default
       return if options[:option]
-      return unless parameters.any?(&:default)
+      return unless params.any?(&:default)
 
       fail MissedDefaultValueError.new(name)
     end
 
     def signature
-      (parameters + attributes).map(&:signature).join(", ")
+      (params + options).map(&:signature).join(", ")
     end
 
     def assign_arguments

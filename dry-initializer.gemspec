@@ -4,7 +4,7 @@ Gem::Specification.new do |gem|
   gem.author   = ["Vladimir Kochnev (marshall-lee)", "Andrew Kozin (nepalez)"]
   gem.email    = ["hashtable@yandex.ru", "andrew.kozin@gmail.com"]
   gem.homepage = "https://github.com/nepalez/query_builder"
-  gem.summary  = "DSL for declaring class arguments and options"
+  gem.summary  = "DSL for declaring params and options of the initializer"
   gem.license  = "MIT"
 
   gem.files            = `git ls-files`.split($INPUT_RECORD_SEPARATOR)

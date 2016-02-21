@@ -1,6 +1,8 @@
 module Dry
-  # Declares the arguments (parameters) and attributes, along with initializer
-  # of the current class
+  # Declares arguments of the initializer (params and options)
+  #
+  # @api public
+  #
   module Initializer
 
     require_relative "initializer/errors"
@@ -8,7 +10,7 @@ module Dry
     require_relative "initializer/arguments"
     require_relative "initializer/builder"
 
-    # Declares a <plain> argument (parameter) with name and options
+    # Declares a plain argument
     #
     # @param [#to_sym] name
     #
@@ -17,13 +19,12 @@ module Dry
     #
     # @return [self] itself
     #
-    def argument(name, **options)
+    def param(name, **options)
       arguments_builder.call(name, option: false, **options)
       self
     end
-    alias_method :parameter, :argument
 
-    # Declares named argument (attribute) with name and options
+    # Declares a named argument
     #
     # @param  (see #argument)
     # @option (see #argument)
@@ -33,7 +34,6 @@ module Dry
       arguments_builder.call(name, option: true, **options)
       self
     end
-    alias_method :attribute, :option
 
     # Builder for arguments
     #

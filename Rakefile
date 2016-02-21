@@ -24,7 +24,7 @@ task :with_types_and_defaults do
   system "ruby benchmarks/with_types_and_defaults.rb"
 end
 
-desc "Runs benchmarks for plain parameters"
+desc "Runs benchmarks for plain params"
 task :params do
   system "ruby benchmarks/params.rb"
 end

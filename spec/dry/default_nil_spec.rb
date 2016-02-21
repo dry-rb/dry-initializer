@@ -3,8 +3,8 @@ describe "default nil" do
     class Test::Foo
       extend Dry::Initializer
 
-      parameter :foo, default: nil
-      parameter :bar, default: nil
+      param :foo, default: nil
+      param :bar, default: nil
     end
   end
 

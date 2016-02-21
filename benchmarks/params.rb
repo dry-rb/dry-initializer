@@ -15,8 +15,8 @@ require "dry-initializer"
 class DryTest
   extend Dry::Initializer
 
-  parameter :foo
-  parameter :bar
+  param :foo
+  param :bar
 end
 
 require "concord"
@@ -36,7 +36,7 @@ class AttrExtrasText
   attr_reader :foo, :bar
 end
 
-puts "Benchmark for instantiation of plain arguments (parameters)"
+puts "Benchmark for instantiation of plain params"
 
 Benchmark.ips do |x|
   x.config time: 15, warmup: 10

@@ -4,29 +4,29 @@ require "dry-initializer"
 class NoOptsTest
   extend Dry::Initializer
 
-  parameter :foo
+  param  :foo
   option :bar
 end
 
 class DefaultsTest
   extend Dry::Initializer
 
-  parameter :foo, default: "FOO"
-  option    :bar, default: "BAR"
+  param  :foo, default: "FOO"
+  option :bar, default: "BAR"
 end
 
 class TypesTest
   extend Dry::Initializer
 
-  parameter :foo, type: String
-  option    :bar, type: String
+  param  :foo, type: String
+  option :bar, type: String
 end
 
 class DefaultsAndTypesTest
   extend Dry::Initializer
 
-  parameter :foo, type: String, default: "FOO"
-  option    :bar, type: String, default: "BAR"
+  param  :foo, type: String, default: "FOO"
+  option :bar, type: String, default: "BAR"
 end
 
 puts "Benchmark for various options"

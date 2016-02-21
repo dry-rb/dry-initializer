@@ -1,12 +1,12 @@
 describe "repetitive definitions" do
-  context "of parameters" do
+  context "of params" do
     subject do
       class Test::Foo
         extend Dry::Initializer
 
-        parameter :foo
-        parameter :bar
-        parameter :foo
+        param :foo
+        param :bar
+        param :foo
       end
     end
 
@@ -31,12 +31,12 @@ describe "repetitive definitions" do
     end
   end
 
-  context "of parameter and option" do
+  context "of param and option" do
     subject do
       class Test::Foo
         extend Dry::Initializer
 
-        parameter :foo
+        param  :foo
         option :bar
         option :foo
       end

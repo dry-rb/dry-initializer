@@ -1,5 +1,8 @@
 module Dry::Initializer
   # Carries declarations for arguments along with a mixin module
+  #
+  # @api private
+  #
   class Builder
     def arguments
       @arguments ||= Arguments.new

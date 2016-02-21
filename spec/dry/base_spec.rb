@@ -3,15 +3,14 @@ describe "base example" do
     class Test::Foo
       extend Dry::Initializer
 
-      argument  :foo
-      parameter :bar # alias for `argument`
-
-      option    :baz
-      attribute :qux # alias for `option`
+      param  :foo
+      param  :bar
+      option :baz
+      option :qux
     end
   end
 
-  it "instantiates arguments" do
+  it "instantiates attributes" do
     subject = Test::Foo.new(1, 2, baz: 3, qux: 4)
 
     expect(subject.foo).to eql 1

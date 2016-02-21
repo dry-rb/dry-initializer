@@ -3,8 +3,8 @@ describe "missed default values" do
     class Test::Foo
       extend Dry::Initializer
 
-      parameter :foo, default: :FOO
-      parameter :bar
+      param :foo, default: :FOO
+      param :bar
     end
   end
 

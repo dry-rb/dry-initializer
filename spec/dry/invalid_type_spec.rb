@@ -3,7 +3,7 @@ describe "invalid type declaration" do
     class Test::Foo
       extend Dry::Initializer
 
-      argument :foo, type: 1
+      param :foo, type: 1
     end
   end
 

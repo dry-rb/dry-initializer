@@ -3,7 +3,7 @@ describe "proc type" do
     class Test::Foo
       extend Dry::Initializer
 
-      argument :foo, type: proc { |val| fail(TypeError) unless String === val }
+      param :foo, type: proc { |val| fail(TypeError) unless String === val }
     end
   end
 

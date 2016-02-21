@@ -3,7 +3,7 @@ describe "Dry type" do
     class Test::Foo
       extend Dry::Initializer
 
-      argument :foo, type: Dry::Types::Coercible::String
+      param :foo, type: Dry::Types::Coercible::String
     end
   end
 
