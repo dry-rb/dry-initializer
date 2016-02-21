@@ -71,8 +71,8 @@ module Dry::Initializer
     end
 
     def take_declarations
-      return if select(&:default).empty? && select(&:type).empty?
-      "__arguments__ = self.class.arguments_builder.arguments"
+      return unless any?(&:default) || any?(&:type)
+      "__arguments__ = self.class.send(:arguments_builder).arguments"
     end
 
     def assign_defaults

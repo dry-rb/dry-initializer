@@ -30,7 +30,7 @@ ValueTest = Value.new(:foo, :bar)
 require "value_struct"
 ValueStructTest = ValueStruct.new(:foo, :bar)
 
-require 'attr_extras'
+require "attr_extras"
 class AttrExtrasText
   attr_initialize :foo, :bar
   attr_reader :foo, :bar

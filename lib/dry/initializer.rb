@@ -22,7 +22,7 @@ module Dry
     # @return [self] itself
     #
     def param(name, **options)
-      arguments_builder.call(name, option: false, **options)
+      arguments_builder.define_initializer(name, option: false, **options)
       self
     end
 
@@ -33,14 +33,27 @@ module Dry
     # @return (see #param)
     #
     def option(name, **options)
-      arguments_builder.call(name, option: true, **options)
+      arguments_builder.define_initializer(name, option: true, **options)
       self
     end
 
-    # Builder for arguments
+    # Declares a hash with attributes to read/write variables
     #
-    # @api private
+    # @param [#to_s] name
+    # @param [Array<#to_s>] keys
+    # @option options [Boolean] :writer (false)
+    # @option options [Boolean] :reader (true)
     #
+    # @return [self] itself
+    #
+    def attributes(name, *keys, writer: false, reader: true)
+      arguments_builder.define_attributes_reader(name, keys) if reader
+      arguments_builder.define_attributes_writer(name, keys) if writer
+      self
+    end
+
+    private
+
     def arguments_builder
       @arguments_builder ||= begin
         builder = Builder.new

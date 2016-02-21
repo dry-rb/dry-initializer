@@ -4,6 +4,7 @@ module Dry::Initializer
 
     require_relative "errors/existing_argument_error"
     require_relative "errors/invalid_type_error"
+    require_relative "errors/key_error"
     require_relative "errors/missed_default_value_error"
     require_relative "errors/type_error"
 

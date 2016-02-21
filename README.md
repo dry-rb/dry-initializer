@@ -30,16 +30,25 @@ require 'dry-initializer'
 class User
   extend Dry::Initializer
 
-  param :name, type: String
-  param :type, default: 'customer'
-
+  # Define params of the initializer along with corresponding readers
+  param  :name, type: String
+  param  :type, default: 'customer'
+  # Define options of the initializer along with corresponding readers
   option :admin, default: false
+  # Define hash to access attributes
+  hash   :types, :type, :admin
 end
 
+# Defines the initializer with params and options
 user = User.new 'Vladimir', 'admin', admin: true
+
+# Defines readers for single attributes
 user.name  # => 'Vladimir'
 user.type  # => 'admin'
 user.admin # => true
+
+# Defines hash for mass access to variables
+user.types # => { type: 'admin', admin: true }
 ```
 
 This is pretty the same as:
@@ -54,6 +63,10 @@ class User
     @admin = admin
 
     fail TypeError unless String === @name
+  end
+
+  def types
+    { type: @type, admin: @admin }
   end
 end
 ```
@@ -262,7 +275,7 @@ user.email # => nil
 
 ### Subclassing
 
-Subclassing preserves definitions being made inside a superclass:
+Subclassing preserves all definitions being made inside a superclass:
 
 ```ruby
 class User
@@ -278,6 +291,28 @@ end
 employee = Employee.new('John', 'supercargo')
 employee.name     # => 'John'
 employee.position # => 'supercargo'
+```
+
+### Attributes
+
+Use `hash` to define hash reader for instance variables. Keys `:reader` and `:writer` works as usual:
+
+```ruby
+class User
+  extend Dry::Initializer
+
+  param  :name
+  option :email, default: nil
+  hash   :name_and_email, :name, :email, writer: true
+end
+
+user = User.new 'Andrew', email: 'andrew@example.com'
+
+user.name_and_email # => { name: 'Andrew', email: 'andrew@example.com' }
+user.name_and_email = { name: 'Vladimir', email: 'vladimir@example.com' }
+
+user.name  # => 'Vladimir'
+user.email # => 'vladimir@example.com'
 ```
 
 ## Benchmarks
