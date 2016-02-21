@@ -260,33 +260,6 @@ user.email = nil
 user.email # => nil
 ```
 
-### Reloading the Initializer
-
-Under the hood the gem includes the module where both the initializer and readers are defined.
-
-That's why you can reload the initializer in subclasses using method `super`:
-
-```ruby
-class User
-  extend Dry::Initializer
-
-  param :name, type: String
-end
-
-class CustomUser < User
-  def initializer(name, email = nil)
-    super(name)
-    @email = email
-  end
-end
-
-customer = Customer.new 'Vladimir', 'vladimir@email.com'
-customer.name # => 'Vladimir'
-
-customer = Customer.new :Vladimir
-# => #<TypeError ...>
-```
-
 ### Subclassing
 
 Subclassing preserves definitions being made inside a superclass:
