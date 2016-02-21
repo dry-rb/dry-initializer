@@ -46,5 +46,9 @@ module Dry
         builder
       end
     end
+
+    def inherited(klass)
+      klass.instance_variable_set(:@arguments_builder, arguments_builder)
+    end
   end
 end

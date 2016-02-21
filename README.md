@@ -248,6 +248,26 @@ customer = Customer.new :Vladimir
 # => #<TypeError ...>
 ```
 
+### Subclassing
+
+Subclassing preserves definitions being made inside a superclass:
+
+```ruby
+class User
+  extend Dry::Initializer
+
+  param :name
+end
+
+class Employee < User
+  param :position
+end
+
+employee = Employee.new('John', 'supercargo')
+employee.name     # => 'John'
+employee.position # => 'supercargo'
+```
+
 ## Benchmarks
 
 [At first][benchmark-options] we compared initializers for case of no-opts with those with default values and time constraints (for every single argument):
