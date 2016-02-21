@@ -37,7 +37,7 @@ module Dry
       self
     end
 
-    # Declares a hash with attributes to read/write variables
+    # Declares a hash with attr_hash to read/write variables
     #
     # @param [#to_s] name
     # @param [Array<#to_s>] keys
@@ -46,7 +46,7 @@ module Dry
     #
     # @return [self] itself
     #
-    def attributes(name, *keys, writer: false, reader: true)
+    def attr_hash(name, *keys, writer: false, reader: true)
       arguments_builder.define_attributes_reader(name, keys) if reader
       arguments_builder.define_attributes_writer(name, keys) if writer
       self

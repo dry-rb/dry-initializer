@@ -1,4 +1,4 @@
-describe "attributes" do
+describe "attr_hash" do
   subject do
     class Test::Foo
       extend Dry::Initializer
@@ -8,7 +8,7 @@ describe "attributes" do
       option :baz
       option :qux
 
-      attributes :attributes, :bar, :baz, :qux
+      attr_hash :attributes, :bar, :baz, :qux
     end
 
     Test::Foo.new(1, 2, baz: 3, qux: 4)

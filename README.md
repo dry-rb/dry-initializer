@@ -36,7 +36,7 @@ class User
   # Define options of the initializer along with corresponding readers
   option :admin, default: false
   # Define hash to access attributes
-  hash   :types, :type, :admin
+  attr_hash :types, :type, :admin
 end
 
 # Defines the initializer with params and options
@@ -295,7 +295,7 @@ employee.position # => 'supercargo'
 
 ### Attributes
 
-Use `hash` to define hash reader for instance variables. Keys `:reader` and `:writer` works as usual:
+Use `attr_hash` to define hash reader for instance variables. Keys `:reader` and `:writer` works as usual:
 
 ```ruby
 class User
@@ -303,7 +303,7 @@ class User
 
   param  :name
   option :email, default: nil
-  hash   :name_and_email, :name, :email, writer: true
+  attr_hash :name_and_email, :name, :email, writer: true
 end
 
 user = User.new 'Andrew', email: 'andrew@example.com'

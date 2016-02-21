@@ -1,4 +1,4 @@
-describe "attributes writer" do
+describe "attr_hash writer" do
   subject do
     class Test::Foo
       extend Dry::Initializer
@@ -8,7 +8,7 @@ describe "attributes writer" do
       option :baz
       option :qux
 
-      attributes :attributes, :bar, :baz, :qux, writer: true
+      attr_hash :attributes, :bar, :baz, :qux, writer: true
     end
 
     Test::Foo.new(1, 2, baz: 3, qux: 4)
