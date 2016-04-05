@@ -79,8 +79,10 @@ module Dry::Initializer
       @default = options.key? :default
       return unless @default
 
-      value = options[:default]
-      @default_value = (Proc === value) ? value : proc { value }
+      @default_value = options[:default]
+      return if Proc === @default_value
+
+      fail InvalidDefaultValueError.new(@default_value)
     end
 
     def assign_type(options)

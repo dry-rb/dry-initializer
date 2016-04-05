@@ -11,8 +11,8 @@ end
 class DefaultsTest
   extend Dry::Initializer
 
-  param  :foo, default: "FOO"
-  option :bar, default: "BAR"
+  param  :foo, default: -> { "FOO" }
+  option :bar, default: -> { "BAR" }
 end
 
 class TypesTest
@@ -25,8 +25,8 @@ end
 class DefaultsAndTypesTest
   extend Dry::Initializer
 
-  param  :foo, type: String, default: "FOO"
-  option :bar, type: String, default: "BAR"
+  param  :foo, type: String, default: -> { "FOO" }
+  option :bar, type: String, default: -> { "BAR" }
 end
 
 puts "Benchmark for various options"

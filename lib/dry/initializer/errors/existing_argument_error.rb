@@ -1,5 +1,5 @@
 class Dry::Initializer::Errors::ExistingArgumentError < SyntaxError
   def initialize(name)
-    super "the argument '#{name}' is already defined"
+    super "The argument '#{name}' is already defined."
   end
 end

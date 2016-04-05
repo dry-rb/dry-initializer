@@ -32,9 +32,9 @@ class User
 
   # Define params of the initializer along with corresponding readers
   param  :name, type: String
-  param  :type, default: 'customer'
+  param  :type, default: -> { 'customer' }
   # Define options of the initializer along with corresponding readers
-  option :admin, default: false
+  option :admin, default: -> { false }
   # Define hash to access attributes
   attr_hash :types, :type, :admin
 end
@@ -122,8 +122,8 @@ By default both params and options are mandatory. Use `:default` key to make the
 class User
   extend Dry::Initializer
 
-  param  :name,  default: 'Unknown user'
-  option :email, default: 'unknown@example.com'
+  param  :name,  default: -> { 'Unknown user' }
+  option :email, default: -> { 'unknown@example.com' }
 end
 
 user = User.new
@@ -141,8 +141,8 @@ Set `nil` as a default value explicitly:
 class User
   extend Dry::Initializer
 
-  param :name
-  artument :email, default: nil
+  param  :name
+  option :email, default: -> { nil }
 end
 
 user = User.new 'Andrew'
@@ -152,26 +152,15 @@ user = User.new
 # => #<ArgumentError ...>
 ```
 
-You can use lambdas|procs as well:
+You **must** wrap default values into procs.
+
+If you need to **assign** proc as a default value, wrap it to another one:
 
 ```ruby
 class User
   extend Dry::Initializer
 
-  param :name, default: -> { 'Unknown user' }
-end
-
-user = User.new
-user.name # => 'Unknown user'
-```
-
-If you need to **assign** lambda as a default value, wrap it to another one:
-
-```ruby
-class User
-  extend Dry::Initializer
-
-  param :name_proc, default: -> { -> { 'Unknown user' } }
+  param :name_proc, default: proc { proc { 'Unknown user' } }
 end
 
 user = User.new
@@ -186,7 +175,7 @@ You cannot define required parameter after optional ones. The following example 
 class User
   extend Dry::Initializer
 
-  param :name, default: 'Unknown name'
+  param :name, default: -> { 'Unknown name' }
   param :email # => #<SyntaxError ...>
 end
 ```
@@ -302,7 +291,7 @@ class User
   extend Dry::Initializer
 
   param  :name
-  option :email, default: nil
+  option :email, default: -> { nil }
   attr_hash :name_and_email, :name, :email, writer: true
 end
 
@@ -321,22 +310,18 @@ user.email # => 'vladimir@example.com'
 
 ```
 Benchmark for various options
-Warming up --------------------------------------
-             no opts     75.483k i/100ms
-       with defaults     59.591k i/100ms
-          with types     54.935k i/100ms
-with defaults and types  49.790k i/100ms
+
 Calculating -------------------------------------
-             no opts       1.052M (± 3.8%) i/s -     15.776M
-       with defaults     817.603k (± 3.1%) i/s -     12.276M
-          with types     737.577k (± 2.6%) i/s -     11.097M
-with defaults and types  663.283k (± 2.9%) i/s -      9.958M
+             no opts      1.097M (± 2.6%) i/s - 16.454M
+       with defaults    789.390k (± 7.3%) i/s - 11.788M
+          with types    696.021k (± 4.3%) i/s - 10.459M
+with defaults and types 669.247k (± 2.2%) i/s - 10.063M
 
 Comparison:
-             no opts:    1052049.5 i/s
-       with defaults:     817603.4 i/s - 1.29x slower
-          with types:     737576.7 i/s - 1.43x slower
-with defaults and types:  663282.9 i/s - 1.59x slower
+             no opts:   1097136.2 i/s
+       with defaults:    789389.9 i/s - 1.39x slower
+          with types:    696020.6 i/s - 1.58x slower
+with defaults and types: 669247.4 i/s - 1.64x slower
 ```
 
 We also compared initializers provided by gems from the [post 'Con-Struct Attibutes' by Jan Lelis][con-struct]:
@@ -358,16 +343,8 @@ A corresponding code in plain Ruby was taken for comparison.
 Results for [the examples][benchmark_without_options]
 
 ```
-Benchmark for instantiation of params without default values and types
+Benchmark for instantiation of params
 
-Warming up --------------------------------------
-          plain Ruby   140.858k i/100ms
-         Core Struct   144.816k i/100ms
-              values    45.977k i/100ms
-        value_struct   144.527k i/100ms
-     dry-initializer   136.486k i/100ms
-             concord    79.026k i/100ms
-         attr_extras    41.678k i/100ms
 Calculating -------------------------------------
           plain Ruby      4.162M (± 3.1%) i/s -     62.400M
          Core Struct      4.520M (± 0.9%) i/s -     67.919M
@@ -388,13 +365,8 @@ Comparison:
 ```
 
 ```
-Benchmark for instantiation of named arguments (options) without options
+Benchmark for instantiation of named arguments (options)
 
-Warming up --------------------------------------
-          plain Ruby    70.050k i/100ms
-     dry-initializer    68.250k i/100ms
-               anima    31.734k i/100ms
-              kwattr    33.153k i/100ms
 Calculating -------------------------------------
           plain Ruby      1.010M (± 0.6%) i/s -     15.201M
      dry-initializer      1.020M (± 3.2%) i/s -     15.288M
@@ -415,22 +387,17 @@ Results for [the examples][benchmark_with_defaults]
 ```
 Benchmark for instantiation of named arguments (options) with default values
 
-Warming up --------------------------------------
-          plain Ruby   129.643k i/100ms
-     dry-initializer    87.231k i/100ms
-              kwattr    43.433k i/100ms
-         active_attr    25.247k i/100ms
 Calculating -------------------------------------
-          plain Ruby      3.356M (± 3.3%) i/s -     50.301M
-     dry-initializer      1.480M (± 1.2%) i/s -     22.244M
-              kwattr    558.216k (± 1.8%) i/s -      8.383M
-         active_attr    292.117k (± 1.0%) i/s -      4.393M
+          plain Ruby      3.480M (± 2.1%) i/s -     52.172M
+     dry-initializer      1.307M (± 1.0%) i/s -     19.662M
+              kwattr    589.197k (± 1.2%) i/s -      8.870M
+         active_attr    308.514k (± 1.5%) i/s -      4.649M
 
 Comparison:
-          plain Ruby:  3355597.4 i/s
-     dry-initializer:  1479976.6 i/s - 2.27x slower
-              kwattr:   558215.9 i/s - 6.01x slower
-         active_attr:   292116.7 i/s - 11.49x slower
+          plain Ruby:  3480357.8 i/s
+     dry-initializer:  1306677.7 i/s - 2.66x slower
+              kwattr:   589196.8 i/s - 5.91x slower
+         active_attr:   308513.7 i/s - 11.28x slower
 ```
 
 ### With Type Constraints
@@ -440,11 +407,6 @@ Results for [the examples][benchmark_with_types]
 ```
 Benchmark for instantiation of named arguments (options) with type constraints
 
-Warming up --------------------------------------
-          plain Ruby    64.740k i/100ms
-     dry-initializer    50.799k i/100ms
-              virtus    12.873k i/100ms
-     fast_attributes    42.622k i/100ms
 Calculating -------------------------------------
           plain Ruby    951.575k (± 1.2%) i/s -     14.308M
      dry-initializer    701.677k (± 0.7%) i/s -     10.566M
@@ -466,19 +428,15 @@ Results for [the examples][benchmark_with_types_and_defaults]
 Benchmark for instantiation of named arguments (options)
 with type constraints and default values
 
-Warming up --------------------------------------
-          plain Ruby   119.975k i/100ms
-     dry-initializer    70.151k i/100ms
-              virtus    15.482k i/100ms
 Calculating -------------------------------------
-          plain Ruby      2.914M (± 0.9%) i/s -     43.791M
-     dry-initializer      1.063M (± 0.8%) i/s -     15.994M
-              virtus    180.346k (± 1.7%) i/s -      2.709M
+          plain Ruby      2.943M (± 1.7%) i/s -     44.216M
+     dry-initializer    972.919k (± 0.8%) i/s -     14.630M
+              virtus    180.727k (± 1.2%) i/s -      2.717M
 
 Comparison:
-          plain Ruby:  2913803.1 i/s
-     dry-initializer:  1063474.9 i/s - 2.74x slower
-              virtus:   180346.0 i/s - 16.16x slower
+          plain Ruby:  2942988.7 i/s
+     dry-initializer:   972919.1 i/s - 3.02x slower
+              virtus:   180727.1 i/s - 16.28x slower
 ```
 
 To recap, `dry-initializer` is a fastest DSL for rubies 2.2+ except for cases when core `Struct` is sufficient.

@@ -3,9 +3,9 @@ describe "default values" do
     class Test::Foo
       extend Dry::Initializer
 
-      param  :foo, default: :FOO
+      param  :foo, default: -> { :FOO }
       param  :bar, default: -> { :BAR }
-      option :baz, default: :BAZ
+      option :baz, default: -> { :BAZ }
       option :qux, default: -> { :QUX }
     end
   end
