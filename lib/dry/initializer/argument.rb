@@ -33,15 +33,10 @@ module Dry::Initializer
     # @return [Boolean] whether an attribute reader is defined for the argument
     attr_reader :reader
 
-    # @!attribute [r] writer
-    # @return [Boolean] whether an attribute writer is defined for the argument
-    attr_reader :writer
-
-    def initialize(name, option:, reader: true, writer: false, **options)
+    def initialize(name, option:, reader: true, **options)
       @name   = name.to_sym
       @option = option
       @reader = reader
-      @writer = writer
       assign_default_value(options)
       assign_type(options)
     end

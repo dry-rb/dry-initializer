@@ -223,7 +223,7 @@ user = User.new name: 'Andrew'
 
 [dry-types]: https://github.com/dryrb/dry-types
 
-### Reader and Writer
+### Reader
 
 By default `attr_reader` is defined for every param and option.
 
@@ -244,23 +244,7 @@ user.email                         # => #<NoMethodError ...>
 user.instance_variable_get :@email # => 'luke@example.com'
 ```
 
-By default `attr_writer` is NOT defined (we prefer immutable instances).
-
-To define it, use `writer: true` explicitly:
-
-```ruby
-class User
-  extend Dry::Initializer
-
-  param :name
-  param :email, writer: true
-end
-
-user = User.new 'Mark', 'mark@example.com'
-user.email # => 'mark@example.com'
-user.email = nil
-user.email # => nil
-```
+No writers are defined. Define them using pure ruby `attr_writer` when necessary.
 
 ### Subclassing
 
@@ -284,7 +268,7 @@ employee.position # => 'supercargo'
 
 ### Attributes
 
-Use `attr_hash` to define hash reader for instance variables. Keys `:reader` and `:writer` works as usual:
+Use `attr_hash` to define hash reader for instance variables. The `:reader` key works as usual:
 
 ```ruby
 class User
@@ -292,7 +276,7 @@ class User
 
   param  :name
   option :email, default: -> { nil }
-  attr_hash :name_and_email, :name, :email, writer: true
+  attr_hash :name_and_email, :name, :email
 end
 
 user = User.new 'Andrew', email: 'andrew@example.com'

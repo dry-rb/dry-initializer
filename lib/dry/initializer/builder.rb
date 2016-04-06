@@ -29,19 +29,5 @@ module Dry::Initializer
         end
       RUBY
     end
-
-    def define_attributes_writer(name, keys)
-      symbol_keys = keys.map { |key| ":" << key.to_s }.join(", ")
-      key = '@#{key}'
-
-      mixin.class_eval <<-RUBY
-        def #{name}=(hash)
-          unknown_keys = hash.keys - [#{symbol_keys}]
-          fail KeyError.new(*unknown_keys) if unknown_keys.any?
-
-          hash.each { |key, value| instance_variable_set(:"#{key}", value) }
-        end
-      RUBY
-    end
   end
 end

@@ -16,8 +16,7 @@ module Dry
     #
     # @option options [Object]  :default The default value
     # @option options [#call]   :type    The type constraings via `dry-types`
-    # @option options [Boolean] :reader (true)  Whether to define attr_reader
-    # @option options [Boolean] :writer (false) Whether to define attr_writer
+    # @option options [Boolean] :reader (true) Whether to define attr_reader
     #
     # @return [self] itself
     #
@@ -41,14 +40,12 @@ module Dry
     #
     # @param [#to_s] name
     # @param [Array<#to_s>] keys
-    # @option options [Boolean] :writer (false)
     # @option options [Boolean] :reader (true)
     #
     # @return [self] itself
     #
-    def attr_hash(name, *keys, writer: false, reader: true)
+    def attr_hash(name, *keys, reader: true)
       arguments_builder.define_attributes_reader(name, keys) if reader
-      arguments_builder.define_attributes_writer(name, keys) if writer
       self
     end
 

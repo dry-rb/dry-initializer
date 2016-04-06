@@ -22,7 +22,6 @@ module Dry::Initializer
     def declaration
       <<-RUBY
         attr_reader #{select(&:reader).map { |arg| ":#{arg.name}" }.join(", ")}
-        attr_writer #{select(&:writer).map { |arg| ":#{arg.name}" }.join(", ")}
         define_method :initialize do |#{signature}|
           #{assign_arguments}
           #{take_declarations}
