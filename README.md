@@ -35,8 +35,6 @@ class User
   param  :type, default: -> { 'customer' }
   # Define options of the initializer along with corresponding readers
   option :admin, default: -> { false }
-  # Define hash to access attributes
-  attr_hash :types, :type, :admin
 end
 
 # Defines the initializer with params and options
@@ -264,28 +262,6 @@ end
 employee = Employee.new('John', 'supercargo')
 employee.name     # => 'John'
 employee.position # => 'supercargo'
-```
-
-### Attributes
-
-Use `attr_hash` to define hash reader for instance variables. The `:reader` key works as usual:
-
-```ruby
-class User
-  extend Dry::Initializer
-
-  param  :name
-  option :email, default: -> { nil }
-  attr_hash :name_and_email, :name, :email
-end
-
-user = User.new 'Andrew', email: 'andrew@example.com'
-
-user.name_and_email # => { name: 'Andrew', email: 'andrew@example.com' }
-user.name_and_email = { name: 'Vladimir', email: 'vladimir@example.com' }
-
-user.name  # => 'Vladimir'
-user.email # => 'vladimir@example.com'
 ```
 
 ## Benchmarks

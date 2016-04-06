@@ -36,19 +36,6 @@ module Dry
       self
     end
 
-    # Declares a hash with attr_hash to read/write variables
-    #
-    # @param [#to_s] name
-    # @param [Array<#to_s>] keys
-    # @option options [Boolean] :reader (true)
-    #
-    # @return [self] itself
-    #
-    def attr_hash(name, *keys, reader: true)
-      arguments_builder.define_attributes_reader(name, keys) if reader
-      self
-    end
-
     private
 
     def arguments_builder
