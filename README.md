@@ -1,4 +1,18 @@
-# Dry::Initializer
+# dry-initializer [![Join the chat at https://gitter.im/dry-rb/chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dry-rb/chat)
+
+[![Gem Version](https://badge.fury.io/rb/dry-initializer.svg)][gem]
+[![Build Status](https://travis-ci.org/dry-rb/dry-initializer.svg?branch=master)][travis]
+[![Dependency Status](https://gemnasium.com/dry-rb/dry-initializer.svg)][gemnasium]
+[![Code Climate](https://codeclimate.com/github/dry-rb/dry-initializer/badges/gpa.svg)][codeclimate]
+[![Test Coverage](https://codeclimate.com/github/dry-rb/dry-initializer/badges/coverage.svg)][codeclimate]
+[![Inline docs](http://inch-ci.org/github/dry-rb/dry-initializer.svg?branch=master)][inchpages]
+
+[gem]: https://rubygems.org/gems/dry-initializer
+[travis]: https://travis-ci.org/dry-rb/dry-initializer
+[gemnasium]: https://gemnasium.com/dry-rb/dry-initializer
+[codeclimate]: https://codeclimate.com/github/dry-rb/dry-initializer
+[coveralls]: https://coveralls.io/r/dry-rb/dry-initializer
+[inchpages]: http://inch-ci.org/github/dry-rb/dry-initializer
 
 DSL for building class initializer with params and options.
 
@@ -189,6 +203,8 @@ class User
 end
 ```
 
+[instance_eval]: http://ruby-doc.org/core-2.2.0/BasicObject.html#method-i-instance_eval
+
 ### Order of Declarations
 
 You cannot define required parameter after optional ones. The following example raises `SyntaxError` exception:
@@ -326,12 +342,24 @@ We also compared initializers provided by gems from the [post 'Con-Struct Attibu
 
 * [active_attr][active_attr]
 * [anima][anima]
+* [attr_extras][attr_extras]
 * [concord][concord]
 * [fast_attr][fast_attr]
 * [kwattr][kwattr]
 * [value_struct][value_struct]
 * [values][values]
 * [virtus][virtus]
+
+[con-struct]: http://idiosyncratic-ruby.com/18-con-struct-attributes.html
+[active_attr]: https://github.com/cgriego/active_attr
+[anima]: https://github.com/mbj/anima
+[attr_extras]: https://github.com/barsoom/attr_extras
+[concord]: https://github.com/mbj/concord
+[fast_attr]: https://github.com/applift/fast_attributes
+[kwattr]: https://github.com/etiennebarrie/kwattr
+[value_struct]: https://github.com/janlelis/value_struct
+[values]: https://github.com/tcrayford/values
+[virtus]: https://github.com/solnic/virtus
 
 Because the gems has their restrictions, in benchmarks we tested only comparable examples.
 A corresponding code in plain Ruby was taken for comparison.
@@ -402,17 +430,6 @@ To recap, `dry-initializer` is a fastest DSL for rubies 2.2+ except for cases wh
 [benchmark_with_types]: https://github.com/dryrb/dry-initializer/blob/master/benchmarks/with_types.rb
 [benchmark_with_types_and_defaults]: https://github.com/dryrb/dry-initializer/blob/master/benchmarks/with_types_and_defaults.rb
 [benchmark_params]: https://github.com/dryrb/dry-initializer/blob/master/benchmarks/params.rb
-[con-struct]: http://idiosyncratic-ruby.com/18-con-struct-attributes.html
-[active_attr]: https://github.com/cgriego/active_attr
-[anima]: https://github.com/mbj/anima
-[attr_extras]: https://github.com/barsoom/attr_extras
-[concord]: https://github.com/mbj/concord
-[fast_attr]: https://github.com/applift/fast_attributes
-[kwattr]: https://github.com/etiennebarrie/kwattr
-[value_struct]: https://github.com/janlelis/value_struct
-[values]: https://github.com/tcrayford/values
-[virtus]: https://github.com/solnic/virtus
-[instance_eval]: http://ruby-doc.org/core-2.2.0/BasicObject.html#method-i-instance_eval
 
 ## Compatibility
 
