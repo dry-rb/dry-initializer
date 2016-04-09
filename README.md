@@ -44,10 +44,10 @@ require 'dry-initializer'
 class User
   extend Dry::Initializer
 
-  # Define params of the initializer along with corresponding readers
+  # Params of the initializer along with corresponding readers
   param  :name, type: String
-  param  :type, default: proc { 'customer' }
-  # Define options of the initializer along with corresponding readers
+  param  :role, default: proc { 'customer' }
+  # Options of the initializer along with corresponding readers
   option :admin, default: proc { false }
 end
 
@@ -56,11 +56,8 @@ user = User.new 'Vladimir', 'admin', admin: true
 
 # Defines readers for single attributes
 user.name  # => 'Vladimir'
-user.type  # => 'admin'
+user.role  # => 'admin'
 user.admin # => true
-
-# Defines hash for mass access to variables
-user.types # => { type: 'admin', admin: true }
 ```
 
 This is pretty the same as:
@@ -75,10 +72,6 @@ class User
     @admin = admin
 
     fail TypeError unless String === @name
-  end
-
-  def types
-    { type: @type, admin: @admin }
   end
 end
 ```
@@ -100,7 +93,7 @@ user.name  # => 'Andrew'
 user.email # => 'andrew@email.com'
 ```
 
-Use `option` to define named argument:
+Use `option` to define named (hash) argument:
 
 ```ruby
 class User
@@ -179,7 +172,7 @@ user = User.new
 user.name_proc.call # => 'Unknown user'
 ```
 
-Proc executes in a scope of new instance. That's why you can refer to other arguments:
+Proc will be executed in a scope of new instance. You can refer to other arguments:
 
 ```ruby
 class User
