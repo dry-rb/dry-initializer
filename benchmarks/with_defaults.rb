@@ -13,8 +13,8 @@ require "dry-initializer"
 class DryTest
   extend Dry::Initializer
 
-  option :foo, default: -> { "FOO" }
-  option :bar, default: -> { "BAR" }
+  option :foo, default: proc { "FOO" }
+  option :bar, default: proc { "BAR" }
 end
 
 require "kwattr"

@@ -60,7 +60,7 @@ module Dry::Initializer
     end
 
     def default_assignment
-      "@#{name} = __arguments__[:#{name}].default_value.call" \
+      "@#{name} = instance_eval(&__arguments__[:#{name}].default_value)" \
       " if #{name} == Dry::Initializer::Argument::UNDEFINED"
     end
 

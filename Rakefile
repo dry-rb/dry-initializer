@@ -10,6 +10,16 @@ namespace :benchmark do
     system "ruby benchmarks/without_options.rb"
   end
 
+  desc "Runs benchmarks for several defaults"
+  task :several_defaults do
+    system "ruby benchmarks/several_defaults.rb"
+  end
+
+  desc "Runs benchmarks for defaults of params vs. options"
+  task :params_vs_options do
+    system "ruby benchmarks/params_vs_options.rb"
+  end
+
   desc "Runs benchmarks with types"
   task :with_types do
     system "ruby benchmarks/with_types.rb"

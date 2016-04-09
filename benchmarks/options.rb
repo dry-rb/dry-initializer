@@ -11,8 +11,8 @@ end
 class DefaultsTest
   extend Dry::Initializer
 
-  param  :foo, default: -> { "FOO" }
-  option :bar, default: -> { "BAR" }
+  param  :foo, default: proc { "FOO" }
+  option :bar, default: proc { "BAR" }
 end
 
 class TypesTest
@@ -25,8 +25,8 @@ end
 class DefaultsAndTypesTest
   extend Dry::Initializer
 
-  param  :foo, type: String, default: -> { "FOO" }
-  option :bar, type: String, default: -> { "BAR" }
+  param  :foo, type: String, default: proc { "FOO" }
+  option :bar, type: String, default: proc { "BAR" }
 end
 
 puts "Benchmark for various options"
@@ -39,7 +39,7 @@ Benchmark.ips do |x|
   end
 
   x.report("with defaults") do
-    DefaultsTest.new "foo", bar: "bar"
+    DefaultsTest.new
   end
 
   x.report("with types") do
@@ -47,7 +47,7 @@ Benchmark.ips do |x|
   end
 
   x.report("with defaults and types") do
-    DefaultsAndTypesTest.new "foo", bar: "bar"
+    DefaultsAndTypesTest.new
   end
 
   x.compare!

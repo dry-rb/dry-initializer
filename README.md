@@ -32,9 +32,9 @@ class User
 
   # Define params of the initializer along with corresponding readers
   param  :name, type: String
-  param  :type, default: -> { 'customer' }
+  param  :type, default: proc { 'customer' }
   # Define options of the initializer along with corresponding readers
-  option :admin, default: -> { false }
+  option :admin, default: proc { false }
 end
 
 # Defines the initializer with params and options
@@ -120,8 +120,8 @@ By default both params and options are mandatory. Use `:default` key to make the
 class User
   extend Dry::Initializer
 
-  param  :name,  default: -> { 'Unknown user' }
-  option :email, default: -> { 'unknown@example.com' }
+  param  :name,  default: proc { 'Unknown user' }
+  option :email, default: proc { 'unknown@example.com' }
 end
 
 user = User.new
@@ -140,7 +140,7 @@ class User
   extend Dry::Initializer
 
   param  :name
-  option :email, default: -> { nil }
+  option :email, default: proc { nil }
 end
 
 user = User.new 'Andrew'
@@ -165,6 +165,30 @@ user = User.new
 user.name_proc.call # => 'Unknown user'
 ```
 
+Proc executes in a scope of new instance. That's why you can refer to other arguments:
+
+```ruby
+class User
+  extend Dry::Initializer
+
+  param :name
+  param :email, default: proc { "#{name.downcase}@example.com" }
+end
+
+user = User.new 'Andrew'
+user.email # => 'andrew@example.com'
+```
+
+**Warning**: when using lambdas instead of procs, don't forget an argument, required by [instance_eval][instance_eval] (you can skip in in a proc).
+
+```ruby
+class User
+  extend Dry::Initializer
+
+  param :name, default: -> (obj) { 'Dude' }
+end
+```
+
 ### Order of Declarations
 
 You cannot define required parameter after optional ones. The following example raises `SyntaxError` exception:
@@ -173,7 +197,7 @@ You cannot define required parameter after optional ones. The following example 
 class User
   extend Dry::Initializer
 
-  param :name, default: -> { 'Unknown name' }
+  param :name, default: proc { 'Unknown name' }
   param :email # => #<SyntaxError ...>
 end
 ```
@@ -266,23 +290,37 @@ employee.position # => 'supercargo'
 
 ## Benchmarks
 
+### Various usages of Dry::Initializer
+
 [At first][benchmark-options] we compared initializers for case of no-opts with those with default values and time constraints (for every single argument):
 
 ```
-Benchmark for various options
-
-Calculating -------------------------------------
-             no opts      1.097M (± 2.6%) i/s - 16.454M
-       with defaults    789.390k (± 7.3%) i/s - 11.788M
-          with types    696.021k (± 4.3%) i/s - 10.459M
-with defaults and types 669.247k (± 2.2%) i/s - 10.063M
-
-Comparison:
-             no opts:   1097136.2 i/s
-       with defaults:    789389.9 i/s - 1.39x slower
-          with types:    696020.6 i/s - 1.58x slower
-with defaults and types: 669247.4 i/s - 1.64x slower
+             no opts:   1186020.0 i/s
+        with 2 types:    744825.4 i/s - 1.59x slower
+     with 2 defaults:    644170.0 i/s - 1.84x slower
+with defaults and types: 534200.0 i/s - 2.22x slower
 ```
+
+Defaults are slow. The more defaults you add the slower the instantiation. Let's [add details][benchmark_several_defaults]:
+
+```
+        without defaults:   3412165.6 i/s
+with 0 of 1 default used:   1816946.6 i/s - 1.88x slower
+with 0 of 2 defaults used:  1620908.5 i/s - 2.11x slower
+with 0 of 3 defaults used:  1493410.6 i/s - 2.28x slower
+with 1 of 1 default used:    797438.8 i/s - 4.28x slower
+with 1 of 2 defaults used:   754533.4 i/s - 4.52x slower
+with 1 of 3 defaults used:   716828.9 i/s - 4.76x slower
+with 2 of 2 defaults used:   622569.8 i/s - 5.48x slower
+with 2 of 3 defaults used:   604062.1 i/s - 5.65x slower
+with 3 of 3 defaults used:   533233.4 i/s - 6.40x slower
+```
+
+A single declaration of default values costs about 90% additional time. Its usage costs full 300%, and every next default adds 80% more.
+
+Avoid defaults when possible!
+
+### Comparison to Other Gems
 
 We also compared initializers provided by gems from the [post 'Con-Struct Attibutes' by Jan Lelis][con-struct]:
 
@@ -302,19 +340,9 @@ A corresponding code in plain Ruby was taken for comparison.
 
 Results for [the examples][benchmark_without_options]
 
+Benchmark for instantiation of plain arguments (params):
+
 ```
-Benchmark for instantiation of params
-
-Calculating -------------------------------------
-          plain Ruby      4.162M (± 3.1%) i/s -     62.400M
-         Core Struct      4.520M (± 0.9%) i/s -     67.919M
-              values    637.397k (± 0.7%) i/s -      9.563M
-        value_struct      4.479M (± 1.4%) i/s -     67.205M
-     dry-initializer      3.981M (± 1.7%) i/s -     59.781M
-             concord      1.373M (± 1.4%) i/s -     20.626M
-         attr_extras    556.343k (± 0.6%) i/s -      8.377M
-
-Comparison:
          Core Struct:  4520294.5 i/s
         value_struct:  4479181.2 i/s - same-ish: difference falls within error
           plain Ruby:  4161762.2 i/s - 1.09x slower
@@ -324,16 +352,9 @@ Comparison:
          attr_extras:   556342.9 i/s - 8.13x slower
 ```
 
-```
 Benchmark for instantiation of named arguments (options)
 
-Calculating -------------------------------------
-          plain Ruby      1.010M (± 0.6%) i/s -     15.201M
-     dry-initializer      1.020M (± 3.2%) i/s -     15.288M
-               anima    377.388k (± 2.7%) i/s -      5.680M
-              kwattr    394.574k (± 1.3%) i/s -      5.934M
-
-Comparison:
+```
      dry-initializer:  1020257.3 i/s
           plain Ruby:  1009705.8 i/s - same-ish: difference falls within error
               kwattr:   394574.0 i/s - 2.59x slower
@@ -345,19 +366,10 @@ Comparison:
 Results for [the examples][benchmark_with_defaults]
 
 ```
-Benchmark for instantiation of named arguments (options) with default values
-
-Calculating -------------------------------------
-          plain Ruby      3.480M (± 2.1%) i/s -     52.172M
-     dry-initializer      1.307M (± 1.0%) i/s -     19.662M
-              kwattr    589.197k (± 1.2%) i/s -      8.870M
-         active_attr    308.514k (± 1.5%) i/s -      4.649M
-
-Comparison:
-          plain Ruby:  3480357.8 i/s
-     dry-initializer:  1306677.7 i/s - 2.66x slower
-              kwattr:   589196.8 i/s - 5.91x slower
-         active_attr:   308513.7 i/s - 11.28x slower
+          plain Ruby:  3534979.5 i/s
+     dry-initializer:   657308.4 i/s - 5.38x slower
+              kwattr:   581691.0 i/s - 6.08x slower
+         active_attr:   309211.0 i/s - 11.43x slower
 ```
 
 ### With Type Constraints
@@ -365,15 +377,6 @@ Comparison:
 Results for [the examples][benchmark_with_types]
 
 ```
-Benchmark for instantiation of named arguments (options) with type constraints
-
-Calculating -------------------------------------
-          plain Ruby    951.575k (± 1.2%) i/s -     14.308M
-     dry-initializer    701.677k (± 0.7%) i/s -     10.566M
-              virtus    143.113k (± 1.7%) i/s -      2.150M
-     fast_attributes    562.646k (± 0.6%) i/s -      8.439M
-
-Comparison:
           plain Ruby:   951574.7 i/s
      dry-initializer:   701676.7 i/s - 1.36x slower
      fast_attributes:   562646.4 i/s - 1.69x slower
@@ -385,23 +388,15 @@ Comparison:
 Results for [the examples][benchmark_with_types_and_defaults]
 
 ```
-Benchmark for instantiation of named arguments (options)
-with type constraints and default values
-
-Calculating -------------------------------------
-          plain Ruby      2.943M (± 1.7%) i/s -     44.216M
-     dry-initializer    972.919k (± 0.8%) i/s -     14.630M
-              virtus    180.727k (± 1.2%) i/s -      2.717M
-
-Comparison:
-          plain Ruby:  2942988.7 i/s
-     dry-initializer:   972919.1 i/s - 3.02x slower
-              virtus:   180727.1 i/s - 16.28x slower
+          plain Ruby:  2887933.4 i/s
+     dry-initializer:   532508.0 i/s - 5.42x slower
+              virtus:   183347.1 i/s - 15.75x slower
 ```
 
 To recap, `dry-initializer` is a fastest DSL for rubies 2.2+ except for cases when core `Struct` is sufficient.
 
 [benchmark-options]: https://github.com/dryrb/dry-initializer/blob/master/benchmarks/options.rb
+[benchmark_several_defaults]: https://github.com/dryrb/dry-initializer/blob/master/benchmarks/several_defaults.rb
 [benchmark_without_options]: https://github.com/dryrb/dry-initializer/blob/master/benchmarks/without_options.rb
 [benchmark_with_defaults]: https://github.com/dryrb/dry-initializer/blob/master/benchmarks/with_defaults.rb
 [benchmark_with_types]: https://github.com/dryrb/dry-initializer/blob/master/benchmarks/with_types.rb
@@ -417,6 +412,7 @@ To recap, `dry-initializer` is a fastest DSL for rubies 2.2+ except for cases wh
 [value_struct]: https://github.com/janlelis/value_struct
 [values]: https://github.com/tcrayford/values
 [virtus]: https://github.com/solnic/virtus
+[instance_eval]: http://ruby-doc.org/core-2.2.0/BasicObject.html#method-i-instance_eval
 
 ## Compatibility
 

@@ -3,10 +3,10 @@ describe "default values" do
     class Test::Foo
       extend Dry::Initializer
 
-      param  :foo, default: -> { :FOO }
-      param  :bar, default: -> { :BAR }
-      option :baz, default: -> { :BAZ }
-      option :qux, default: -> { :QUX }
+      param  :foo, default: proc { :FOO }
+      param  :bar, default: proc { :BAR }
+      option :baz, default: proc { :BAZ }
+      option :qux, default: proc { foo }
     end
   end
 
@@ -25,7 +25,7 @@ describe "default values" do
     expect(subject.foo).to eql :FOO
     expect(subject.bar).to eql :BAR
     expect(subject.baz).to eql :BAZ
-    expect(subject.qux).to eql :QUX
+    expect(subject.qux).to eql :FOO
   end
 
   it "applies default values partially" do
@@ -34,6 +34,6 @@ describe "default values" do
     expect(subject.foo).to eql 1
     expect(subject.bar).to eql :BAR
     expect(subject.baz).to eql 3
-    expect(subject.qux).to eql :QUX
+    expect(subject.qux).to eql 1
   end
 end
