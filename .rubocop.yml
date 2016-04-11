@@ -72,7 +72,7 @@ Style/SingleLineMethods:
   Exclude:
     - '**/*_spec.rb'
 
-Style/SingleSpaceBeforeFirstArg:
+Style/SpaceBeforeFirstArg:
   Enabled: false
 
 Style/SpecialGlobalVars:
