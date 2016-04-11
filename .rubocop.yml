@@ -62,6 +62,9 @@ Style/Semicolon:
   Exclude:
     - '**/*_spec.rb'
 
+Style/SignalException:
+  EnforcedStyle: semantic
+
 Style/SingleLineBlockParams:
   Enabled: false
 
