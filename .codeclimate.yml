@@ -10,3 +10,6 @@ engines:
 exclude_paths:
 - "benchmarks/**/*"
 - "spec/**/*"
+ratings:
+   paths:
+   - "lib/**/*"
