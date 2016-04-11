@@ -84,14 +84,9 @@ module Dry::Initializer
       return unless options.key? :type
 
       type = options[:type]
-      @type = \
-        if type.is_a? Module
-          plain_type_to_proc(type)
-        elsif type.respond_to?(:call)
-          type
-        else
-          fail InvalidTypeError.new(type)
-        end
+      type = plain_type_to_proc(type) if Module === type
+      fail InvalidTypeError.new(type) unless type.respond_to? :call
+      @type = type
     end
 
     def plain_type_to_proc(type)
