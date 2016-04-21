@@ -309,8 +309,7 @@ Tested under rubies [compatible to MRI 2.2+](.travis.yml).
 
 ## Contributing
 
-* Read the [STYLEGUIDE](config/metrics/STYLEGUIDE)
-* [Fork the project](https://github.com/nepalez/query_builder)
+* [Fork the project](https://github.com/dry-rb/dry-initializer)
 * Create your feature branch (`git checkout -b my-new-feature`)
 * Add tests for it
 * Commit your changes (`git commit -am '[UPDATE] Add some feature'`)
