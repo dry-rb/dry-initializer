@@ -1,4 +1,3 @@
-require "pry"
 require "dry/initializer"
 
 RSpec.configure do |config|

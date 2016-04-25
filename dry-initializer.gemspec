@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version = ">= 2.2"
 
-  gem.add_development_dependency "guard-rspec", "~> 4.0"
-  gem.add_development_dependency "rake", "~> 10.5"
+  gem.add_development_dependency "rspec", "~> 3.0"
+  gem.add_development_dependency "rake", "~> 10.0"
   gem.add_development_dependency "dry-types", "~> 0.5.1"
 end
