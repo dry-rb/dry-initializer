@@ -1,7 +1,7 @@
 describe "invalid type declaration" do
   subject do
     class Test::Foo
-      extend Dry::Initializer
+      extend Dry::Initializer::Mixin
 
       param :foo, type: 1
     end

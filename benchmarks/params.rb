@@ -13,7 +13,7 @@ StructTest = Struct.new(:foo, :bar)
 
 require "dry-initializer"
 class DryTest
-  extend Dry::Initializer
+  extend Dry::Initializer::Mixin
 
   param :foo
   param :bar

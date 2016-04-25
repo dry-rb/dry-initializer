@@ -2,7 +2,7 @@ describe "repetitive definitions" do
   context "of params" do
     subject do
       class Test::Foo
-        extend Dry::Initializer
+        extend Dry::Initializer::Mixin
 
         param :foo
         param :bar
@@ -18,7 +18,7 @@ describe "repetitive definitions" do
   context "of options" do
     subject do
       class Test::Foo
-        extend Dry::Initializer
+        extend Dry::Initializer::Mixin
 
         option :foo
         option :bar
@@ -34,7 +34,7 @@ describe "repetitive definitions" do
   context "of param and option" do
     subject do
       class Test::Foo
-        extend Dry::Initializer
+        extend Dry::Initializer::Mixin
 
         param  :foo
         option :bar

@@ -1,7 +1,7 @@
 describe "subclassing" do
   subject do
     class Test::Foo
-      extend Dry::Initializer
+      extend Dry::Initializer::Mixin
 
       param  :foo
       option :bar

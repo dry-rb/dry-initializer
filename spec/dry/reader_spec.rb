@@ -1,7 +1,7 @@
 describe "reader" do
   subject do
     class Test::Foo
-      extend Dry::Initializer
+      extend Dry::Initializer::Mixin
 
       param  :foo, reader: false
       option :bar, reader: false

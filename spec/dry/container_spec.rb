@@ -1,12 +1,12 @@
 describe "base example" do
   before do
     class Test::Foo
-      extend Dry::Initializer::Mixin
-
-      param  :foo
-      param  :bar
-      option :baz
-      option :qux
+      include Dry::Initializer.define {
+        param  :foo
+        param  :bar
+        option :baz
+        option :qux
+      }
     end
   end
 

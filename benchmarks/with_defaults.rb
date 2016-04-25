@@ -11,7 +11,7 @@ end
 
 require "dry-initializer"
 class DryTest
-  extend Dry::Initializer
+  extend Dry::Initializer::Mixin
 
   option :foo, default: proc { "FOO" }
   option :bar, default: proc { "BAR" }
