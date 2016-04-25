@@ -11,5 +11,11 @@ module Dry
     require_relative "initializer/builder"
     require_relative "initializer/mixin"
 
+    def self.define(&block)
+      Module.new do |container|
+        container.extend Dry::Initializer::Mixin
+        container.instance_eval(&block)
+      end
+    end
   end
 end
