@@ -13,7 +13,7 @@ end
 
 require "dry-initializer"
 class DryTest
-  extend Dry::Initializer
+  extend Dry::Initializer::Mixin
 
   option :foo, type: String
   option :bar, type: String

@@ -42,7 +42,7 @@ $ gem install dry-initializer
 require 'dry-initializer'
 
 class User
-  extend Dry::Initializer
+  extend Dry::Initializer::Mixin
 
   # Params of the initializer along with corresponding readers
   param  :name, type: String
@@ -82,7 +82,7 @@ Use `param` to define plain argument:
 
 ```ruby
 class User
-  extend Dry::Initializer
+  extend Dry::Initializer::Mixin
 
   param :name
   param :email
@@ -97,7 +97,7 @@ Use `option` to define named (hash) argument:
 
 ```ruby
 class User
-  extend Dry::Initializer
+  extend Dry::Initializer::Mixin
 
   option :name
   option :email
@@ -112,7 +112,7 @@ All names should be unique:
 
 ```ruby
 class User
-  extend Dry::Initializer
+  extend Dry::Initializer::Mixin
 
   param  :name
   option :name # => raises #<SyntaxError ...>
@@ -125,7 +125,7 @@ By default both params and options are mandatory. Use `:default` key to make the
 
 ```ruby
 class User
-  extend Dry::Initializer
+  extend Dry::Initializer::Mixin
 
   param  :name,  default: proc { 'Unknown user' }
   option :email, default: proc { 'unknown@example.com' }
@@ -144,7 +144,7 @@ Set `nil` as a default value explicitly:
 
 ```ruby
 class User
-  extend Dry::Initializer
+  extend Dry::Initializer::Mixin
 
   param  :name
   option :email, default: proc { nil }
@@ -163,7 +163,7 @@ If you need to **assign** proc as a default value, wrap it to another one:
 
 ```ruby
 class User
-  extend Dry::Initializer
+  extend Dry::Initializer::Mixin
 
   param :name_proc, default: proc { proc { 'Unknown user' } }
 end
@@ -176,7 +176,7 @@ Proc will be executed in a scope of new instance. You can refer to other argumen
 
 ```ruby
 class User
-  extend Dry::Initializer
+  extend Dry::Initializer::Mixin
 
   param :name
   param :email, default: proc { "#{name.downcase}@example.com" }
@@ -190,7 +190,7 @@ user.email # => 'andrew@example.com'
 
 ```ruby
 class User
-  extend Dry::Initializer
+  extend Dry::Initializer::Mixin
 
   param :name, default: -> (obj) { 'Dude' }
 end
@@ -204,7 +204,7 @@ You cannot define required parameter after optional ones. The following example 
 
 ```ruby
 class User
-  extend Dry::Initializer
+  extend Dry::Initializer::Mixin
 
   param :name, default: proc { 'Unknown name' }
   param :email # => #<SyntaxError ...>
@@ -217,7 +217,7 @@ To set type constraint use `:type` key:
 
 ```ruby
 class User
-  extend Dry::Initializer
+  extend Dry::Initializer::Mixin
 
   param :name, type: String
 end
@@ -233,7 +233,7 @@ You can use plain Ruby classes and modules as type constraint (see above), or us
 
 ```ruby
 class User
-  extend Dry::Initializer
+  extend Dry::Initializer::Mixin
 
   param :name, type: Dry::Types::Coercion::String
 end
@@ -243,7 +243,7 @@ Or you can define custom constraint as a proc:
 
 ```ruby
 class User
-  extend Dry::Initializer
+  extend Dry::Initializer::Mixin
 
   param :name, type: proc { |v| raise TypeError if String === v }
 end
@@ -262,7 +262,7 @@ To skip the reader, use `reader: false`:
 
 ```ruby
 class User
-  extend Dry::Initializer
+  extend Dry::Initializer::Mixin
 
   param :name
   param :email, reader: false
@@ -283,7 +283,7 @@ Subclassing preserves all definitions being made inside a superclass:
 
 ```ruby
 class User
-  extend Dry::Initializer
+  extend Dry::Initializer::Mixin
 
   param :name
 end

@@ -1,7 +1,7 @@
 describe "PORO type" do
   before do
     class Test::Foo
-      extend Dry::Initializer
+      extend Dry::Initializer::Mixin
 
       param :foo, type: String
     end

@@ -1,7 +1,7 @@
 describe "base example" do
   before do
     class Test::Foo
-      extend Dry::Initializer
+      extend Dry::Initializer::Mixin
 
       param  :foo
       param  :bar

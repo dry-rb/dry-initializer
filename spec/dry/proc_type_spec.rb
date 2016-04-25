@@ -1,7 +1,7 @@
 describe "proc type" do
   before do
     class Test::Foo
-      extend Dry::Initializer
+      extend Dry::Initializer::Mixin
 
       param :foo, type: proc { |val| fail(TypeError) unless String === val }
     end
