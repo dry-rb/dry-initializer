@@ -11,10 +11,10 @@ module Dry
     require_relative "initializer/builder"
     require_relative "initializer/mixin"
 
-    def self.define(&block)
+    def self.define(proc = nil, &block)
       Module.new do |container|
         container.extend Dry::Initializer::Mixin
-        container.instance_eval(&block)
+        container.instance_exec(&(proc || block))
       end
     end
   end
