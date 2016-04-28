@@ -1,3 +1,9 @@
+## v0.1.1 2016-04-28
+
+### Added
+
+* `include Dry::Initializer.define -> do .. end` syntax (flash-gordon)
+
 ## v0.1.0 2016-04-26
 
 Class DSL splitted to mixin and container versions (thanks to @AMHOL for the idea).

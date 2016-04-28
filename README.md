@@ -84,12 +84,12 @@ Instead of extending a class with the `Dry::Initializer::Mixin`, you can include
 require 'dry-initializer'
 
 class User
-  # notice `{}` syntax for the block, not `do..end`
-  include Dry::Initializer.define {
+  # notice `-> do .. end` syntax
+  include Dry::Initializer.define -> do
     param  :name,  type: String
     param  :role,  default: proc { 'customer' }
     option :admin, default: proc { false }
-  }
+  end
 end
 ```
 
