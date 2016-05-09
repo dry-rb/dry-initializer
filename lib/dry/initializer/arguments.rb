@@ -23,10 +23,7 @@ module Dry::Initializer
       <<-RUBY
         attr_reader #{select(&:reader).map { |arg| ":#{arg.name}" }.join(", ")}
         define_method :initialize do |#{signature}|
-          #{assign_arguments}
-          #{take_declarations}
-          #{assign_defaults}
-          #{check_constraints}
+          #{operations.map(&method(:send)).compact.join("\n")}
         end
       RUBY
     end
@@ -63,6 +60,10 @@ module Dry::Initializer
 
     def signature
       (params + options).map(&:signature).join(", ")
+    end
+
+    def operations
+      %w(assign_arguments take_declarations assign_defaults check_constraints)
     end
 
     def assign_arguments

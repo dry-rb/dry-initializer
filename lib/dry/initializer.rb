@@ -13,7 +13,7 @@ module Dry
 
     def self.define(proc = nil, &block)
       Module.new do |container|
-        container.extend Dry::Initializer::Mixin
+        container.extend Mixin
         container.instance_exec(&(proc || block))
       end
     end
