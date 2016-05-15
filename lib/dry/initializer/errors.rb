@@ -1,13 +1,11 @@
 module Dry::Initializer
   # Collection of gem-specific exceptions
   module Errors
-
-    require_relative "errors/existing_argument_error"
-    require_relative "errors/invalid_default_value_error"
-    require_relative "errors/invalid_type_error"
-    require_relative "errors/key_error"
-    require_relative "errors/missed_default_value_error"
+    require_relative "errors/default_value_error"
+    require_relative "errors/order_error"
+    require_relative "errors/plugin_error"
+    require_relative "errors/redefinition_error"
     require_relative "errors/type_error"
-
+    require_relative "errors/type_constraint_error"
   end
 end

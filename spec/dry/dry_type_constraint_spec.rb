@@ -1,17 +1,22 @@
-describe "proc type" do
+require "dry-types"
+
+describe "Dry type constraint" do
   before do
+    module Test::Types
+      include Dry::Types.module
+    end
+
     class Test::Foo
       extend Dry::Initializer::Mixin
-
-      param :foo, type: proc { |val| fail(TypeError) unless String === val }
+      param :foo, type: Test::Types::Strict::String
     end
   end
 
   context "in case of mismatch" do
-    subject { Test::Foo.new :foo }
+    subject { Test::Foo.new 1 }
 
     it "raises TypeError" do
-      expect { subject }.to raise_error TypeError
+      expect { subject }.to raise_error TypeError, /1/
     end
   end
 

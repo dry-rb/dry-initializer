@@ -7,20 +7,20 @@ AllCops:
 
 Lint/HandleExceptions:
   Exclude:
-    - '**/*_spec.rb'
+    - spec/**/*_spec.rb
 
 Lint/RescueException:
   Exclude:
-    - '**/*_spec.rb'
+    - spec/**/*_spec.rb
 
 Metrics/LineLength:
   Max: 80
   Exclude:
-    - 'spec/**/*.rb'
+    - spec/**/*_spec.rb
 
 Style/AccessorMethodName:
   Exclude:
-    - '**/*_spec.rb'
+    - spec/**/*_spec.rb
 
 Style/Alias:
   EnforcedStyle: prefer_alias_method
@@ -52,6 +52,10 @@ Style/EmptyLineBetweenDefs:
 Style/FileName:
   Enabled: false
 
+Style/Lambda:
+  Exclude:
+    - spec/**/*_spec.rb
+
 Style/ModuleFunction:
   Enabled: false
 
@@ -60,7 +64,7 @@ Style/RaiseArgs:
 
 Style/Semicolon:
   Exclude:
-    - '**/*_spec.rb'
+    - spec/**/*_spec.rb
 
 Style/SignalException:
   EnforcedStyle: semantic
@@ -70,15 +74,15 @@ Style/SingleLineBlockParams:
 
 Style/SingleLineMethods:
   Exclude:
-    - '**/*_spec.rb'
+    - spec/**/*_spec.rb
 
 Style/SpaceBeforeFirstArg:
   Enabled: false
 
 Style/SpecialGlobalVars:
   Exclude:
-    - '**/Gemfile'
-    - '**/*.gemspec'
+    - Gemfile
+    - dry-initializer.gemspec
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
@@ -88,4 +92,4 @@ Style/StringLiteralsInInterpolation:
 
 Style/TrivialAccessors:
   Exclude:
-    - '**/*_spec.rb'
+    - spec/**/*_spec.rb

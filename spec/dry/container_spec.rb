@@ -1,5 +1,5 @@
-describe "base example" do
-  context 'using block syntax' do
+describe "container" do
+  context "with block syntax" do
     before do
       class Test::Foo
         include Dry::Initializer.define {
@@ -21,7 +21,7 @@ describe "base example" do
     end
   end
 
-  context 'using lambda syntax' do
+  context "with lambda syntax" do
     before do
       class Test::Foo
         include Dry::Initializer.define -> do

@@ -12,7 +12,7 @@ module Dry::Initializer
     # @return [self] itself
     #
     def param(name, **options)
-      arguments_builder.define_initializer(name, option: false, **options)
+      initializer_builder.define(name, option: false, **options)
       self
     end
 
@@ -23,22 +23,22 @@ module Dry::Initializer
     # @return (see #param)
     #
     def option(name, **options)
-      arguments_builder.define_initializer(name, option: true, **options)
+      initializer_builder.define(name, option: true, **options)
       self
     end
 
-    private
-
-    def arguments_builder
-      @arguments_builder ||= begin
+    # @private
+    def initializer_builder
+      @initializer_builder ||= begin
         builder = Builder.new
         include builder.mixin
         builder
       end
     end
 
+    # @private
     def inherited(klass)
-      klass.instance_variable_set(:@arguments_builder, arguments_builder)
+      klass.instance_variable_set(:@initializer_builder, initializer_builder)
     end
   end
 end

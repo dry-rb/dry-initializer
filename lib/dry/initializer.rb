@@ -4,12 +4,13 @@ module Dry
   # @api public
   #
   module Initializer
-
     require_relative "initializer/errors"
-    require_relative "initializer/argument"
-    require_relative "initializer/arguments"
+    require_relative "initializer/plugins"
+    require_relative "initializer/signature"
     require_relative "initializer/builder"
     require_relative "initializer/mixin"
+
+    UNDEFINED = Object.new.freeze
 
     def self.define(proc = nil, &block)
       Module.new do |container|
