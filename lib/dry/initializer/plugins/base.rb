@@ -18,6 +18,9 @@ module Dry::Initializer::Plugins
       new(name, settings).call
     end
 
+    # @private
+    attr_reader :name, :settings
+
     # Initializes a builder with argument name and settings
     # @param (see .call)
     def initialize(name, settings)
@@ -25,12 +28,15 @@ module Dry::Initializer::Plugins
       @settings = settings
     end
 
+    # Checks equality to another instance by name
+    # @return [Boolean]
+    def ==(other)
+      other.instance_of?(self.class) && (other.name == name)
+    end
+
     # Builds a chunk of code
     # @return (see .call)
     def call
     end
-
-    # @private
-    attr_reader :name, :settings
   end
 end

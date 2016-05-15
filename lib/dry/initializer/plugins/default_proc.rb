@@ -8,9 +8,10 @@ module Dry::Initializer::Plugins
       ivar = :"@#{name}"
       default_proc = default
 
-      lambda do |*|
-        return unless instance_variable_get(ivar) == Dry::Initializer::UNDEFINED
-        instance_variable_set ivar, instance_eval(&default_proc)
+      proc do
+        if instance_variable_get(ivar) == Dry::Initializer::UNDEFINED
+          instance_variable_set ivar, instance_eval(&default_proc)
+        end
       end
     end
 
