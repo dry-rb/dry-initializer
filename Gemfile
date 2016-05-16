@@ -3,8 +3,6 @@ source "https://rubygems.org"
 # Specify your gem"s dependencies in dry-initializer.gemspec
 gemspec
 
-gem "dry-types", git: "https://github.com/dryrb/dry-types", branch: "master"
-
 group :benchmarks do
   gem "benchmark-ips", "~> 2.5"
 
