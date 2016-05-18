@@ -1,4 +1,18 @@
-## v0.2.0 2016-04-28
+## v0.2.1 2016-05-19
+
+### Bugs Fixed
+
+* Fix polluting superclass with declarations from subclass (@nepalez)
+
+### Internals
+
+* Make all instances (Builder and Signature) immutable (@nepalez)
+* Decouple mixin from a builder to prevent pollution (@nepalez)
+* Ensure default value block can use private variables (@jeremyf)
+
+[Compare v0.2.0...v0.2.1](https://github.com/dry-rb/dry-initializer/compare/v0.2.0...v0.2.1)
+
+## v0.2.0 2016-05-16
 
 The gem internals has been rewritten heavily to make the gem pluggable and fix
 bugs in "container style". Type constraints were extracted to a plugin
