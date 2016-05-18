@@ -18,51 +18,46 @@ module Dry::Initializer
     # @param [Dry::Initializer::Plugin]
     #
     def register(plugin)
-      @plugins << plugin
+      plugins = @plugins + [plugin]
+      copy { @plugins = plugins }
     end
 
-    # Defines new agrument and rebuilds the initializer
+    # Defines new agrument and reloads mixin definitions
     #
+    # @param [Module] mixin
     # @param [#to_sym] name
     # @param [Hash<Symbol, Object>] settings
     #
     # @return [self] itself
     #
-    def define(name, settings)
-      update_signature(name, settings)
-      update_parts(name, settings)
+    def reload(mixin, name, settings)
+      signature = @signature.add(name, settings)
+      parts     = @parts + @plugins.map { |p| p.call(name, settings) }.compact
 
-      define_reader(name, settings)
-      reload_initializer
-      reload_callback
+      copy do
+        @signature = signature
+        @parts     = parts
 
-      self
-    end
-
-    # The module with two methods: `#initialize` and `##__after_initialize__`
-    # to be mixed into the target class
-    #
-    # @return [Module]
-    #
-    def mixin
-      @mixin ||= Module.new
+        define_readers(mixin)
+        reload_initializer(mixin)
+        reload_callback(mixin)
+      end
     end
 
     private
 
-    def update_signature(name, settings)
-      @signature.add(name, settings)
+    def copy(&block)
+      dup.tap { |instance| instance.instance_eval(&block) }
     end
 
-    def update_parts(name, settings)
-      @parts += @plugins.map { |klass| klass.call(name, settings) }.compact
+    def define_readers(mixin)
+      readers = @signature.select { |item| item.settings[:reader] != false }
+                          .map(&:name)
+
+      mixin.send :attr_reader, *readers if readers.any?
     end
 
-    def define_reader(name, settings)
-      mixin.send :attr_reader, name unless settings[:reader] == false
-    end
-
-    def reload_initializer
+    def reload_initializer(mixin)
       strings = @parts.select { |part| String === part }
 
       mixin.class_eval <<-RUBY
@@ -73,7 +68,7 @@ module Dry::Initializer
       RUBY
     end
 
-    def reload_callback
+    def reload_callback(mixin)
       blocks = @parts.select { |part| Proc === part }
 
       mixin.send :define_method, :__after_initialize__ do

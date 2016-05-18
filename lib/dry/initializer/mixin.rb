@@ -12,7 +12,8 @@ module Dry::Initializer
     # @return [self] itself
     #
     def param(name, **options)
-      initializer_builder.define(name, option: false, **options)
+      @initializer_builder = initializer_builder
+                             .reload(self, name, option: false, **options)
       self
     end
 
@@ -23,17 +24,14 @@ module Dry::Initializer
     # @return (see #param)
     #
     def option(name, **options)
-      initializer_builder.define(name, option: true, **options)
+      @initializer_builder = initializer_builder
+                             .reload(self, name, option: true, **options)
       self
     end
 
     # @private
     def initializer_builder
-      @initializer_builder ||= begin
-        builder = Builder.new
-        include builder.mixin
-        builder
-      end
+      @initializer_builder ||= Builder.new
     end
 
     # @private

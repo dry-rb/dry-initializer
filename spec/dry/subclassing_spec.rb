@@ -1,5 +1,5 @@
 describe "subclassing" do
-  subject do
+  before do
     class Test::Foo
       extend Dry::Initializer::Mixin
 
@@ -11,14 +11,25 @@ describe "subclassing" do
       param  :baz
       option :qux
     end
+  end
 
+  let(:instance_of_superclass) do
+    Test::Foo.new 1, bar: 3
+  end
+
+  let(:instance_of_subclass) do
     Test::Bar.new 1, 2, bar: 3, qux: 4
   end
 
   it "preserves definitions made in the superclass" do
-    expect(subject.foo).to eql 1
-    expect(subject.baz).to eql 2
-    expect(subject.bar).to eql 3
-    expect(subject.qux).to eql 4
+    expect(instance_of_subclass.foo).to eql 1
+    expect(instance_of_subclass.baz).to eql 2
+    expect(instance_of_subclass.bar).to eql 3
+    expect(instance_of_subclass.qux).to eql 4
+  end
+
+  it "does not pollute superclass with definitions from subclass" do
+    expect(instance_of_superclass).not_to respond_to :baz
+    expect(instance_of_superclass).not_to respond_to :qux
   end
 end

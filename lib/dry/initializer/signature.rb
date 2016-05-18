@@ -1,12 +1,12 @@
 module Dry::Initializer
-  # Mutable container for chunks of code describing argument signatures.
+  # Immutable container for chunks of code describing argument signatures.
   # Responcible for building the resulting signature for the initializer args.
   class Signature
     include Enumerable
     include Errors
 
     def initialize
-      @list ||= []
+      @list = []
     end
 
     def add(*args)
@@ -15,8 +15,13 @@ module Dry::Initializer
       validates_uniqueness_of signature
       validates_order_of signature
 
-      @list << signature
-      self
+      copy { @list += [signature] }
+    end
+
+    def each
+      (@list.select(&:param?) + @list.reject(&:param?)).each do |item|
+        yield item
+      end
     end
 
     def call
@@ -25,9 +30,9 @@ module Dry::Initializer
 
     private
 
-    def each
-      (@list.select(&:param?) + @list.reject(&:param?)).each do |item|
-        yield item
+    def copy(&block)
+      dup.tap do |instance|
+        instance.instance_eval(&block)
       end
     end
 
