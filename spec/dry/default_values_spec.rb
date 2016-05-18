@@ -7,6 +7,13 @@ describe "default values" do
       param  :bar, default: proc { :BAR }
       option :baz, default: proc { :BAZ }
       option :qux, default: proc { foo }
+      option :mox, default: proc { default_mox }
+
+      private
+
+      def default_mox
+        :MOX
+      end
     end
   end
 
@@ -35,5 +42,10 @@ describe "default values" do
     expect(subject.bar).to eql :BAR
     expect(subject.baz).to eql 3
     expect(subject.qux).to eql 1
+  end
+
+  it 'applies default values from private methods' do
+    subject = Test::Foo.new
+    expect(subject.mox).to eql :MOX
   end
 end
