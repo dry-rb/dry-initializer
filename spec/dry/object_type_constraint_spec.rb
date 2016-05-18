@@ -8,7 +8,7 @@ describe "object type constraint" do
   end
 
   context "in case of mismatch" do
-    subject { Test::Foo.new 'baz' }
+    subject { Test::Foo.new "baz" }
 
     it "raises TypeError" do
       expect { subject }.to raise_error TypeError
@@ -16,7 +16,7 @@ describe "object type constraint" do
   end
 
   context "in case of match" do
-    subject { Test::Foo.new 'barbar' }
+    subject { Test::Foo.new "barbar" }
 
     it "completes the initialization" do
       expect { subject }.not_to raise_error

@@ -44,7 +44,7 @@ describe "default values" do
     expect(subject.qux).to eql 1
   end
 
-  it 'applies default values from private methods' do
+  it "applies default values from private methods" do
     subject = Test::Foo.new
     expect(subject.mox).to eql :MOX
   end
