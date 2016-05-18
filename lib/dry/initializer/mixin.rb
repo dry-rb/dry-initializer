@@ -38,7 +38,7 @@ module Dry::Initializer
 
     # @private
     def inherited(klass)
-      klass.instance_variable_set(:@initializer_builder, initializer_builder)
+      klass.instance_variable_set :@initializer_builder, initializer_builder.dup
     end
   end
 end
