@@ -1,3 +1,43 @@
+## v0.3.0 2016-05-19
+
+Breaks interface for adding new plugins. Register new plugin via:
+
+```
+def self.extended(klass)
+  klass.register_initializer_plugin NewPlugin
+end
+```
+
+instead of:
+
+```
+def self.extended(klass)
+  klass.initializer_builder.register NewPlugin
+end
+```
+
+While the private method ##initializer_builder is still accessible
+its method #register doesn't mutate the builder instance.
+
+### Changed (backward-incompatible changes)
+
+* Made Mixin##initializer_builder method private (@nepalez)
+* Add Mixin#register_initializer_plugin(plugin) method (@nepalez)
+
+### Bugs Fixed
+
+* Prevent plugin's registry from polluting superclass (@nepalez)
+
+[Compare v0.2.1...v0.3.0](https://github.com/dry-rb/dry-initializer/compare/v0.2.1..v0.3.0)
+
+### Internals
+
+* Make all instances (Builder and Signature) immutable (@nepalez)
+* Decouple mixin from a builder to prevent pollution (@nepalez)
+* Ensure default value block can use private variables (@jeremyf)
+
+[Compare v0.2.0...v0.2.1](https://github.com/dry-rb/dry-initializer/compare/v0.2.0...v0.2.1)
+
 ## v0.2.1 2016-05-19
 
 ### Bugs Fixed
