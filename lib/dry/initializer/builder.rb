@@ -24,24 +24,31 @@ module Dry::Initializer
 
     # Defines new agrument and reloads mixin definitions
     #
-    # @param [Module] mixin
+    # @param (see #call)
     # @param [#to_sym] name
     # @param [Hash<Symbol, Object>] settings
     #
     # @return [self] itself
     #
-    def reload(mixin, name, settings)
+    def define(mixin, name, settings)
       signature = @signature.add(name, settings)
       parts     = @parts + @plugins.map { |p| p.call(name, settings) }.compact
 
       copy do
         @signature = signature
         @parts     = parts
-
-        define_readers(mixin)
-        reload_initializer(mixin)
-        reload_callback(mixin)
+        call(mixin)
       end
+    end
+
+    # Redeclares initializer and readers in the mixin module
+    #
+    # @param [Module] mixin
+    #
+    def call(mixin)
+      define_readers(mixin)
+      reload_initializer(mixin)
+      reload_callback(mixin)
     end
 
     private

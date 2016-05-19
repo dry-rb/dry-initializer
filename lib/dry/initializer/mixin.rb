@@ -13,7 +13,7 @@ module Dry::Initializer
     #
     def param(name, **options)
       @initializer_builder = initializer_builder
-                             .reload(self, name, option: false, **options)
+                             .define(self, name, option: false, **options)
       self
     end
 
@@ -25,16 +25,27 @@ module Dry::Initializer
     #
     def option(name, **options)
       @initializer_builder = initializer_builder
-                             .reload(self, name, option: true, **options)
+                             .define(self, name, option: true, **options)
       self
     end
 
-    # @private
+    # Adds new plugin to the builder
+    #
+    # @param  [Dry::Initializer::Plugins::Base] plugin
+    # @return [self] itself
+    #
+    def register_initializer_plugin(plugin)
+      @initializer_builder = initializer_builder.register(plugin)
+      initializer_builder.call(self)
+      self
+    end
+
+    private
+
     def initializer_builder
       @initializer_builder ||= Builder.new
     end
 
-    # @private
     def inherited(klass)
       klass.instance_variable_set :@initializer_builder, initializer_builder.dup
     end
