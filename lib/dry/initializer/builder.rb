@@ -17,27 +17,43 @@ module Dry::Initializer
     #
     # @param [Dry::Initializer::Plugin]
     #
+    # @return [Dry::Initializer::Builder]
+    #
     def register(plugin)
       plugins = @plugins + [plugin]
       copy { @plugins = plugins }
     end
 
+    # Makes builder to provide options-tolerant initializer
+    #
+    # @return [Dry::Initializer::Builder]
+    #
+    def tolerant_to_unknown_options
+      copy { @tolerant = "**" }
+    end
+
+    # Makes builder to provide options-intolerant initializer
+    #
+    # @return [Dry::Initializer::Builder]
+    #
+    def intolerant_to_unknown_options
+      copy { @tolerant = nil }
+    end
+
     # Defines new agrument and reloads mixin definitions
     #
-    # @param (see #call)
     # @param [#to_sym] name
     # @param [Hash<Symbol, Object>] settings
     #
-    # @return [self] itself
+    # @return [Dry::Initializer::Builder]
     #
-    def define(mixin, name, settings)
+    def define(name, settings)
       signature = @signature.add(name, settings)
       parts     = @parts + @plugins.map { |p| p.call(name, settings) }.compact
 
       copy do
         @signature = signature
         @parts     = parts
-        call(mixin)
       end
     end
 
@@ -49,6 +65,7 @@ module Dry::Initializer
       define_readers(mixin)
       reload_initializer(mixin)
       reload_callback(mixin)
+      mixin
     end
 
     private
@@ -65,10 +82,12 @@ module Dry::Initializer
     end
 
     def reload_initializer(mixin)
-      strings = @parts.select { |part| String === part }
-
+      strings   = @parts.select { |part| String === part }
+      signature = [@signature.call, @tolerant].map(&:to_s)
+                                              .reject(&:empty?)
+                                              .join(", ")
       mixin.class_eval <<-RUBY
-        def initialize(#{@signature.call})
+        def initialize(#{signature})
           #{strings.join("\n")}
           __after_initialize__
         end
