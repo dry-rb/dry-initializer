@@ -1,3 +1,11 @@
+## v0.3.1 2016-05-22
+
+### Added
+
+* Support for tolerance to unknown options (@nepalez)
+
+[Compare v0.3.0...v0.3.1](https://github.com/dry-rb/dry-initializer/compare/v0.3.0..v0.3.1)
+
 ## v0.3.0 2016-05-19
 
 Breaks interface for adding new plugins. Register new plugin via:
