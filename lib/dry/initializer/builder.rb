@@ -1,3 +1,4 @@
+require "set"
 module Dry::Initializer
   # Rebuilds the initializer every time a new argument defined
   #
