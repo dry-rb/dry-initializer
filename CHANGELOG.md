@@ -1,3 +1,11 @@
+## v0.3.2 2016-05-25
+
+### Bugs Fixed
+
+* Add explicit requirement for ruby 'set' (@rickenharp)
+
+[Compare v0.3.1...v0.3.2](https://github.com/dry-rb/dry-initializer/compare/v0.3.1..v0.3.2)
+
 ## v0.3.1 2016-05-22
 
 ### Added
