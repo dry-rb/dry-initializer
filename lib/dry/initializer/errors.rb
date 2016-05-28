@@ -5,7 +5,6 @@ module Dry::Initializer
     require_relative "errors/order_error"
     require_relative "errors/plugin_error"
     require_relative "errors/redefinition_error"
-    require_relative "errors/type_error"
     require_relative "errors/type_constraint_error"
   end
 end
