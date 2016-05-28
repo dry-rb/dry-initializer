@@ -14,7 +14,7 @@ module Dry::Initializer::Plugins
     end
 
     def dry_type?
-      type.class.ancestors.map(&:name).include? "Dry::Types::Builder"
+      type.respond_to? :call
     end
 
     def plain_type?
@@ -23,6 +23,9 @@ module Dry::Initializer::Plugins
 
     def module_type_constraint
       return unless plain_type?
+
+      warn "[DEPRECATION] support for ruby modules as type constraint" \
+           " is deprecated. Use dry-types instead."
 
       "fail #{TypeError}.new(:#{name}, #{type}, @#{name})" \
       " unless @#{name} == Dry::Initializer::UNDEFINED ||" \
@@ -44,6 +47,9 @@ module Dry::Initializer::Plugins
     end
 
     def object_type_constraint
+      warn "[DEPRECATION] support for case equality (===) as type constraint" \
+           " is deprecated. Use dry-types instead."
+
       ivar = :"@#{name}"
       constraint = type
 
