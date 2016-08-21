@@ -1,3 +1,11 @@
+## v0.5.0 2016-08-21
+
+### Added
+
+* Allow `optional` attribute to be left undefined (@nepalez)
+
+[Compare v0.4.0...v0.5.0](https://github.com/dry-rb/dry-initializer/compare/v0.4.0..v0.5.0)
+
 ## v0.4.0 2016-05-28
 
 ### Deleted (backward-incompatible changes)
