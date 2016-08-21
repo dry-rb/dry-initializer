@@ -17,8 +17,12 @@ module Dry::Initializer::Plugins
       settings.key? :default
     end
 
+    def optional?
+      default? || settings.key?(:optional)
+    end
+
     def call
-      case [param?, default?]
+      case [param?, optional?]
       when [true, false]  then name.to_s
       when [false, false] then "#{name}:"
       when [true, true]   then "#{name} = #{undefined}"

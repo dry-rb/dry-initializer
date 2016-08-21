@@ -49,7 +49,7 @@ class User
 
   # Params of the initializer along with corresponding readers
   param  :name
-  param  :role, default: proc { 'customer' }
+  param  :role,  default: proc { 'customer' }
   # Options of the initializer along with corresponding readers
   option :admin, default: proc { false }
 end
