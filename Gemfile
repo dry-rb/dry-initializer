@@ -5,7 +5,7 @@ gemspec
 
 group :benchmarks do
   gem "benchmark-ips", "~> 2.5"
-
+  gem "activesupport", "< 5"
   gem "active_attr"
   gem "anima"
   gem "attr_extras"
