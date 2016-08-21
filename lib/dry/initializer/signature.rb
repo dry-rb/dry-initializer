@@ -43,8 +43,8 @@ module Dry::Initializer
     end
 
     def validates_order_of(signature)
-      return unless signature.param? && !signature.default?
-      return unless any? { |item| item.param? && item.default? }
+      return unless signature.param? && !signature.optional?
+      return unless any? { |item| item.param? && item.optional? }
 
       fail OrderError.new(signature.name)
     end
