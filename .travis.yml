@@ -5,10 +5,12 @@ cache:    bundler
 script:   bundle  exec rspec
 rvm:
   - '2.2'
+  - '2.3'
   - ruby-head
-  - rbx-2.4.1
+  - rbx-2.4
+  - rbx-2.5
   - rbx-head
-  - jruby-9.0.0.0
+  - jruby-9
   - jruby-head
 matrix:
   allow_failures:
