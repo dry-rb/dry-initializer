@@ -76,10 +76,20 @@ module Dry::Initializer
     end
 
     def define_readers(mixin)
-      readers = @signature.select { |item| item.settings[:reader] != false }
-                          .map(&:name)
+      define_reader(
+        mixin,
+        :attr_reader,
+        ->(item) { item.settings[:reader] != false }
+      )
+      define_reader(
+        mixin,
+        :private,
+        ->(item) { item.settings[:reader] == :private })
+    end
 
-      mixin.send :attr_reader, *readers if readers.any?
+    def define_reader(mixin, method, filter_lambda)
+      readers = @signature.select(&filter_lambda).map(&:name)
+      mixin.send method, *readers if readers.any?
     end
 
     def reload_initializer(mixin)
