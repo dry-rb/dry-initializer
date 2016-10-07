@@ -28,6 +28,10 @@ Style/Alias:
 Style/AsciiComments:
   Enabled: false
 
+Style/BlockDelimiters:
+  Exclude:
+    - spec/**/*_spec.rb
+
 Style/CaseEquality:
   Enabled: false
 
