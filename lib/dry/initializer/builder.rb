@@ -81,13 +81,12 @@ module Dry::Initializer
         :attr_reader,
         ->(item) { item.settings[:reader] != false }
       )
-      define_reader(
-        mixin,
-        :private,
-        ->(item) { item.settings[:reader] == :private })
+      define_reader mixin, :private
+      define_reader mixin, :protected
     end
 
-    def define_reader(mixin, method, filter_lambda)
+    def define_reader(mixin, method, filter_lambda = nil)
+      filter_lambda ||= ->(item) { item.settings[:reader] == method }
       readers = @signature.select(&filter_lambda).map(&:name)
       mixin.send method, *readers if readers.any?
     end
