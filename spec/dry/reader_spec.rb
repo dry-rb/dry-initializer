@@ -79,11 +79,9 @@ describe "reader" do
       Test::Foo.new 1, bar: 2
     end
 
-    it_behaves_like "it has no public attr_reader"
-
     it "adds a protected attr_reader" do
       protected_instance_methods = subject.class.protected_instance_methods
-      expect(protected_instance_methods).to eq([:foo, :bar])
+      expect(protected_instance_methods).to match_array([:foo, :bar])
     end
   end
 end
