@@ -6,6 +6,27 @@ describe "reader" do
     end
   end
 
+  context "with reader: :public or no reader: option" do
+    subject do
+      class Test::Foo
+        extend Dry::Initializer::Mixin
+
+        param  :foo
+        param  :foo2, reader: :public
+        option :bar
+        option :bar2, reader: :public
+      end
+
+      Test::Foo.new 1, 2, bar: 3, bar2: 4
+    end
+
+    it "defines a public attr_reader by default" do
+      expect(subject).to respond_to(:foo, :foo2)
+      expect(subject).to respond_to :bar
+      expect(subject).to respond_to :bar2
+    end
+  end
+
   context "with reader: false" do
     subject do
       class Test::Foo
