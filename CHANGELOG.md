@@ -1,3 +1,11 @@
+## v0.7.0 2016-10-11
+
+### Added
+
+* Shared settings with `#using` method (@nepalez)
+
+[Compare v0.6.0...v0.7.0](https://github.com/dry-rb/dry-initializer/compare/v0.6.0..v0.7.0)
+
 ## v0.6.0 2016-10-09
 
 ### Added
