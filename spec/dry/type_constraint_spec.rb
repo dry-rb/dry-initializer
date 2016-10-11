@@ -9,7 +9,7 @@ describe "type constraint" do
 
       class Test::Foo
         extend Dry::Initializer::Mixin
-        param :foo, type: Test::Types::Strict::String
+        param :foo, type: Test::Types::Strict::String, optional: true
       end
     end
 
@@ -23,6 +23,14 @@ describe "type constraint" do
 
     context "in case of match" do
       subject { Test::Foo.new "foo" }
+
+      it "completes the initialization" do
+        expect { subject }.not_to raise_error
+      end
+    end
+
+    context "if optional value not set" do
+      subject { Test::Foo.new }
 
       it "completes the initialization" do
         expect { subject }.not_to raise_error
