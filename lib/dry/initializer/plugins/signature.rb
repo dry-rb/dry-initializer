@@ -18,7 +18,7 @@ module Dry::Initializer::Plugins
     end
 
     def optional?
-      default? || settings.key?(:optional)
+      default? || !!settings[:optional]
     end
 
     def call
