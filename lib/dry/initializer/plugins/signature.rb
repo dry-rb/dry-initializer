@@ -2,38 +2,28 @@ module Dry::Initializer::Plugins
   # Plugin builds a chunk of code for the initializer's signature:
   #
   # @example
-  #   Signature.call(:user, option: true)
-  #   # => "user:"
+  #   Signature.call(:user)
+  #   # => "user"
   #
   #   Signature.call(:user, default: -> { nil })
   #   # => "user = Dry::Initializer::UNDEFINED"
+  #
+  #   Signature.call(:user, option: true)
+  #   # => "**__options__"
   #
   class Signature < Base
     def param?
       settings[:option] != true
     end
 
-    def default?
-      settings.key? :default
-    end
-
-    def optional?
-      default? || !!settings[:optional]
+    def required?
+      !settings.key?(:default) && !settings[:optional]
     end
 
     def call
-      case [param?, optional?]
-      when [true, false]  then name.to_s
-      when [false, false] then "#{name}:"
-      when [true, true]   then "#{name} = #{undefined}"
-      when [false, true]  then "#{name}: #{undefined}"
-      end
-    end
-
-    private
-
-    def undefined
-      @undefined ||= "Dry::Initializer::UNDEFINED"
+      return "**__options__" unless param?
+      return name.to_s if required?
+      "#{name} = Dry::Initializer::UNDEFINED"
     end
   end
 end

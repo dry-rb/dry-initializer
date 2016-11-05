@@ -25,22 +25,6 @@ module Dry::Initializer
       copy { @plugins = plugins }
     end
 
-    # Makes builder to provide options-tolerant initializer
-    #
-    # @return [Dry::Initializer::Builder]
-    #
-    def tolerant_to_unknown_options
-      copy { @tolerant = "**" }
-    end
-
-    # Makes builder to provide options-intolerant initializer
-    #
-    # @return [Dry::Initializer::Builder]
-    #
-    def intolerant_to_unknown_options
-      copy { @tolerant = nil }
-    end
-
     # Defines new agrument and reloads mixin definitions
     #
     # @param [#to_sym] name

@@ -30,6 +30,6 @@ describe "shared definition" do
   end
 
   it "can reload :optional setting" do
-    expect { subject.new }.to raise_error(ArgumentError, /quxx/)
+    expect { subject.new }.to raise_error(KeyError, /quxx/)
   end
 end

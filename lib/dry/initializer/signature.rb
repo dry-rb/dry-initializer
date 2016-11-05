@@ -25,7 +25,7 @@ module Dry::Initializer
     end
 
     def call
-      map(&:call).join(", ")
+      map(&:call).compact.uniq.join(", ")
     end
 
     private
@@ -43,8 +43,8 @@ module Dry::Initializer
     end
 
     def validates_order_of(signature)
-      return unless signature.param? && !signature.optional?
-      return unless any? { |item| item.param? && item.optional? }
+      return unless signature.param? && signature.required?
+      return unless any? { |item| item.param? && !item.required? }
 
       fail OrderError.new(signature.name)
     end
