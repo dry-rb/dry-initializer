@@ -5,7 +5,7 @@ describe "shared definition" do
 
       using default: proc { nil } do
         param  :foo
-        option :bar
+        option :end
         option :baz, default: proc { 0 }
       end
 
@@ -20,7 +20,7 @@ describe "shared definition" do
     instance = subject.new(quxx: 1)
 
     expect(instance.foo).to be_nil
-    expect(instance.bar).to be_nil
+    expect(instance.end).to be_nil
   end
 
   it "can be reloaded" do
