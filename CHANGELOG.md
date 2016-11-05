@@ -1,3 +1,13 @@
+## v0.8.1 2016-11-05
+
+### Added
+
+* Support for `dry-struct`ish syntax for constraints (type as a second parameter) (@nepalez)
+
+    option :name, Dry::Types['strict.string']
+
+[Compare v0.8.0...v0.8.1](https://github.com/dry-rb/dry-initializer/compare/v0.8.0..v0.8.1)
+
 ## v0.8.0 2016-11-05
 
 In this version we switched from key arguments to ** to support special keys:
