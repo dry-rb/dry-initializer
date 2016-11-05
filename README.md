@@ -43,15 +43,17 @@ $ gem install dry-initializer
 
 ```ruby
 require 'dry-initializer'
+require 'dry-types'
 
 class User
   extend Dry::Initializer::Mixin
 
   # Params of the initializer along with corresponding readers
-  param  :name
+  param  :name,  type: Dry::Types["strict.string"]
   param  :role,  default: proc { 'customer' }
   # Options of the initializer along with corresponding readers
   option :admin, default: proc { false }
+  option :vip,   optional: true
 end
 
 # Defines the initializer with params and options
@@ -61,6 +63,7 @@ user = User.new 'Vladimir', 'admin', admin: true
 user.name  # => 'Vladimir'
 user.role  # => 'admin'
 user.admin # => true
+user.vip   # => Dry::Initializer::UNDEFINED
 ```
 
 See full documentation on the [Dry project official site][docs]

@@ -1,3 +1,53 @@
+## v0.8.0 2016-11-05
+
+In this version we switched from key arguments to ** to support special keys:
+
+    option :end
+    option :begin
+
+In previous versions this was translated to
+
+    def initialize(end:, begin:)
+      @end   = end   # BOOM! SyntaxError!
+      @begin = begin # Potential BOOM (unreached)
+    end
+
+Now the assignment is imlemented like this:
+
+    def initialize(**__options__)
+      @end   = __options__.fetch(:end)
+      @begin = __options__.fetch(:begin)
+    end
+
+As a side effect of the change the initializer becomes tolerant
+to any unknown option if, and only if some `option` was set explicitly.
+
+Methods `tolerant_to_unknown_options` and `intolerant_to_unknown_options`
+are deprecated and will be removed in the next version of the gem.
+
+### Added
+
+* support for special options like `option :end`, `option :begin` etc. (@nepalez)
+
+### Internals
+
+* switched from key arguments to serialized hash argument in the initializer (@nepalez)
+
+### Breaking Changes
+
+* the initializer becomes tolerant to unknown options when any `option` was set,
+  ignoring `intolerant_to_unknown_options` helper.
+
+* the initializer becomes intolerant to options when no `option` was set,
+  ignoring `tolerant_to_unknown_options` helper.
+
+### Deprecated
+
+* `tolerant_to_unknown_options`
+* `intolerant_to_unknown_options`
+
+[Compare v0.7.0...v0.8.0](https://github.com/dry-rb/dry-initializer/compare/v0.7.0..v0.8.0)
+
 ## v0.7.0 2016-10-11
 
 ### Added
