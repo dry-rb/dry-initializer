@@ -13,7 +13,8 @@ module Dry::Initializer
     #
     # @return [self] itself
     #
-    def param(name, **options)
+    def param(name, type = nil, **options)
+      options[:type] = type if type
       @initializer_builder = \
         initializer_builder.define(name, option: false, **options)
       initializer_builder.call(self)
@@ -25,7 +26,8 @@ module Dry::Initializer
     # @option (see #param)
     # @return (see #param)
     #
-    def option(name, **options)
+    def option(name, type = nil, **options)
+      options[:type] = type if type
       @initializer_builder = \
         initializer_builder.define(name, option: true, **options)
       initializer_builder.call(self)

@@ -3,13 +3,9 @@ require "dry-types"
 describe "type constraint" do
   context "by dry-type" do
     before do
-      module Test::Types
-        include Dry::Types.module
-      end
-
       class Test::Foo
         extend Dry::Initializer::Mixin
-        param :foo, type: Test::Types::Strict::String, optional: true
+        param :foo, type: Dry::Types['strict.string'], optional: true
       end
     end
 
