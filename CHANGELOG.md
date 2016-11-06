@@ -1,3 +1,13 @@
+## v0.9.1 2016-11-06
+
+### Added
+
+* Support for renaming an option during initialization (@nepalez)
+
+  option :name, as: :username # to take :name option and create :username attribute
+
+[Compare 0.9.0...v0.9.1](https://github.com/dry-rb/dry-initializer/compare/0.9.0...v0.9.1)
+
 ## v0.9.0 2016-11-06
 
 ### Added
