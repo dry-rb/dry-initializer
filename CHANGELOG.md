@@ -1,3 +1,25 @@
+## v0.9.0 2016-11-06
+
+### Added
+
+* The method `#initialize` is defined when a class extended the module (@nepalez)
+
+  In previous versions the method was defined only by `param` and `option` calls.
+
+### Breaking Changes
+
+* The initializer accepts any option (but skips unknown) from the very beginning (@nepalez)
+
+### Deleted
+
+* Deprecated methods `tolerant_to_unknown_options` and `intolerant_to_unknown_options` (@nepalez)
+
+### Internal
+
+* Refactor scope (`using`) to support methods renaming and aliasing (@nepalez)
+
+[Compare 0.8.1...v0.9.0](https://github.com/dry-rb/dry-initializer/compare/0.8.1...v0.9.0)
+
 ## v0.8.1 2016-11-05
 
 ### Added
@@ -6,7 +28,7 @@
 
     option :name, Dry::Types['strict.string']
 
-[Compare v0.8.0...v0.8.1](https://github.com/dry-rb/dry-initializer/compare/v0.8.0..v0.8.1)
+[Compare v0.8.0...0.8.1](https://github.com/dry-rb/dry-initializer/compare/v0.8.0..0.8.1)
 
 ## v0.8.0 2016-11-05
 
