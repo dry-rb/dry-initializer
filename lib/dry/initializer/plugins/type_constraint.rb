@@ -6,9 +6,9 @@ module Dry::Initializer::Plugins
       return unless settings.key? :type
 
       type = settings[:type]
-      fail TypeConstraintError.new(name, type) unless type.respond_to? :call
+      fail TypeConstraintError.new(rename, type) unless type.respond_to? :call
 
-      ivar = :"@#{name}"
+      ivar = :"@#{rename}"
       lambda do |*|
         value = instance_variable_get(ivar)
         return if value == Dry::Initializer::UNDEFINED

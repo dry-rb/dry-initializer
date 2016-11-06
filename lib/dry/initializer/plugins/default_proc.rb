@@ -5,7 +5,7 @@ module Dry::Initializer::Plugins
     def call
       return unless default
 
-      ivar = :"@#{name}"
+      ivar = :"@#{rename}"
       default_proc = default
 
       proc do

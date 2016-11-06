@@ -38,5 +38,11 @@ module Dry::Initializer::Plugins
     # @return (see .call)
     def call
     end
+
+    # Returns the name for the attribute
+    # @return (see .name)
+    def rename
+      @rename ||= settings[:option] ? settings[:as] || name : name
+    end
   end
 end

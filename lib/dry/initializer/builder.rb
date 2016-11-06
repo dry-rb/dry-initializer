@@ -71,7 +71,7 @@ module Dry::Initializer
 
     def define_reader(mixin, method, filter_lambda = nil)
       filter_lambda ||= ->(item) { item.settings[:reader] == method }
-      readers = @signature.select(&filter_lambda).map(&:name)
+      readers = @signature.select(&filter_lambda).map(&:rename)
       mixin.send method, *readers if readers.any?
     end
 

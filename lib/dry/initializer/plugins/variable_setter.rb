@@ -22,8 +22,8 @@ module Dry::Initializer::Plugins
 
     def call
       return "@#{name} = #{name}" if param?
-      return "@#{name} = __options__.fetch(:#{name})" if required?
-      "@#{name} = __options__.fetch(:#{name}, Dry::Initializer::UNDEFINED)"
+      return "@#{rename} = __options__.fetch(:#{name})" if required?
+      "@#{rename} = __options__.fetch(:#{name}, Dry::Initializer::UNDEFINED)"
     end
   end
 end
