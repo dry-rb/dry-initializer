@@ -76,13 +76,9 @@ module Dry::Initializer
     end
 
     def reload_initializer(mixin)
-      strings   = @parts.select { |part| String === part }
-      signature = [@signature.call, @tolerant].map(&:to_s)
-                                              .reject(&:empty?)
-                                              .join(", ")
       mixin.class_eval <<-RUBY
-        def initialize(#{signature})
-          #{strings.join("\n")}
+        def initialize(#{@signature.call})
+          #{@parts.select { |part| String === part }.join("\n")}
           __after_initialize__
         end
       RUBY

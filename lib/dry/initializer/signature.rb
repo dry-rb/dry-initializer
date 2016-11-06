@@ -5,8 +5,8 @@ module Dry::Initializer
     include Enumerable
     include Errors
 
-    def initialize
-      @list = []
+    def initialize(*list)
+      @list = list
     end
 
     def add(*args)
@@ -15,26 +15,18 @@ module Dry::Initializer
       validates_uniqueness_of signature
       validates_order_of signature
 
-      copy { @list += [signature] }
+      self.class.new(*@list, signature)
     end
 
     def each
-      (@list.select(&:param?) + @list.reject(&:param?)).each do |item|
-        yield item
-      end
+      @list.each { |item| yield item }
     end
 
     def call
-      map(&:call).compact.uniq.join(", ")
+      (select(&:param?).map(&:call) + %w(**__options__)).compact.join(", ")
     end
 
     private
-
-    def copy(&block)
-      dup.tap do |instance|
-        instance.instance_eval(&block)
-      end
-    end
 
     def validates_uniqueness_of(signature)
       return unless include? signature
@@ -43,8 +35,8 @@ module Dry::Initializer
     end
 
     def validates_order_of(signature)
-      return unless signature.param? && signature.required?
-      return unless any? { |item| item.param? && !item.required? }
+      return unless signature.required? && signature.param?
+      return unless reject(&:required?).any?(&:param?)
 
       fail OrderError.new(signature.name)
     end

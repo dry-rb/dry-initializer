@@ -9,7 +9,7 @@ module Dry::Initializer::Plugins
   #   # => "user = Dry::Initializer::UNDEFINED"
   #
   #   Signature.call(:user, option: true)
-  #   # => "**__options__"
+  #   # => nil
   #
   class Signature < Base
     def param?
@@ -21,9 +21,8 @@ module Dry::Initializer::Plugins
     end
 
     def call
-      return "**__options__" unless param?
-      return name.to_s if required?
-      "#{name} = Dry::Initializer::UNDEFINED"
+      return unless param?
+      required? ? name.to_s : "#{name} = Dry::Initializer::UNDEFINED"
     end
   end
 end
