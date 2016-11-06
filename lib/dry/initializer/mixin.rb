@@ -54,34 +54,6 @@ module Dry::Initializer
       initializer_builder.call(self)
     end
 
-    # Makes initializer tolerant to unknown options
-    #
-    # @return [self] itself
-    #
-    def tolerant_to_unknown_options
-      warn <<-MESSAGE.gsub(/ +\|/, "")
-        |[DEPRECATION] Helper method `tolerant_to_unknown_options` was deprecated,
-        |and will be removed in v0.9.0.
-        |If any `option` was defined, the initializer becomes tolerant to all the others.
-        |This is necessary to support "special" names in options like `option :end`.
-        |It forbids options only when no one was declared explicitly.
-      MESSAGE
-    end
-
-    # Makes initializer intolerant to unknown options
-    #
-    # @return [self] itself
-    #
-    def intolerant_to_unknown_options
-      warn <<-MESSAGE.gsub(/ +\|/, "")
-        |[DEPRECATION] Helper method `intolerant_to_unknown_options` was deprecated.
-        |and will be removed in v0.9.0.
-        |If any `option` was defined, the initializer becomes tolerant to all the others.
-        |This is necessary to support "special" names in options like `option :end`.
-        |It forbids options only when no one was declared explicitly.
-      MESSAGE
-    end
-
     private
 
     def initializer_builder
