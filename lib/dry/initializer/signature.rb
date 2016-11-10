@@ -12,8 +12,10 @@ module Dry::Initializer
     def add(*args)
       signature = Plugins::Signature.new(*args)
 
-      validates_uniqueness_of signature
-      validates_order_of signature
+      validate_order_of signature
+      validate_param_uniqueness_of signature
+      validate_option_uniqueness_of signature
+      validate_attribute_uniqueness_of signature
 
       self.class.new(*@list, signature)
     end
@@ -28,13 +30,27 @@ module Dry::Initializer
 
     private
 
-    def validates_uniqueness_of(signature)
-      return unless include? signature
+    def validate_param_uniqueness_of(signature)
+      return unless signature.param?
+      return unless select(&:param?).map(&:name).include? signature.name
 
       fail RedefinitionError.new(signature.name)
     end
 
-    def validates_order_of(signature)
+    def validate_option_uniqueness_of(signature)
+      return if signature.param?
+      return unless reject(&:param?).map(&:name).include? signature.name
+
+      fail RedefinitionError.new(signature.name)
+    end
+
+    def validate_attribute_uniqueness_of(signature)
+      return unless map(&:rename).include? signature.rename
+
+      fail RedefinitionError.new(signature.name)
+    end
+
+    def validate_order_of(signature)
       return unless signature.required? && signature.param?
       return unless reject(&:required?).any?(&:param?)
 
