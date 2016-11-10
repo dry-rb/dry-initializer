@@ -1,3 +1,11 @@
+## v0.9.2 2016-11-10
+
+### Fixed
+
+* Validation of attributes (params and options) (@nepalez)
+
+[Compare v0.9.1...v0.9.2](https://github.com/dry-rb/dry-initializer/compare/v0.9.1...v0.9.2)
+
 ## v0.9.1 2016-11-06
 
 ### Added
@@ -6,7 +14,7 @@
 
   option :name, as: :username # to take :name option and create :username attribute
 
-[Compare 0.9.0...v0.9.1](https://github.com/dry-rb/dry-initializer/compare/0.9.0...v0.9.1)
+[Compare v0.9.0...v0.9.1](https://github.com/dry-rb/dry-initializer/compare/v0.9.0...v0.9.1)
 
 ## v0.9.0 2016-11-06
 
@@ -28,7 +36,7 @@
 
 * Refactor scope (`using`) to support methods renaming and aliasing (@nepalez)
 
-[Compare 0.8.1...v0.9.0](https://github.com/dry-rb/dry-initializer/compare/0.8.1...v0.9.0)
+[Compare v0.8.1...v0.9.0](https://github.com/dry-rb/dry-initializer/compare/v0.8.1...v0.9.0)
 
 ## v0.8.1 2016-11-05
 
@@ -38,7 +46,7 @@
 
     option :name, Dry::Types['strict.string']
 
-[Compare v0.8.0...0.8.1](https://github.com/dry-rb/dry-initializer/compare/v0.8.0..0.8.1)
+[Compare v0.8.0...v0.8.1](https://github.com/dry-rb/dry-initializer/compare/v0.8.0...v0.8.1)
 
 ## v0.8.0 2016-11-05
 
@@ -88,7 +96,7 @@ are deprecated and will be removed in the next version of the gem.
 * `tolerant_to_unknown_options`
 * `intolerant_to_unknown_options`
 
-[Compare v0.7.0...v0.8.0](https://github.com/dry-rb/dry-initializer/compare/v0.7.0..v0.8.0)
+[Compare v0.7.0...v0.8.0](https://github.com/dry-rb/dry-initializer/compare/v0.7.0...v0.8.0)
 
 ## v0.7.0 2016-10-11
 
@@ -96,7 +104,7 @@ are deprecated and will be removed in the next version of the gem.
 
 * Shared settings with `#using` method (@nepalez)
 
-[Compare v0.6.0...v0.7.0](https://github.com/dry-rb/dry-initializer/compare/v0.6.0..v0.7.0)
+[Compare v0.6.0...v0.7.0](https://github.com/dry-rb/dry-initializer/compare/v0.6.0...v0.7.0)
 
 ## v0.6.0 2016-10-09
 
@@ -104,7 +112,7 @@ are deprecated and will be removed in the next version of the gem.
 
 * Support for private and protected readers in the `reader:` option (@jmgarnier)
 
-[Compare v0.5.0...v0.6.0](https://github.com/dry-rb/dry-initializer/compare/v0.5.0..v0.6.0)
+[Compare v0.5.0...v0.6.0](https://github.com/dry-rb/dry-initializer/compare/v0.5.0...v0.6.0)
 
 ## v0.5.0 2016-08-21
 
@@ -112,7 +120,7 @@ are deprecated and will be removed in the next version of the gem.
 
 * Allow `optional` attribute to be left undefined (@nepalez)
 
-[Compare v0.4.0...v0.5.0](https://github.com/dry-rb/dry-initializer/compare/v0.4.0..v0.5.0)
+[Compare v0.4.0...v0.5.0](https://github.com/dry-rb/dry-initializer/compare/v0.4.0...v0.5.0)
 
 ## v0.4.0 2016-05-28
 
@@ -120,13 +128,13 @@ are deprecated and will be removed in the next version of the gem.
 
 * Support of modules and case equality as type constraints (@nepalez)
 
-[Compare v0.3.3...v0.4.0](https://github.com/dry-rb/dry-initializer/compare/v0.3.3..v0.4.0)
+[Compare v0.3.3...v0.4.0](https://github.com/dry-rb/dry-initializer/compare/v0.3.3...v0.4.0)
 
 ## v0.3.3 2016-05-28
 
 * Add deprecation warnings about modules and case equality as type constraints (@nepalez)
 
-[Compare v0.3.2...v0.3.3](https://github.com/dry-rb/dry-initializer/compare/v0.3.2..v0.3.3)
+[Compare v0.3.2...v0.3.3](https://github.com/dry-rb/dry-initializer/compare/v0.3.2...v0.3.3)
 
 ## v0.3.2 2016-05-25
 
@@ -134,7 +142,7 @@ are deprecated and will be removed in the next version of the gem.
 
 * Add explicit requirement for ruby 'set' (@rickenharp)
 
-[Compare v0.3.1...v0.3.2](https://github.com/dry-rb/dry-initializer/compare/v0.3.1..v0.3.2)
+[Compare v0.3.1...v0.3.2](https://github.com/dry-rb/dry-initializer/compare/v0.3.1...v0.3.2)
 
 ## v0.3.1 2016-05-22
 
@@ -142,7 +150,7 @@ are deprecated and will be removed in the next version of the gem.
 
 * Support for tolerance to unknown options (@nepalez)
 
-[Compare v0.3.0...v0.3.1](https://github.com/dry-rb/dry-initializer/compare/v0.3.0..v0.3.1)
+[Compare v0.3.0...v0.3.1](https://github.com/dry-rb/dry-initializer/compare/v0.3.0...v0.3.1)
 
 ## v0.3.0 2016-05-19
 
@@ -174,7 +182,7 @@ its method #register doesn't mutate the builder instance.
 
 * Prevent plugin's registry from polluting superclass (@nepalez)
 
-[Compare v0.2.1...v0.3.0](https://github.com/dry-rb/dry-initializer/compare/v0.2.1..v0.3.0)
+[Compare v0.2.1...v0.3.0](https://github.com/dry-rb/dry-initializer/compare/v0.2.1...v0.3.0)
 
 ### Internals
 
@@ -243,7 +251,7 @@ Default assignments became slower (while plain type constraint are not)!
 
   ```ruby
   option :name, type: /foo/
-  option :name, type: (1..14)
+  option :name, type: (1...14)
   ```
 
 * Support defaults and type constraints for the "container" syntax (@nepalez)
@@ -267,7 +275,7 @@ Default assignments became slower (while plain type constraint are not)!
 
 ### Added
 
-* `include Dry::Initializer.define -> do .. end` syntax (@flash-gordon)
+* `include Dry::Initializer.define -> do ... end` syntax (@flash-gordon)
 
 [Compare v0.1.0...v0.1.1](https://github.com/dry-rb/dry-initializer/compare/v0.1.0...v0.1.1)
 

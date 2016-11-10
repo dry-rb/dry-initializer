@@ -1,6 +1,6 @@
 Gem::Specification.new do |gem|
   gem.name     = "dry-initializer"
-  gem.version  = "0.9.1"
+  gem.version  = "0.9.2"
   gem.author   = ["Vladimir Kochnev (marshall-lee)", "Andrew Kozin (nepalez)"]
   gem.email    = ["hashtable@yandex.ru", "andrew.kozin@gmail.com"]
   gem.homepage = "https://github.com/dryrb/dry-initializer"
