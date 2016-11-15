@@ -3,13 +3,13 @@ describe "shared definition" do
     class Test::Foo
       extend Dry::Initializer::Mixin
 
-      using default: proc { nil } do
+      with_settings default: proc { nil } do
         param  :foo
         option :end
         option :baz, default: proc { 0 }
       end
 
-      using optional: true do
+      with_settings optional: true do
         option :qux
         option :quxx, optional: false
       end

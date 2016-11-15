@@ -39,7 +39,7 @@ module Dry::Initializer
     # @param  [Proc] block    Definitions for params and options
     # @return [self]
     #
-    def using(**settings, &block)
+    def with_settings(**settings, &block)
       Scope.new(self, settings).instance_eval(&block)
       self
     end
