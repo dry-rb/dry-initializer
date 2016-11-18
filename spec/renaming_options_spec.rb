@@ -10,7 +10,7 @@ describe "renaming options" do
   subject { Test::Foo.new "some foo": :BAZ }
 
   it "renames the attribute" do
-    expect(subject.some_bar).to eq :BAZ
+    expect(subject.bar).to eq :BAZ
     expect(subject).not_to respond_to :foo
   end
 
