@@ -3,8 +3,12 @@ describe "shared definition" do
     class Test::Foo
       extend Dry::Initializer::Mixin
 
+      class << self
+        alias_method :attribute, :param
+      end
+
       using default: proc { nil } do
-        param  :foo
+        attribute :foo
         option :end
         option :baz, default: proc { 0 }
       end

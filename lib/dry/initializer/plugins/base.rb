@@ -42,7 +42,7 @@ module Dry::Initializer::Plugins
     # Returns the name for the attribute
     # @return (see .name)
     def rename
-      @rename ||= settings[:option] ? settings[:as] || name : name
+      @rename ||= settings[:option] ? (settings[:as] || name) : name
     end
   end
 end
