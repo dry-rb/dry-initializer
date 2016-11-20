@@ -1,3 +1,21 @@
+## v0.9.3 2016-11-10
+
+### Deprecated
+
+* After discussion in [PR #17](https://github.com/dry-rb/dry-initializer/pull/17)
+  (many thanks to @sahal2080 and @hrom512 for starting that issue and PR),
+  the method `using` is deprecated and will be removed from v0.10.0 (@nepalez)
+
+### Fixed
+
+* Support of weird option names (@nepalez)
+
+  ```ruby
+  option :"First name", as: :first_name
+  ```
+
+[Compare v0.9.2...v0.9.3](https://github.com/dry-rb/dry-initializer/compare/v0.9.2...v0.9.3)
+
 ## v0.9.2 2016-11-10
 
 ### Fixed
