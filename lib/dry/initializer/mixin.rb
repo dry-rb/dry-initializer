@@ -1,5 +1,3 @@
-require_relative "scope"
-
 module Dry::Initializer
   # Class-level DSL for the initializer
   module Mixin
@@ -31,18 +29,6 @@ module Dry::Initializer
       options[:option] = true
       @initializer_builder = initializer_builder.define(name, **options)
       initializer_builder.call(self)
-    end
-
-    # Declares arguments (params and options) with default settings
-    #
-    # @param  [Hash] settings Shared settings
-    # @param  [Proc] block    Definitions for params and options
-    # @return [self]
-    #
-    def using(**settings, &block)
-      warn "[DEPRECATION] The method `using` will be removed in v0.10.0"
-      Scope.new(self, settings).instance_eval(&block)
-      self
     end
 
     # Adds new plugin to the builder
