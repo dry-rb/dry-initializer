@@ -40,6 +40,7 @@ module Dry::Initializer
     # @return [self]
     #
     def using(**settings, &block)
+      warn "[DEPRECATION] The method `using` will be removed in v0.10.0"
       Scope.new(self, settings).instance_eval(&block)
       self
     end
