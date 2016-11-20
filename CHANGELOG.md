@@ -1,4 +1,12 @@
-## v0.9.3 2016-11-10
+## v0.10.0 2016-11-20
+
+### Deleted (BREAKING CHANGE!)
+
+* Deprecated method DSL#using (@nepalez)
+
+[Compare v0.9.3...v0.10.0](https://github.com/dry-rb/dry-initializer/compare/v0.9.3...v0.10.0)
+
+## v0.9.3 2016-11-20
 
 ### Deprecated
 
