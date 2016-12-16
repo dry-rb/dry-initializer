@@ -36,8 +36,7 @@ module Dry::Initializer::Plugins
 
     # Builds a chunk of code
     # @return (see .call)
-    def call
-    end
+    def call; end
 
     # Returns the name for the attribute
     # @return (see .name)
