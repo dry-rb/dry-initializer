@@ -48,4 +48,36 @@ describe "default values" do
     subject = Test::Foo.new
     expect(subject.mox).to eql :MOX
   end
+
+  describe "when the last param has a default and there are no options" do
+    before do
+      class Test::Bar
+        extend Dry::Initializer::Mixin
+
+        param  :foo
+        param  :bar, default: proc { {} }
+      end
+    end
+
+    it "instantiate arguments" do
+      subject = Test::Bar.new(1, 2)
+
+      expect(subject.foo).to eql 1
+      expect(subject.bar).to eql 2
+    end
+
+    it "applies default values" do
+      subject = Test::Bar.new(1)
+
+      expect(subject.foo).to eql 1
+      expect(subject.bar).to eql({})
+    end
+
+    it "instantiate arguments also if the last is an hash" do
+      subject = Test::Bar.new(1, { baz: 2, qux: 3 })
+
+      expect(subject.foo).to eql 1
+      expect(subject.bar).to eql({ baz: 2, qux: 3 })
+    end
+  end
 end

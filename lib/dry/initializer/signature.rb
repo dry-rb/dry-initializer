@@ -25,7 +25,8 @@ module Dry::Initializer
     end
 
     def call
-      (select(&:param?).map(&:call) + %w(**__options__)).compact.join(", ")
+      options = all?(&:param?) ? %w(__options__={}) : %w(**__options__)
+      (select(&:param?).map(&:call) + options).compact.join(", ")
     end
 
     private
