@@ -1,3 +1,11 @@
+## v0.10.1 2016-12-27
+
+### Fixed
+
+* Wrong arity when there were no options and the last param had a default (@nolith)
+
+[Compare v0.10.0...v0.10.1](https://github.com/dry-rb/dry-initializer/compare/v0.10.0...v0.10.1)
+
 ## v0.10.0 2016-11-20
 
 ### Deleted (BREAKING CHANGE!)
