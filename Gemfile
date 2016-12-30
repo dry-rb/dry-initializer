@@ -5,7 +5,13 @@ gemspec
 
 group :benchmarks do
   gem "benchmark-ips", "~> 2.5"
-  gem "activesupport", "< 5"
+
+  if RUBY_VERSION < "2.4"
+    gem "activesupport", "< 5"
+  else
+    gem "activesupport"
+  end
+
   gem "active_attr"
   gem "anima"
   gem "attr_extras"
