@@ -76,8 +76,9 @@ module Dry::Initializer
     end
 
     def reload_initializer(mixin)
-      mixin.class_eval <<-RUBY
+      mixin.class_eval <<-RUBY, __FILE__, __LINE__ + 1
         def initialize(#{@signature.call})
+          @__options__ = __options__
           #{@parts.select { |part| String === part }.join("\n")}
           __after_initialize__
         end
