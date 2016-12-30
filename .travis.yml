@@ -8,6 +8,7 @@ script:
 rvm:
   - '2.2'
   - '2.3.0'
+  - '2.4.0'
   # - rbx-2
   - ruby-head
   - jruby-9.1.0.0

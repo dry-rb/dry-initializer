@@ -11,8 +11,10 @@ module Dry::Initializer::Plugins
       ivar = :"@#{rename}"
       lambda do |*|
         value = instance_variable_get(ivar)
-        return if value == Dry::Initializer::UNDEFINED
-        instance_variable_set ivar, type.call(value)
+
+        if value != Dry::Initializer::UNDEFINED
+          instance_variable_set ivar, type.call(value)
+        end
       end
     end
   end
