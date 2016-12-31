@@ -49,6 +49,8 @@ module Dry::Initializer
 
     def inherited(klass)
       klass.instance_variable_set :@initializer_builder, initializer_builder.dup
+
+      super
     end
 
     def self.extended(klass)

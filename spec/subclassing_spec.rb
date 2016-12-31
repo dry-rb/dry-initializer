@@ -32,4 +32,14 @@ describe "subclassing" do
     expect(instance_of_superclass).not_to respond_to :baz
     expect(instance_of_superclass).not_to respond_to :qux
   end
+
+  it "calls .inherited hook added by other mixin" do
+    called = false
+    mixin = Module.new { define_method(:inherited) { |_| called = true } }
+
+    base = Class.new { extend mixin; extend Dry::Initializer::Mixin }
+    Class.new(base)
+
+    expect(called).to be true
+  end
 end
