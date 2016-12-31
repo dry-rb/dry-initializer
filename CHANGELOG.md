@@ -1,3 +1,15 @@
+## v0.10.2 2016-12-31
+
+### Added
+
+* Support of Ruby 2.4 (@flas-gordon)
+
+### Internal
+
+* Code clearance for ROM integration (@flash-gordon)
+
+[Compare v0.10.1...v0.10.2](https://github.com/dry-rb/dry-initializer/compare/v0.10.1...v0.10.2)
+
 ## v0.10.1 2016-12-27
 
 ### Fixed
