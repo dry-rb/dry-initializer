@@ -14,8 +14,8 @@ module Dry::Initializer
     def param(name, type = nil, **options)
       options[:type]   = type if type
       options[:option] = false
-      @initializer_builder = initializer_builder.define(name, **options)
-      initializer_builder.call(self)
+      @__initializer_builder__ = __initializer_builder__.define(name, **options)
+      __initializer_builder__.call(__initializer_mixin__)
     end
 
     # Declares a named argument
@@ -27,8 +27,8 @@ module Dry::Initializer
     def option(name, type = nil, **options)
       options[:type]   = type if type
       options[:option] = true
-      @initializer_builder = initializer_builder.define(name, **options)
-      initializer_builder.call(self)
+      @__initializer_builder__ = __initializer_builder__.define(name, **options)
+      __initializer_builder__.call(__initializer_mixin__)
     end
 
     # Adds new plugin to the builder
@@ -37,24 +37,41 @@ module Dry::Initializer
     # @return [self] itself
     #
     def register_initializer_plugin(plugin)
-      @initializer_builder = initializer_builder.register(plugin)
-      initializer_builder.call(self)
+      @__initializer_builder__ = __initializer_builder__.register(plugin)
+      __initializer_builder__.call(__initializer_mixin__)
     end
 
     private
 
-    def initializer_builder
-      @initializer_builder ||= Builder.new
+    def __initializer_mixin__
+      @__initializer_mixin__ ||= Module.new do
+        def initialize(*args)
+          __initialize__(*args)
+        end
+      end
+    end
+
+    def __initializer_builder__
+      @__initializer_builder__ ||= Builder.new
     end
 
     def inherited(klass)
-      klass.instance_variable_set :@initializer_builder, initializer_builder.dup
+      new_builder = __initializer_builder__.dup
+      klass.instance_variable_set :@__initializer_builder__, new_builder
+
+      new_mixin = Module.new
+      new_builder.call(new_mixin)
+      klass.instance_variable_set :@__initializer_mixin__, new_mixin
+      klass.include new_mixin
 
       super
     end
 
     def self.extended(klass)
-      klass.send(:initializer_builder).call(klass)
+      super
+      mixin = klass.send(:__initializer_mixin__)
+      klass.send(:__initializer_builder__).call(mixin)
+      klass.include mixin
     end
   end
 end
