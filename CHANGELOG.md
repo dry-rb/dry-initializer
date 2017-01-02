@@ -1,3 +1,38 @@
+## v0.11.0 2017-01-02
+
+### Added
+
+* Support of reloading `#initializer` with `super` (@nepalez)
+
+### Internal
+
+* Refactor the way [#initializer] method is (re)defined (@nepalez)
+  
+  When you extend class with `Dry::Initializer::Mixin`, the initializer is
+  defined not "inside" the class per se, but inside the included module. The
+  reference to that module is stored as class-level `__initializer_mixin__`.
+
+  Mixin method [#initialize] calls another private method [#__initialize__].
+  It is this method to be reloaded every time you envoke a helper
+  `option` or `product`.
+
+  When new subclass is inherited, new mixin is added to chain of accessors,
+  but this time it does reload `__initialize__` only, not the `initialize`.
+  That is how you can safely reload initializer using `super`, but at the same
+  time use the whole power of dry-initializer DSL both in parent class and its
+  subclasses.
+
+  The whole stack of accessors looks like the following:
+  - Parent class mixin: `initialize` --> `__initialize__`
+                             ^
+  - Parent class:       `initialize`
+  - Subclass mixin:          ^           `__initialize__`
+  - Subclass:           `initialize`
+
+  See specification `spec/custom_initializer_spec.rb` to see how this works.
+
+[Compare v0.10.2...v0.11.0](https://github.com/dry-rb/dry-initializer/compare/v0.10.2...v0.11.0)
+
 ## v0.10.2 2016-12-31
 
 ### Added
