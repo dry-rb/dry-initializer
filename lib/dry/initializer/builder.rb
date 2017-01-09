@@ -47,9 +47,9 @@ module Dry::Initializer
     # @param [Module] mixin
     #
     def call(mixin)
-      define_readers(mixin)
       reload_initializer(mixin)
       reload_callback(mixin)
+      reload_readers(mixin)
       mixin
     end
 
@@ -57,22 +57,6 @@ module Dry::Initializer
 
     def copy(&block)
       dup.tap { |instance| instance.instance_eval(&block) }
-    end
-
-    def define_readers(mixin)
-      define_reader(
-        mixin,
-        :attr_reader,
-        ->(item) { item.settings[:reader] != false }
-      )
-      define_reader mixin, :private
-      define_reader mixin, :protected
-    end
-
-    def define_reader(mixin, method, filter_lambda = nil)
-      filter_lambda ||= ->(item) { item.settings[:reader] == method }
-      readers = @signature.select(&filter_lambda).map(&:rename)
-      mixin.send method, *readers if readers.any?
     end
 
     def reload_initializer(mixin)
@@ -95,6 +79,26 @@ module Dry::Initializer
       end
 
       mixin.send :private, :__after_initialize__
+    end
+
+    def reload_readers(mixin)
+      @signature.each do |item|
+        reload_reader mixin, item.rename, item.settings[:reader]
+      end
+    end
+
+    def reload_reader(mixin, name, type)
+      if type == false
+        mixin.undef_method(name) if mixin.instance_methods.include? name.to_sym
+      else
+        mixin.class_eval <<-RUBY
+          def #{name}
+            @#{name} unless @#{name} == Dry::Initializer::UNDEFINED
+          end
+        RUBY
+
+        mixin.send type, name if %w(private protected).include? type.to_s
+      end
     end
   end
 end

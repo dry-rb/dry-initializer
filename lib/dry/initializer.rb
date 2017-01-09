@@ -10,7 +10,11 @@ module Dry
     require_relative "initializer/builder"
     require_relative "initializer/mixin"
 
-    UNDEFINED = Object.new.freeze
+    UNDEFINED = Object.new.tap do |obj|
+      obj.define_singleton_method :inspect do
+        "Dry::Initializer::UNDEFINED"
+      end
+    end.freeze
 
     def self.define(proc = nil, &block)
       Module.new do |container|
