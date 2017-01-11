@@ -17,7 +17,8 @@ module Dry::Initializer::Plugins
     end
 
     def required?
-      !settings.key?(:default) && !settings[:optional]
+      return false if settings.key? :default
+      settings[:required] || settings[:optional] == false
     end
 
     def call

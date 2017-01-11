@@ -3,8 +3,8 @@ describe "missed default values" do
     class Test::Foo
       extend Dry::Initializer::Mixin
 
-      param :foo, default: proc { :FOO }
-      param :bar
+      param :foo, default:  proc { :FOO }
+      param :bar, required: true
     end
   end
 
