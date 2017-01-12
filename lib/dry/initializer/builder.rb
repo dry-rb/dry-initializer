@@ -1,103 +1,109 @@
-require "set"
 module Dry::Initializer
-  # Rebuilds the initializer every time a new argument defined
-  #
-  # @api private
-  #
   class Builder
-    include Plugins
+    def param(source, *args)
+      index = @params.index { |param| param.source == source.to_s }
 
-    def initialize
-      @signature = Signature.new
-      @plugins   = Set.new [VariableSetter, TypeConstraint, DefaultProc]
-      @parts     = []
-    end
-
-    # Register new plugin to be applied as a chunk of code, or a proc
-    # to be evaluated in the instance's scope
-    #
-    # @param [Dry::Initializer::Plugin]
-    #
-    # @return [Dry::Initializer::Builder]
-    #
-    def register(plugin)
-      plugins = @plugins + [plugin]
-      copy { @plugins = plugins }
-    end
-
-    # Defines new agrument and reloads mixin definitions
-    #
-    # @param [#to_sym] name
-    # @param [Hash<Symbol, Object>] settings
-    #
-    # @return [Dry::Initializer::Builder]
-    #
-    def define(name, settings)
-      signature = @signature.add(name, settings)
-      parts     = @parts + @plugins.map { |p| p.call(name, settings) }.compact
-
-      copy do
-        @signature = signature
-        @parts     = parts
+      if index
+        new_param = Param.new(source, index, *args)
+        @params   = params.dup.tap { |list| list[index] = new_param }
+      else
+        new_param = Param.new(source, @params.count, *args)
+        @params  += [new_param]
       end
+
+      validate_collection
+      self
     end
 
-    # Redeclares initializer and readers in the mixin module
-    #
-    # @param [Module] mixin
-    #
+    def option(source, *args)
+      index = @options.index { |option| option.source == source.to_s }
+
+      if index
+        new_option = Option.new(source, index, *args)
+        @options   = options.dup.tap { |list| list[index] = new_option }
+      else
+        new_option = Option.new(source, @options.count, *args)
+        @options  += [new_option]
+      end
+
+      validate_collection
+      self
+    end
+
     def call(mixin)
-      reload_initializer(mixin)
-      reload_callback(mixin)
-      reload_readers(mixin)
-      mixin
+      defaults = send(:defaults)
+      coercers = send(:coercers)
+      mixin.send(:define_method, :__defaults__) { defaults }
+      mixin.send(:define_method, :__coercers__) { coercers }
+      mixin.class_eval(code)
     end
 
     private
 
-    def copy(&block)
-      dup.tap { |instance| instance.instance_eval(&block) }
+    def initialize
+      @params  = []
+      @options = []
     end
 
-    def reload_initializer(mixin)
-      mixin.class_eval <<-RUBY, __FILE__, __LINE__ + 1
-        def __initialize__(#{@signature.call})
-          @__options__ = __options__
-          #{@parts.select { |part| String === part }.join("\n")}
-          __after_initialize__
-        end
+    def code
+      <<-RUBY.gsub(/^ +\|/, "")
+        |def __initialize__(#{initializer_signatures})
+        |#{initializer_presetters}
+        |#{initializer_setters}
+        |end
+        |private :__initialize__
+        |private :__defaults__
+        |private :__coercers__
+        |
+        |#{getters}
       RUBY
-
-      mixin.send :private, :__initialize__
     end
 
-    def reload_callback(mixin)
-      blocks = @parts.select { |part| Proc === part }
-
-      mixin.send :define_method, :__after_initialize__ do
-        blocks.each { |block| instance_eval(&block) }
-      end
-
-      mixin.send :private, :__after_initialize__
+    def attributes
+      @params + @options
     end
 
-    def reload_readers(mixin)
-      @signature.each do |item|
-        reload_reader mixin, item.rename, item.settings[:reader]
-      end
+    def initializer_signatures
+      sig = attributes.map(&:initializer_signature).compact.uniq.join(", ")
+      sig.empty? ? "*" : sig
     end
 
-    def reload_reader(mixin, name, type)
-      if type == false
-        mixin.undef_method(name) if mixin.instance_methods.include? name.to_sym
-      else
-        mixin.class_eval <<-RUBY
-          def #{name}
-            @#{name} unless @#{name} == Dry::Initializer::UNDEFINED
-          end
-        RUBY
+    def initializer_presetters
+      attributes.map(&:initializer_presetter)
+                .compact
+                .uniq
+                .map { |line| "  #{line}" }
+                .join("\n")
+    end
 
-        mixin.send type, name if %w(private protected).include? type.to_s
+    def initializer_setters
+      attributes.map(&:initializer_setter)
+                .compact
+                .uniq
+                .map { |text| text.lines.map { |line| "  #{line}" }.join }
+                .join("\n")
+    end
+
+    def getters
+      attributes.map(&:getter).compact.uniq.join("\n")
+    end
+
+    def defaults
+      attributes.map(&:default_hash).reduce({}, :merge)
+    end
+
+    def coercers
+      attributes.map(&:coercer_hash).reduce({}, :merge)
+    end
+
+    def validate_collection
+      optional = nil
+      @params.each do |param|
+        if !param.required
+          optional = param.source
+        elsif optional
+          fail ParamsOrderError.new(param.source, optional)
+        end
       end
     end
   end

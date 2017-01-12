@@ -18,15 +18,15 @@ end
 class TypesTest
   extend Dry::Initializer::Mixin
 
-  param  :foo, type: String
-  option :bar, type: String
+  param  :foo, proc(&:to_s)
+  option :bar, proc(&:to_s)
 end
 
 class DefaultsAndTypesTest
   extend Dry::Initializer::Mixin
 
-  param  :foo, type: String, default: proc { "FOO" }
-  option :bar, type: String, default: proc { "BAR" }
+  param  :foo, proc(&:to_s), default: proc { "FOO" }
+  option :bar, proc(&:to_s), default: proc { "BAR" }
 end
 
 puts "Benchmark for various options"
