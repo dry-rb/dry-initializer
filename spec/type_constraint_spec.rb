@@ -5,7 +5,7 @@ describe "type constraint" do
     before do
       class Test::Foo
         extend Dry::Initializer::Mixin
-        param :foo, type: Dry::Types["strict.string"], optional: true
+        param :foo, type: Dry::Types["strict.string"]
       end
     end
 
@@ -28,8 +28,8 @@ describe "type constraint" do
     context "if optional value not set" do
       subject { Test::Foo.new }
 
-      it "completes the initialization" do
-        expect { subject }.not_to raise_error
+      it "applies type constraint to Dry::Initializer::UNDEFINED" do
+        expect { subject }.to raise_error Dry::Types::ConstraintError
       end
     end
   end
