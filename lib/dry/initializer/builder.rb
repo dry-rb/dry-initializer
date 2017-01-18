@@ -48,6 +48,7 @@ module Dry::Initializer
     def code
       <<-RUBY.gsub(/^ +\|/, "")
         |def __initialize__(#{initializer_signatures})
+        |  @__options__ = __options__
         |#{initializer_presetters}
         |#{initializer_setters}
         |end
@@ -64,8 +65,9 @@ module Dry::Initializer
     end
 
     def initializer_signatures
-      sig = attributes.map(&:initializer_signature).compact.uniq.join(", ")
-      sig.empty? ? "*" : sig
+      sig = @params.map(&:initializer_signature).compact.uniq
+      sig << (@options.any? ? "**__options__" : "__options__ = {}")
+      sig.join(", ")
     end
 
     def initializer_presetters
