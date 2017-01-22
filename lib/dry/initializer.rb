@@ -79,6 +79,7 @@ module Dry
 
       builder.call(mixin)
       klass.include mixin
+
       super
     end
   end

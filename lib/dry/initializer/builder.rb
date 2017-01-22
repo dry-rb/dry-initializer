@@ -35,7 +35,7 @@ module Dry::Initializer
       coercers = send(:coercers)
       mixin.send(:define_method, :__defaults__) { defaults }
       mixin.send(:define_method, :__coercers__) { coercers }
-      mixin.class_eval(code)
+      mixin.class_eval(code, __FILE__, __LINE__ + 1)
     end
 
     private
@@ -99,12 +99,12 @@ module Dry::Initializer
     end
 
     def validate_collection
-      optional = nil
+      optional_param = nil
       @params.each do |param|
         if !param.required
-          optional = param.source
-        elsif optional
-          fail ParamsOrderError.new(param.source, optional)
+          optional_param = param.source
+        elsif optional_param
+          fail ParamsOrderError.new(param.source, optional_param)
         end
       end
     end
