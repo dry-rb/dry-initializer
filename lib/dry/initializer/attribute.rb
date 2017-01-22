@@ -1,7 +1,7 @@
 module Dry::Initializer
   # Contains definitions for a single attribute, and builds its parts of mixin
   class Attribute
-    attr_reader :source, :index, :target, :coercer, :default, :optional, :reader
+    attr_reader :source, :target, :coercer, :default, :optional, :reader
 
     # definition for the getter method
     def getter
@@ -18,9 +18,8 @@ module Dry::Initializer
 
     private
 
-    def initialize(source, index, coercer = nil, **options)
+    def initialize(source, coercer = nil, **options)
       @source   = source
-      @index    = index
       @target   = options.fetch(:as, source)
       @coercer  = coercer || options[:type]
       @reader   = options.fetch(:reader, :public)

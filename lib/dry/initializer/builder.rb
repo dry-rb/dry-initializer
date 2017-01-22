@@ -1,33 +1,13 @@
 module Dry::Initializer
   class Builder
-    def param(source, *args)
-      index = @params.index { |param| param.source == source.to_s }
-
-      if index
-        new_param = Param.new(source, index, *args)
-        @params   = params.dup.tap { |list| list[index] = new_param }
-      else
-        new_param = Param.new(source, @params.count, *args)
-        @params  += [new_param]
-      end
-
-      validate_collection
-      self
+    def param(*args)
+      @params = insert(@params, Param, *args)
+      validate_collections
     end
 
-    def option(source, *args)
-      index = @options.index { |option| option.source == source.to_s }
-
-      if index
-        new_option = Option.new(source, index, *args)
-        @options   = options.dup.tap { |list| list[index] = new_option }
-      else
-        new_option = Option.new(source, @options.count, *args)
-        @options  += [new_option]
-      end
-
-      validate_collection
-      self
+    def option(*args)
+      @options = insert(@options, Option, *args)
+      validate_collections
     end
 
     def call(mixin)
@@ -43,6 +23,18 @@ module Dry::Initializer
     def initialize
       @params  = []
       @options = []
+    end
+
+    def insert(collection, klass, source, *args)
+      index = collection.index { |option| option.source == source.to_s }
+
+      if index
+        new_item = klass.new(source, *args)
+        collection.dup.tap { |list| list[index] = new_item }
+      else
+        new_item = klass.new(source, *args)
+        collection + [new_item]
+      end
     end
 
     def code
@@ -98,8 +90,9 @@ module Dry::Initializer
       attributes.map(&:coercer_hash).reduce({}, :merge)
     end
 
-    def validate_collection
+    def validate_collections
       optional_param = nil
+
       @params.each do |param|
         if param.optional
           optional_param = param.source if param.optional
@@ -107,6 +100,8 @@ module Dry::Initializer
           fail ParamsOrderError.new(param.source, optional_param)
         end
       end
+
+      self
     end
   end
 end
