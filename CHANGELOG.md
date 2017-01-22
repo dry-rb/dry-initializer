@@ -1,12 +1,54 @@
+## v1.0.0 2017-01-22
+
+In this version the code has been rewritten for simplicity
+
+# BREAKING CHANGES
+- when `param` or `option` was not defined, the corresponding **variable** is set to `Dry::Initializer::UNDEFINED`, but the **reader** (when defined) will return `nil` (nepalez)
+
+# Added:
+- support for reloading `param` and `option` definitions (nepalez)
+
+    class User
+      extend Dry::Initializer
+      param :name
+      param :phone, optional: true
+    end
+
+    User.new # => Boom!
+
+    class Admin < User
+      param :name, default: proc { 'Merlin' }
+    end
+
+    # order of the param not changed
+    Admin.new.name # => "Merlin"
+
+- support for assignment of attributes via several options (nepalez)
+
+    class User
+      extend Dry::Initializer
+      option :phone
+      option :number, as: :phone
+    end
+
+    # Both ways provide the same result
+    User.new(phone: '1234567890').phone   # => '1234567890'
+    User.new(number: '1234567890').phone # => '1234567890'
+
+# Internals
+- `Dry::Initializer` and `Dry::Initializer::Mixin` became aliases (nepalez)
+
+[Compare v0.11.0...v1.0.0](https://github.com/dry-rb/dry-initializer/compare/v0.11.0...v1.0.0)
+
 ## v0.11.0 2017-01-02
 
 ### Added
 
-* Support of reloading `#initializer` with `super` (@nepalez)
+* Support of reloading `#initializer` with `super` (nepalez)
 
 ### Internal
 
-* Refactor the way [#initializer] method is (re)defined (@nepalez)
+* Refactor the way [#initializer] method is (re)defined (nepalez)
   
   When you extend class with `Dry::Initializer::Mixin`, the initializer is
   defined not "inside" the class per se, but inside the included module. The
@@ -37,11 +79,11 @@
 
 ### Added
 
-* Support of Ruby 2.4 (@flas-gordon)
+* Support of Ruby 2.4 (flas-gordon)
 
 ### Internal
 
-* Code clearance for ROM integration (@flash-gordon)
+* Code clearance for ROM integration (flash-gordon)
 
 [Compare v0.10.1...v0.10.2](https://github.com/dry-rb/dry-initializer/compare/v0.10.1...v0.10.2)
 
@@ -49,7 +91,7 @@
 
 ### Fixed
 
-* Wrong arity when there were no options and the last param had a default (@nolith)
+* Wrong arity when there were no options and the last param had a default (nolith)
 
 [Compare v0.10.0...v0.10.1](https://github.com/dry-rb/dry-initializer/compare/v0.10.0...v0.10.1)
 
@@ -57,7 +99,7 @@
 
 ### Deleted (BREAKING CHANGE!)
 
-* Deprecated method DSL#using (@nepalez)
+* Deprecated method DSL#using (nepalez)
 
 [Compare v0.9.3...v0.10.0](https://github.com/dry-rb/dry-initializer/compare/v0.9.3...v0.10.0)
 
@@ -67,11 +109,11 @@
 
 * After discussion in [PR #17](https://github.com/dry-rb/dry-initializer/pull/17)
   (many thanks to @sahal2080 and @hrom512 for starting that issue and PR),
-  the method `using` is deprecated and will be removed from v0.10.0 (@nepalez)
+  the method `using` is deprecated and will be removed from v0.10.0 (nepalez)
 
 ### Fixed
 
-* Support of weird option names (@nepalez)
+* Support of weird option names (nepalez)
 
   ```ruby
   option :"First name", as: :first_name
@@ -83,7 +125,7 @@
 
 ### Fixed
 
-* Validation of attributes (params and options) (@nepalez)
+* Validation of attributes (params and options) (nepalez)
 
 [Compare v0.9.1...v0.9.2](https://github.com/dry-rb/dry-initializer/compare/v0.9.1...v0.9.2)
 
@@ -91,7 +133,7 @@
 
 ### Added
 
-* Support for renaming an option during initialization (@nepalez)
+* Support for renaming an option during initialization (nepalez)
 
   option :name, as: :username # to take :name option and create :username attribute
 
@@ -101,21 +143,21 @@
 
 ### Added
 
-* The method `#initialize` is defined when a class extended the module (@nepalez)
+* The method `#initialize` is defined when a class extended the module (nepalez)
 
   In previous versions the method was defined only by `param` and `option` calls.
 
 ### Breaking Changes
 
-* The initializer accepts any option (but skips unknown) from the very beginning (@nepalez)
+* The initializer accepts any option (but skips unknown) from the very beginning (nepalez)
 
 ### Deleted
 
-* Deprecated methods `tolerant_to_unknown_options` and `intolerant_to_unknown_options` (@nepalez)
+* Deprecated methods `tolerant_to_unknown_options` and `intolerant_to_unknown_options` (nepalez)
 
 ### Internal
 
-* Refactor scope (`using`) to support methods renaming and aliasing (@nepalez)
+* Refactor scope (`using`) to support methods renaming and aliasing (nepalez)
 
 [Compare v0.8.1...v0.9.0](https://github.com/dry-rb/dry-initializer/compare/v0.8.1...v0.9.0)
 
@@ -123,7 +165,7 @@
 
 ### Added
 
-* Support for `dry-struct`ish syntax for constraints (type as a second parameter) (@nepalez)
+* Support for `dry-struct`ish syntax for constraints (type as a second parameter) (nepalez)
 
     option :name, Dry::Types['strict.string']
 
@@ -158,11 +200,11 @@ are deprecated and will be removed in the next version of the gem.
 
 ### Added
 
-* support for special options like `option :end`, `option :begin` etc. (@nepalez)
+* support for special options like `option :end`, `option :begin` etc. (nepalez)
 
 ### Internals
 
-* switched from key arguments to serialized hash argument in the initializer (@nepalez)
+* switched from key arguments to serialized hash argument in the initializer (nepalez)
 
 ### Breaking Changes
 
@@ -183,7 +225,7 @@ are deprecated and will be removed in the next version of the gem.
 
 ### Added
 
-* Shared settings with `#using` method (@nepalez)
+* Shared settings with `#using` method (nepalez)
 
 [Compare v0.6.0...v0.7.0](https://github.com/dry-rb/dry-initializer/compare/v0.6.0...v0.7.0)
 
@@ -191,7 +233,7 @@ are deprecated and will be removed in the next version of the gem.
 
 ### Added
 
-* Support for private and protected readers in the `reader:` option (@jmgarnier)
+* Support for private and protected readers in the `reader:` option (jmgarnier)
 
 [Compare v0.5.0...v0.6.0](https://github.com/dry-rb/dry-initializer/compare/v0.5.0...v0.6.0)
 
@@ -199,7 +241,7 @@ are deprecated and will be removed in the next version of the gem.
 
 ### Added
 
-* Allow `optional` attribute to be left undefined (@nepalez)
+* Allow `optional` attribute to be left undefined (nepalez)
 
 [Compare v0.4.0...v0.5.0](https://github.com/dry-rb/dry-initializer/compare/v0.4.0...v0.5.0)
 
@@ -207,13 +249,13 @@ are deprecated and will be removed in the next version of the gem.
 
 ### Deleted (backward-incompatible changes)
 
-* Support of modules and case equality as type constraints (@nepalez)
+* Support of modules and case equality as type constraints (nepalez)
 
 [Compare v0.3.3...v0.4.0](https://github.com/dry-rb/dry-initializer/compare/v0.3.3...v0.4.0)
 
 ## v0.3.3 2016-05-28
 
-* Add deprecation warnings about modules and case equality as type constraints (@nepalez)
+* Add deprecation warnings about modules and case equality as type constraints (nepalez)
 
 [Compare v0.3.2...v0.3.3](https://github.com/dry-rb/dry-initializer/compare/v0.3.2...v0.3.3)
 
@@ -221,7 +263,7 @@ are deprecated and will be removed in the next version of the gem.
 
 ### Bugs Fixed
 
-* Add explicit requirement for ruby 'set' (@rickenharp)
+* Add explicit requirement for ruby 'set' (rickenharp)
 
 [Compare v0.3.1...v0.3.2](https://github.com/dry-rb/dry-initializer/compare/v0.3.1...v0.3.2)
 
@@ -229,7 +271,7 @@ are deprecated and will be removed in the next version of the gem.
 
 ### Added
 
-* Support for tolerance to unknown options (@nepalez)
+* Support for tolerance to unknown options (nepalez)
 
 [Compare v0.3.0...v0.3.1](https://github.com/dry-rb/dry-initializer/compare/v0.3.0...v0.3.1)
 
@@ -256,20 +298,20 @@ its method #register doesn't mutate the builder instance.
 
 ### Changed (backward-incompatible changes)
 
-* Made Mixin##initializer_builder method private (@nepalez)
-* Add Mixin#register_initializer_plugin(plugin) method (@nepalez)
+* Made Mixin##initializer_builder method private (nepalez)
+* Add Mixin#register_initializer_plugin(plugin) method (nepalez)
 
 ### Bugs Fixed
 
-* Prevent plugin's registry from polluting superclass (@nepalez)
+* Prevent plugin's registry from polluting superclass (nepalez)
 
 [Compare v0.2.1...v0.3.0](https://github.com/dry-rb/dry-initializer/compare/v0.2.1...v0.3.0)
 
 ### Internals
 
-* Make all instances (Builder and Signature) immutable (@nepalez)
-* Decouple mixin from a builder to prevent pollution (@nepalez)
-* Ensure default value block can use private variables (@jeremyf)
+* Make all instances (Builder and Signature) immutable (nepalez)
+* Decouple mixin from a builder to prevent pollution (nepalez)
+* Ensure default value block can use private variables (jeremyf)
 
 [Compare v0.2.0...v0.2.1](https://github.com/dry-rb/dry-initializer/compare/v0.2.0...v0.2.1)
 
@@ -277,13 +319,13 @@ its method #register doesn't mutate the builder instance.
 
 ### Bugs Fixed
 
-* Fix polluting superclass with declarations from subclass (@nepalez)
+* Fix polluting superclass with declarations from subclass (nepalez)
 
 ### Internals
 
-* Make all instances (Builder and Signature) immutable (@nepalez)
-* Decouple mixin from a builder to prevent pollution (@nepalez)
-* Ensure default value block can use private variables (@jeremyf)
+* Make all instances (Builder and Signature) immutable (nepalez)
+* Decouple mixin from a builder to prevent pollution (nepalez)
+* Ensure default value block can use private variables (jeremyf)
 
 [Compare v0.2.0...v0.2.1](https://github.com/dry-rb/dry-initializer/compare/v0.2.0...v0.2.1)
 
@@ -300,14 +342,14 @@ Default assignments became slower (while plain type constraint are not)!
 
 ### Changed (backward-incompatible changes)
 
-* Make dry-types constraint to coerce variables (@nepalez)
+* Make dry-types constraint to coerce variables (nepalez)
 
   ```ruby
   # This will coerce `name: :foo` to `"foo"`
   option :name, type: Dry::Types::Coercible::String
   ```
 
-* Stop supporing proc type constraint (@nepalez)
+* Stop supporing proc type constraint (nepalez)
 
   ```ruby
   option :name, type: ->(v) { String === v } # this does NOT work any more
@@ -328,19 +370,19 @@ Default assignments became slower (while plain type constraint are not)!
 
 ### Added
 
-* Support type constraint via every object's case equality (@nepalez)
+* Support type constraint via every object's case equality (nepalez)
 
   ```ruby
   option :name, type: /foo/
   option :name, type: (1...14)
   ```
 
-* Support defaults and type constraints for the "container" syntax (@nepalez)
-* Support adding extensions via plugin system (@nepalez)
+* Support defaults and type constraints for the "container" syntax (nepalez)
+* Support adding extensions via plugin system (nepalez)
 
 ### Internal
 
-* Private method `##__after_initialize__` is added by the `Mixin` along with `#initialize` (@nepalez)
+* Private method `##__after_initialize__` is added by the `Mixin` along with `#initialize` (nepalez)
 
   The previous implementation required defaults and types to be stored in the class method `.initializer_builder`.
   That made "container" syntax to support neither defaults nor types.
@@ -356,7 +398,7 @@ Default assignments became slower (while plain type constraint are not)!
 
 ### Added
 
-* `include Dry::Initializer.define -> do ... end` syntax (@flash-gordon)
+* `include Dry::Initializer.define -> do ... end` syntax (flash-gordon)
 
 [Compare v0.1.0...v0.1.1](https://github.com/dry-rb/dry-initializer/compare/v0.1.0...v0.1.1)
 
@@ -367,11 +409,11 @@ Backward compatibility is broken.
 
 ### Changed (backward-incompatible changes)
 
-* Use `extend Dry::Initializer::Mixin` instead of `extend Dry::Initializer` (@nepalez)
+* Use `extend Dry::Initializer::Mixin` instead of `extend Dry::Initializer` (nepalez)
 
 ### Added
 
-* Use `include Dry::Initializer.define(&block)` as an alternative to extending the class (@nepalez)
+* Use `include Dry::Initializer.define(&block)` as an alternative to extending the class (nepalez)
 
 [Compare v0.0.1...v0.1.0](https://github.com/dry-rb/dry-initializer/compare/v0.0.1...v0.1.0)
 
