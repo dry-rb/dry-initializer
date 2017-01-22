@@ -1,20 +1,27 @@
 ---
-sudo:     false
 language: ruby
-cache:    bundler
+sudo: false
+cache: bundler
+bundler_args: --without benchmarks tools
 script:
-  - bundle exec rspec
-  - bundle exec rubocop
+  - bundle exec rake spec
 rvm:
-  - '2.2'
-  - '2.3.0'
-  - '2.4.0'
-  # - rbx-2
+  - 2.2
+  - 2.3.0
+  - 2.4.0
+  - jruby-9000
+  - rbx-2
+  - rbx-3
   - ruby-head
-  - jruby-9.1.0.0
-  - jruby-head
-before_install: gem install bundler -v 1.12.5
+env:
+  global:
+    - JRUBY_OPTS='--dev -J-Xmx1024M'
 matrix:
   allow_failures:
+    - rvm: rbx-2
+    - rvm: rbx-3
     - rvm: ruby-head
     - rvm: jruby-head
+  include:
+    - rvm: jruby-head
+      before_install: gem install bundler --no-ri --no-rdoc

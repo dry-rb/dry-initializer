@@ -12,13 +12,11 @@ class PlainRubyTest
 end
 
 require "dry-initializer"
-require "dry/initializer/types"
 class DryTest
   extend Dry::Initializer::Mixin
-  extend Dry::Initializer::Types
 
-  option :foo, type: String
-  option :bar, type: String
+  option :foo, &(:to_s)
+  option :bar, &(:to_s)
 end
 
 require "virtus"
