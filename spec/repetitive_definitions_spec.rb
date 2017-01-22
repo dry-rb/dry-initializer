@@ -54,9 +54,9 @@ describe "repetitive definitions" do
       class Test::Foo
         extend Dry::Initializer::Mixin
 
-        param  :foo
-        option :bar
-        option :foo
+        param  :foo, optional: true
+        option :bar, optional: true
+        option :foo, optional: true
       end
     end
 

@@ -19,8 +19,8 @@ describe "@__options__" do
       class Test::Foo
         extend Dry::Initializer::Mixin
         param  :foo
-        option :bar
-        option :baz
+        option :bar, optional: true
+        option :baz, optional: true
       end
     end
 

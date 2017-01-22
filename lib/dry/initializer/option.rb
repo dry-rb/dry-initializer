@@ -28,7 +28,7 @@ module Dry::Initializer
     private
 
     def maybe_optional
-      " if __options__.key? :'#{source}'" unless required || default
+      " if __options__.key? :'#{source}'" if optional && !default
     end
 
     def setter_part

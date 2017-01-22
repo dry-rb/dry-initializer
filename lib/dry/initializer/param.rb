@@ -2,7 +2,7 @@ module Dry::Initializer
   class Param < Attribute
     # part of __initializer__ definition
     def initializer_signature
-      required ? target : "#{target} = Dry::Initializer::UNDEFINED"
+      optional ? "#{target} = Dry::Initializer::UNDEFINED" : target
     end
 
     # part of __initializer__ body

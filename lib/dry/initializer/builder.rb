@@ -101,8 +101,8 @@ module Dry::Initializer
     def validate_collection
       optional_param = nil
       @params.each do |param|
-        if !param.required
-          optional_param = param.source
+        if param.optional
+          optional_param = param.source if param.optional
         elsif optional_param
           fail ParamsOrderError.new(param.source, optional_param)
         end

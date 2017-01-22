@@ -5,7 +5,7 @@ describe "type constraint" do
     before do
       class Test::Foo
         extend Dry::Initializer::Mixin
-        param :foo, type: Dry::Types["strict.string"]
+        param :foo, Dry::Types["strict.string"], optional: true
       end
     end
 
