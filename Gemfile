@@ -21,6 +21,7 @@ group :benchmarks do
   gem "value_struct"
   gem "values"
   gem "virtus"
+  gem "ruby-prof"
 end
 
 group :development, :test do

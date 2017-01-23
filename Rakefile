@@ -45,3 +45,9 @@ namespace :benchmark do
     system "ruby benchmarks/options.rb"
   end
 end
+
+desc "Runs profiler"
+task :profile do
+  system "ruby benchmarks/profiler.rb && " \
+         "dot -Tpng ./tmp/profile.dot > ./tmp/profile.png"
+end
