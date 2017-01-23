@@ -22,7 +22,9 @@ module Dry::Initializer
 
     # part of __coercers__
     def coercer_hash
-      coercer ? { :"option_#{source}" => coercer } : {}
+      return {} unless coercer
+      value = proc { |v| (v == Dry::Initializer::UNDEFINED) ? v : coercer.(v) }
+      { :"option_#{target}" => value }
     end
 
     private

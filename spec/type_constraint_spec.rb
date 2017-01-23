@@ -28,8 +28,9 @@ describe "type constraint" do
     context "if optional value not set" do
       subject { Test::Foo.new }
 
-      it "applies type constraint to Dry::Initializer::UNDEFINED" do
-        expect { subject }.to raise_error Dry::Types::ConstraintError
+      it "not applicable to Dry::Initializer::UNDEFINED" do
+        expect(subject.instance_variable_get(:@foo))
+          .to eq Dry::Initializer::UNDEFINED
       end
     end
   end
