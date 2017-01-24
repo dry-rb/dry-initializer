@@ -56,26 +56,30 @@ module Dry::Initializer
       @params + @options
     end
 
+    def duplications
+      attributes.group_by(&:target)
+                .reject { |_, val| val.count == 1 }
+                .keys
+    end
+
     def initializer_signatures
       sig = @params.map(&:initializer_signature).compact.uniq
-      sig << (@options.any? ? "**__options__" : "__options__ = {}")
+      sig << (sig.any? && @options.any? ? "**__options__" : "__options__ = {}")
       sig.join(", ")
     end
 
     def initializer_presetters
-      attributes.map(&:initializer_presetter)
-                .compact
-                .uniq
-                .map { |line| "  #{line}" }
-                .join("\n")
+      dups = duplications
+      attributes
+        .map { |a| "  #{a.presetter}" if dups.include? a.target }
+        .compact.uniq.join("\n")
     end
 
     def initializer_setters
-      attributes.map(&:initializer_setter)
-                .compact
-                .uniq
-                .map { |text| text.lines.map { |line| "  #{line}" }.join }
-                .join("\n")
+      dups = duplications
+      attributes.map do |a|
+        dups.include?(a.target) ? "  #{a.safe_setter}" : "  #{a.fast_setter}"
+      end.compact.uniq.join("\n")
     end
 
     def getters

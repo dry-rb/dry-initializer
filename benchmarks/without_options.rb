@@ -3,9 +3,9 @@ Bundler.require(:benchmarks)
 class PlainRubyTest
   attr_reader :foo, :bar
 
-  def initialize(foo:, bar:)
-    @foo = foo
-    @bar = bar
+  def initialize(options = {})
+    @foo = options[:foo]
+    @bar = options[:bar]
   end
 end
 

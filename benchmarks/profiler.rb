@@ -12,11 +12,17 @@ class User
 end
 
 result = RubyProf.profile do
-  User.new :Andy, email: :"andy@example.com"
+  1_000.times { User.new :Andy, email: :"andy@example.com" }
 end
 
 FileUtils.mkdir_p "./tmp"
+
 FileUtils.touch "./tmp/profile.dot"
 File.open("./tmp/profile.dot", "w+") do |output|
   RubyProf::DotPrinter.new(result).print(output, min_percent: 0)
+end
+
+FileUtils.touch "./tmp/profile.html"
+File.open("./tmp/profile.html", "w+") do |output|
+  RubyProf::CallStackPrinter.new(result).print(output, min_percent: 0)
 end

@@ -5,14 +5,19 @@ module Dry::Initializer
       "**__options__"
     end
 
-    # part of __initializer__ body
-    def initializer_presetter
-      "@#{target} = Dry::Initializer::UNDEFINED"
+    # parts of __initalizer__
+    def presetter
+      "@#{target} = Dry::Initializer::UNDEFINED" if dispensable?
     end
 
-    # part of __initializer__ body
-    def initializer_setter
-      "#{setter_part}#{maybe_optional}"
+    def safe_setter
+      "@#{target} = #{safe_coerced}#{maybe_optional}"
+    end
+
+    def fast_setter
+      return safe_setter unless dispensable?
+      "@#{target} = __options__.key?(:'#{source}') ? #{safe_coerced} : " \
+      "Dry::Initializer::UNDEFINED"
     end
 
     # part of __defaults__
@@ -29,28 +34,28 @@ module Dry::Initializer
 
     private
 
+    def dispensable?
+      optional && !default
+    end
+
     def maybe_optional
-      " if __options__.key? :'#{source}'" if optional && !default
+      " if __options__.key? :'#{source}'" if dispensable?
     end
 
-    def setter_part
-      "@#{target} = #{maybe_coerced}"
+    def safe_coerced
+      return safe_default unless coercer
+      "__coercers__[:'option_#{source}'].call(#{safe_default})"
     end
 
-    def maybe_coerced
-      return maybe_default unless coercer
-      "__coercers__[:'option_#{source}'].call(#{maybe_default})"
-    end
-
-    def maybe_default
-      "__options__.fetch(:'#{source}') { #{default_part} }"
+    def safe_default
+      "__options__.fetch(:'#{source}')#{default_part}"
     end
 
     def default_part
       if default
-        "instance_eval(&__defaults__[:'option_#{source}'])"
-      else
-        "raise ArgumentError, \"option :'#{source}' is required\""
+        " { instance_eval(&__defaults__[:'option_#{source}']) }"
+      elsif !optional
+        " { raise ArgumentError, \"option :'#{source}' is required\" }"
       end
     end
   end

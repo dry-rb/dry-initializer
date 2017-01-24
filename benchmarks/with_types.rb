@@ -3,11 +3,9 @@ Bundler.require(:benchmarks)
 class PlainRubyTest
   attr_reader :foo, :bar
 
-  def initialize(foo:, bar:)
-    @foo = foo
-    @bar = bar
-    fail TypeError unless String === @foo
-    fail TypeError unless String === @bar
+  def initialize(options)
+    @foo = options[:foo].to_s
+    @bar = options[:bar].to_s
   end
 end
 

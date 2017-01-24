@@ -5,12 +5,15 @@ module Dry::Initializer
       optional ? "#{target} = Dry::Initializer::UNDEFINED" : target
     end
 
-    # part of __initializer__ body
-    def initializer_presetter; end
+    # parts of __initalizer__
+    def presetter; end
 
-    # part of __initializer__ body
-    def initializer_setter
+    def safe_setter
       "@#{target} = #{maybe_coerced}"
+    end
+
+    def fast_setter
+      safe_setter
     end
 
     # part of __defaults__
