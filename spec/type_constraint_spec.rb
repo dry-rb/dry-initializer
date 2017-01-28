@@ -37,12 +37,12 @@ describe "type constraint" do
 
   context "by invalid constraint" do
     it "raises TypeError" do
-      expect {
+      expect do
         class Test::Foo
           extend Dry::Initializer::Mixin
           param :foo, type: String
         end
-      }.to raise_error(TypeError)
+      end.to raise_error(TypeError)
     end
   end
 end

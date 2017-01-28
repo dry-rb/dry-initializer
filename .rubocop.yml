@@ -5,62 +5,24 @@ AllCops:
   StyleGuideCopsOnly: true
   TargetRubyVersion:  2.2
 
-Lint/HandleExceptions:
-  Exclude:
-    - spec/**/*_spec.rb
-
-Lint/RescueException:
-  Exclude:
-    - spec/**/*_spec.rb
-
-Metrics/LineLength:
-  Max: 80
-  Exclude:
-    - spec/**/*_spec.rb
-
-Style/AccessorMethodName:
-  Exclude:
-    - spec/**/*_spec.rb
-
-Style/Alias:
-  EnforcedStyle: prefer_alias_method
-
-Style/AsciiComments:
-  Enabled: false
-
-Style/BlockDelimiters:
-  Exclude:
-    - spec/**/*_spec.rb
-
 Style/CaseEquality:
   Enabled: false
 
-Style/ClassAndModuleChildren:
-  Enabled: false
-
-Style/Documentation:
+Style/ClassVars:
   Enabled: false
 
 Style/DoubleNegation:
   Enabled: false
 
-Style/EmptyLinesAroundClassBody:
-  Enabled: false
-
-Style/EmptyLinesAroundModuleBody:
-  Enabled: false
-
-Style/EmptyLineBetweenDefs:
-  Enabled: false
-
 Style/FileName:
-  Enabled: false
+  Exclude:
+    - lib/dry-initializer.rb
 
 Style/Lambda:
   Exclude:
     - spec/**/*_spec.rb
 
-Style/ModuleFunction:
+Style/LambdaCall:
   Enabled: false
 
 Style/RaiseArgs:
@@ -73,27 +35,8 @@ Style/Semicolon:
 Style/SignalException:
   EnforcedStyle: semantic
 
-Style/SingleLineBlockParams:
-  Enabled: false
-
-Style/SingleLineMethods:
-  Exclude:
-    - spec/**/*_spec.rb
-
-Style/SpaceBeforeFirstArg:
-  Enabled: false
-
-Style/SpecialGlobalVars:
-  Exclude:
-    - Gemfile
-    - dry-initializer.gemspec
-
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
 Style/StringLiteralsInInterpolation:
   EnforcedStyle: double_quotes
-
-Style/TrivialAccessors:
-  Exclude:
-    - spec/**/*_spec.rb
