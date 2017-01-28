@@ -1,3 +1,26 @@
+## v1.1.0 2017-01-28
+
+# Added:
+- enhancement via `Dry::Initializer::Attribute.dispatchers` registry (nepalez)
+
+    # Register dispatcher for `:string` option
+    Dry::Initializer::Attribute.dispatchers << ->(string: nil, **op) do
+      string ? op.merge(type: proc(&:to_s)) : op
+    end
+
+    # Now you can use the `:string` key for `param` and `option`
+    class User
+      extend Dry::Initializer
+      param :name, string: true
+    end
+
+    User.new(:Andy).name # => "Andy"
+
+# Internals:
+- optimize assignments for performance (nepalez)
+
+[Compare v1.0.0...v1.1.0](https://github.com/dry-rb/dry-initializer/compare/v1.0.0...v1.1.0)
+
 ## v1.0.0 2017-01-22
 
 In this version the code has been rewritten for simplicity
