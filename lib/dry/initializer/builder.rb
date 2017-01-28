@@ -1,12 +1,12 @@
 module Dry::Initializer
   class Builder
     def param(*args)
-      @params = insert(@params, Param, *args)
+      @params = insert(@params, Attribute.param(*args))
       validate_collections
     end
 
     def option(*args)
-      @options = insert(@options, Option, *args)
+      @options = insert(@options, Attribute.option(*args))
       validate_collections
     end
 
@@ -25,16 +25,9 @@ module Dry::Initializer
       @options = []
     end
 
-    def insert(collection, klass, source, *args)
-      index = collection.index { |option| option.source == source.to_s }
-
-      if index
-        new_item = klass.new(source, *args)
-        collection.dup.tap { |list| list[index] = new_item }
-      else
-        new_item = klass.new(source, *args)
-        collection + [new_item]
-      end
+    def insert(collection, new_item)
+      index = collection.index(new_item) || collection.count
+      collection.dup.tap { |list| list[index] = new_item }
     end
 
     def code
