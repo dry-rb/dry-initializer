@@ -30,8 +30,8 @@ describe "@__options__" do
       expect(subject.instance_variable_get(:@__options__)).to eq({})
     end
 
-    it "is set to hash of assigned options" do
-      subject = Test::Foo.new(1, baz: :QUX)
+    it "slices allowed options only" do
+      subject = Test::Foo.new(1, baz: :QUX, qux: :BAZ)
 
       expect(subject.instance_variable_get(:@__options__)).to eq({ baz: :QUX })
     end

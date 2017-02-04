@@ -33,7 +33,7 @@ module Dry::Initializer
     def code
       <<-RUBY.gsub(/^ +\|/, "")
         |def __initialize__(#{initializer_signatures})
-        |  @__options__ = __options__
+        |  @__options__ = #{defined_options}
         |#{initializer_presetters}
         |#{initializer_setters}
         |end
@@ -73,6 +73,15 @@ module Dry::Initializer
       attributes.map do |a|
         dups.include?(a.target) ? "  #{a.safe_setter}" : "  #{a.fast_setter}"
       end.compact.uniq.join("\n")
+    end
+
+    def defined_options
+      if @options.any?
+        keys = @options.map(&:target).join(" ")
+        "__options__.select { |key| %i(#{keys}).include? key }"
+      else
+        "{}"
+      end
     end
 
     def getters
