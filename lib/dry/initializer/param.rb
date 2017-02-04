@@ -18,14 +18,12 @@ module Dry::Initializer
 
     # part of __defaults__
     def default_hash
-      default ? { :"param_#{target}" => default } : {}
+      super :param
     end
 
     # part of __coercers__
     def coercer_hash
-      return {} unless coercer
-      value = proc { |v| v == Dry::Initializer::UNDEFINED ? v : coercer.(v) }
-      { :"param_#{target}" => value }
+      super :param
     end
 
     private

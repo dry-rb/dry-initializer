@@ -22,14 +22,12 @@ module Dry::Initializer
 
     # part of __defaults__
     def default_hash
-      default ? { :"option_#{source}" => default } : {}
+      super :option
     end
 
     # part of __coercers__
     def coercer_hash
-      return {} unless coercer
-      value = proc { |v| v == Dry::Initializer::UNDEFINED ? v : coercer.(v) }
-      { :"option_#{source}" => value }
+      super :option
     end
 
     private

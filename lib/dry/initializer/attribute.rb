@@ -88,5 +88,15 @@ module Dry::Initializer
       return if coercer.nil? || coercer.respond_to?(:call)
       fail TypeConstraintError.new(source, coercer)
     end
+
+    def default_hash(type)
+      default ? { :"#{type}_#{source}" => default } : {}
+    end
+
+    def coercer_hash(type)
+      return {} unless coercer
+      value = proc { |v| v == Dry::Initializer::UNDEFINED ? v : coercer.(v) }
+      { :"#{type}_#{source}" => value }
+    end
   end
 end
