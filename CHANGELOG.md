@@ -1,3 +1,10 @@
+## v1.1.1 2017-02-04
+
+# Bugs Fixed
+- `@__option__` collects defined options only (nepalez)
+
+[Compare v1.1.0...v1.1.1](https://github.com/dry-rb/dry-initializer/compare/v1.1.0...v1.1.1)
+
 ## v1.1.0 2017-01-28
 
 # Added:
