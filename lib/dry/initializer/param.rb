@@ -24,7 +24,7 @@ module Dry::Initializer
     # part of __coercers__
     def coercer_hash
       return {} unless coercer
-      value = proc { |v| (v == Dry::Initializer::UNDEFINED) ? v : coercer.(v) }
+      value = proc { |v| v == Dry::Initializer::UNDEFINED ? v : coercer.(v) }
       { :"param_#{target}" => value }
     end
 

@@ -5,10 +5,19 @@ AllCops:
   StyleGuideCopsOnly: true
   TargetRubyVersion:  2.2
 
+Bundler/DuplicatedGem:
+  Enabled: false
+
 Style/CaseEquality:
   Enabled: false
 
 Style/ClassVars:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/Documentation:
   Enabled: false
 
 Style/DoubleNegation:

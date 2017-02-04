@@ -4,8 +4,6 @@ source "https://rubygems.org"
 gemspec
 
 group :benchmarks do
-  gem "benchmark-ips", "~> 2.5"
-
   if RUBY_VERSION < "2.4"
     gem "activesupport", "< 5"
   else
@@ -15,13 +13,14 @@ group :benchmarks do
   gem "active_attr"
   gem "anima"
   gem "attr_extras"
+  gem "benchmark-ips", "~> 2.5"
   gem "concord"
   gem "fast_attributes"
   gem "kwattr"
+  gem "ruby-prof"
   gem "value_struct"
   gem "values"
   gem "virtus"
-  gem "ruby-prof"
 end
 
 group :development, :test do
