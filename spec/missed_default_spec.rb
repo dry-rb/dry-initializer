@@ -9,6 +9,6 @@ describe "missed default values" do
   end
 
   it "raises SyntaxError" do
-    expect { subject }.to raise_error SyntaxError, /bar/
+    expect { subject }.to raise_error RuntimeError, /bar/
   end
 end

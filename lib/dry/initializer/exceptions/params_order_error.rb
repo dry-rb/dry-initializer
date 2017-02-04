@@ -1,5 +1,5 @@
 module Dry::Initializer
-  class ParamsOrderError < SyntaxError
+  class ParamsOrderError < RuntimeError
     def initialize(required, optional)
       super "Optional param '#{optional}'" \
             " should not preceed required '#{required}'"
