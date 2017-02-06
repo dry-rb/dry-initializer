@@ -13,6 +13,9 @@ module Dry::Initializer
     def call(mixin)
       defaults = send(:defaults)
       coercers = send(:coercers)
+      mixin.send(:undef_method, :__defaults__)   if mixin.private_method_defined?(:__defaults__)
+      mixin.send(:undef_method, :__coercers__)   if mixin.private_method_defined?(:__coercers__)
+      mixin.send(:undef_method, :__initialize__) if mixin.private_method_defined?(:__initialize__)
       mixin.send(:define_method, :__defaults__) { defaults }
       mixin.send(:define_method, :__coercers__) { coercers }
       mixin.class_eval(code, __FILE__, __LINE__ + 1)

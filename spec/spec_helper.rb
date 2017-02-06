@@ -11,4 +11,6 @@ RSpec.configure do |config|
     example.run
     Object.send :remove_const, :Test
   end
+
+  config.warnings = true
 end
