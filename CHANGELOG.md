@@ -1,3 +1,10 @@
+## v1.1.2 2017-02-06
+
+# Internals
+- Remove previously defined methods before redefining them (flash-gordon)
+
+[Compare v1.1.1...v1.1.2](https://github.com/dry-rb/dry-initializer/compare/v1.1.1...v1.1.2)
+
 ## v1.1.1 2017-02-04
 
 # Bugs Fixed
