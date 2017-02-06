@@ -11,11 +11,13 @@ module Dry::Initializer
     end
 
     def call(mixin)
+      clear_method(mixin, :__defaults__)
+      clear_method(mixin, :__coercers__)
+      clear_method(mixin, :__initialize__)
+
       defaults = send(:defaults)
       coercers = send(:coercers)
-      mixin.send(:undef_method, :__defaults__)   if mixin.private_method_defined?(:__defaults__)
-      mixin.send(:undef_method, :__coercers__)   if mixin.private_method_defined?(:__coercers__)
-      mixin.send(:undef_method, :__initialize__) if mixin.private_method_defined?(:__initialize__)
+
       mixin.send(:define_method, :__defaults__) { defaults }
       mixin.send(:define_method, :__coercers__) { coercers }
       mixin.class_eval(code, __FILE__, __LINE__ + 1)
@@ -31,6 +33,10 @@ module Dry::Initializer
     def insert(collection, new_item)
       index = collection.index(new_item) || collection.count
       collection.dup.tap { |list| list[index] = new_item }
+    end
+
+    def clear_method(mixin, name)
+      mixin.send(:undef_method, name) if mixin.private_method_defined? name
     end
 
     def code
