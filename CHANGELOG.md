@@ -1,3 +1,10 @@
+## v1.1.3 2017-03-01
+
+# Added
+- Support for lambdas as default values (nepalez, gzigzigzeo)
+
+[Compare v1.1.2...v1.1.3](https://github.com/dry-rb/dry-initializer/compare/v1.1.2...v1.1.3)
+
 ## v1.1.2 2017-02-06
 
 # Internals
