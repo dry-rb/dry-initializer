@@ -5,9 +5,9 @@ describe "default values" do
 
       param  :foo, default: proc { :FOO }
       param  :bar, default: proc { :BAR }
-      option :baz, default: proc { :BAZ }
+      option :baz, default: -> { :BAZ }
       option :qux, default: proc { foo }
-      option :mox, default: proc { default_mox }
+      option :mox, default: -> { default_mox }
 
       private
 

@@ -45,7 +45,7 @@ module Dry::Initializer
     def default_part
       return unless default
       " == Dry::Initializer::UNDEFINED ?" \
-      " instance_eval(&__defaults__[:param_#{target}]) :" \
+      " instance_exec(&__defaults__[:param_#{target}]) :" \
       " #{target}"
     end
   end

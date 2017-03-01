@@ -4,7 +4,7 @@ describe "default nil" do
       extend Dry::Initializer::Mixin
 
       param :foo, default: proc { nil }
-      param :bar, default: proc { nil }
+      param :bar, default: -> { nil }
     end
   end
 
