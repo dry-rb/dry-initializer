@@ -18,22 +18,18 @@ describe "@__options__" do
     before do
       class Test::Foo
         extend Dry::Initializer::Mixin
-        param  :foo
-        option :bar, optional: true
+        option :foo
+        option :bar, default: proc { 1 }
         option :baz, optional: true
+        option :qux, proc(&:to_s), as: :quxx
       end
     end
 
-    it "is set to empty hash if no options assigned" do
-      subject = Test::Foo.new(1)
+    it "collects coerced and renamed options with default values" do
+      subject = Test::Foo.new(foo: :FOO, qux: :QUX)
 
-      expect(subject.instance_variable_get(:@__options__)).to eq({})
-    end
-
-    it "slices allowed options only" do
-      subject = Test::Foo.new(1, baz: :QUX, qux: :BAZ)
-
-      expect(subject.instance_variable_get(:@__options__)).to eq({ baz: :QUX })
+      expect(subject.instance_variable_get(:@__options__))
+        .to eq({ foo: :FOO, bar: 1, quxx: "QUX" })
     end
   end
 end

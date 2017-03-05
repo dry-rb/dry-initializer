@@ -16,6 +16,8 @@ module Dry::Initializer
       safe_setter
     end
 
+    def postsetter; end
+
     # part of __defaults__
     def default_hash
       super :param

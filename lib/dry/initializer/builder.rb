@@ -42,9 +42,10 @@ module Dry::Initializer
     def code
       <<-RUBY.gsub(/^ +\|/, "")
         |def __initialize__(#{initializer_signatures})
-        |  @__options__ = #{defined_options}
+        |  @__options__ = {}
         |#{initializer_presetters}
         |#{initializer_setters}
+        |#{initializer_postsetters}
         |end
         |private :__initialize__
         |private :__defaults__
@@ -72,9 +73,8 @@ module Dry::Initializer
 
     def initializer_presetters
       dups = duplications
-      attributes
-        .map { |a| "  #{a.presetter}" if dups.include? a.target }
-        .compact.uniq.join("\n")
+      attributes.map { |a| "  #{a.presetter}" if dups.include? a.target }
+                .compact.uniq.join("\n")
     end
 
     def initializer_setters
@@ -82,6 +82,10 @@ module Dry::Initializer
       attributes.map do |a|
         dups.include?(a.target) ? "  #{a.safe_setter}" : "  #{a.fast_setter}"
       end.compact.uniq.join("\n")
+    end
+
+    def initializer_postsetters
+      attributes.map { |a| "  #{a.postsetter}" }.compact.uniq.join("\n")
     end
 
     def defined_options
