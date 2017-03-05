@@ -1,3 +1,10 @@
+## v1.2.0 2017-03-05
+
+# Fixed
+- The `@__options__` variable collects renamed options after default values and coercions were applied (nepalez)
+
+[Compare v1.1.3...v1.2.0](https://github.com/dry-rb/dry-initializer/compare/v1.1.3...v1.2.0)
+
 ## v1.1.3 2017-03-01
 
 # Added
@@ -15,7 +22,7 @@
 ## v1.1.1 2017-02-04
 
 # Bugs Fixed
-- `@__option__` collects defined options only (nepalez)
+- `@__options__` collects defined options only (nepalez)
 
 [Compare v1.1.0...v1.1.1](https://github.com/dry-rb/dry-initializer/compare/v1.1.0...v1.1.1)
 
