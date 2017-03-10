@@ -8,6 +8,7 @@ module Dry
     require_relative "initializer/param"
     require_relative "initializer/option"
     require_relative "initializer/builder"
+    require_relative "initializer/dsl"
 
     # rubocop: disable Style/ConstantName
     Mixin = self # for compatibility to versions below 0.12
@@ -17,36 +18,7 @@ module Dry
       obj.define_singleton_method(:inspect) { "Dry::Initializer::UNDEFINED" }
     end.freeze
 
-    class << self
-      def extended(klass)
-        super
-        mixin   = klass.send(:__initializer_mixin__)
-        builder = klass.send(:__initializer_builder__)
-
-        builder.call(mixin)
-        klass.include(mixin)
-        klass.send(:define_method, :initialize) do |*args|
-          __initialize__(*args)
-        end
-      end
-
-      def define(fn = nil, &block)
-        mixin = Module.new do
-          def initialize(*args)
-            __initialize__(*args)
-          end
-        end
-
-        builder = Builder.new
-        builder.instance_exec(&(fn || block))
-        builder.call(mixin)
-        mixin
-      end
-
-      def mixin(fn = nil, &block)
-        define(fn, &block)
-      end
-    end
+    extend Dry::Initializer::DSL
 
     def param(*args)
       __initializer_builder__.param(*args).call(__initializer_mixin__)
