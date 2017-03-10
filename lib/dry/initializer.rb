@@ -38,8 +38,8 @@ module Dry
       end
     end
 
-    def __initializer_builder__
-      @__initializer_builder__ ||= Dry::Initializer::Builder.new
+    def __initializer_builder__(**settings)
+      @__initializer_builder__ ||= Dry::Initializer::Builder.new(settings)
     end
 
     def inherited(klass)
