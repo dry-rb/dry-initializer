@@ -7,7 +7,7 @@ module Dry::Initializer
 
     # parts of __initalizer__
     def presetter
-      "@#{target} = Dry::Initializer::UNDEFINED" if dispensable?
+      "@#{target} = #{undefined}" if dispensable?
     end
 
     def safe_setter
@@ -16,13 +16,14 @@ module Dry::Initializer
 
     def fast_setter
       return safe_setter unless dispensable?
-      "@#{target} = __options__.key?(:'#{source}') ? #{safe_coerced} : " \
-      "Dry::Initializer::UNDEFINED"
+      "@#{target} = __options__.key?(:'#{source}')" \
+                  " ? #{safe_coerced}" \
+                  " : #{undefined}"
     end
 
     def postsetter
       "@__options__[:#{target}] = @#{target}" \
-      " unless @#{target} == Dry::Initializer::UNDEFINED"
+      " unless @#{target} == #{undefined}"
     end
 
     # part of __defaults__
