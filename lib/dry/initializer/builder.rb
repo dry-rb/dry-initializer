@@ -1,12 +1,12 @@
 module Dry::Initializer
   class Builder
-    def param(*args)
-      @params = insert(@params, Attribute.param(*args))
+    def param(*args, **opts)
+      @params = insert @params, Attribute.param(*args, **@config.merge(opts))
       validate_collections
     end
 
-    def option(*args)
-      @options = insert(@options, Attribute.option(*args))
+    def option(*args, **opts)
+      @options = insert @options, Attribute.option(*args, **@config.merge(opts))
       validate_collections
     end
 
@@ -25,7 +25,8 @@ module Dry::Initializer
 
     private
 
-    def initialize
+    def initialize(**config)
+      @config  = config
       @params  = []
       @options = []
     end
