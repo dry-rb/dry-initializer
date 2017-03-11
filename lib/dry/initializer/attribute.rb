@@ -40,13 +40,13 @@ module Dry::Initializer
     attr_reader :source, :target, :coercer, :default, :optional, :reader
 
     def initialize(options)
-      @source         = options[:source]
-      @target         = options[:target]
-      @coercer        = options[:type]
-      @default        = options[:default]
-      @optional       = !!(options[:optional] || @default)
-      @reader         = options.fetch(:reader, :public)
-      @hide_undefined = options.fetch(:hide_undefined, true)
+      @source    = options[:source]
+      @target    = options[:target]
+      @coercer   = options[:type]
+      @default   = options[:default]
+      @optional  = !!(options[:optional] || @default)
+      @reader    = options.fetch(:reader, :public)
+      @undefined = options.fetch(:undefined, true)
       validate
     end
 
@@ -77,11 +77,11 @@ module Dry::Initializer
     end
 
     def undefined
-      "Dry::Initializer::UNDEFINED"
+      @undefined ? "Dry::Initializer::UNDEFINED" : "nil"
     end
 
     def reader_definition
-      if @hide_undefined
+      if @undefined
         "def #{target}; @#{target} unless @#{target} == #{undefined}; end"
       else
         "attr_reader :#{target}"
@@ -109,7 +109,10 @@ module Dry::Initializer
 
     def coercer_hash(type)
       return {} unless coercer
-      value = proc { |v| v == Dry::Initializer::UNDEFINED ? v : coercer.(v) }
+
+      value = coercer unless @undefined
+      value ||= proc { |v| v == Dry::Initializer::UNDEFINED ? v : coercer.(v) }
+
       { :"#{type}_#{source}" => value }
     end
   end

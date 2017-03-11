@@ -29,20 +29,20 @@ describe "optional value" do
     end
   end
 
-  context "with hide_undefined: false" do
+  context "with undefined: false" do
     before do
       class Test::Foo
-        extend Dry::Initializer[hide_undefined: false]
+        extend Dry::Initializer[undefined: false]
 
         param :foo
         param :bar, optional: true
       end
     end
 
-    it "doesn't quack like nil" do
+    it "sets undefined values to nil" do
       subject = Test::Foo.new(1)
 
-      expect(subject.bar).to eq Dry::Initializer::UNDEFINED
+      expect(subject.instance_variable_get(:@bar)).to be_nil
     end
   end
 
