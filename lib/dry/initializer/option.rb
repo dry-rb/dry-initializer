@@ -7,7 +7,7 @@ module Dry::Initializer
 
     # parts of __initalizer__
     def presetter
-      "@#{target} = #{undefined}" if dispensable?
+      "@#{target} = #{undefined}" if dispensable? && @undefined
     end
 
     def safe_setter
