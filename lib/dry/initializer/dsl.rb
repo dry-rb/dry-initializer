@@ -17,7 +17,7 @@ module Dry::Initializer
         end
       end
 
-      builder = Builder.new
+      builder = Builder.new Hash(config)
       builder.instance_exec(&(fn || block))
       builder.call(mixin)
       mixin
