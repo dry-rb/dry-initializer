@@ -59,12 +59,12 @@ module Dry::Initializer
       return unless reader
       command = %w(private protected).include?(reader.to_s) ? reader : :public
 
-      <<-RUBY.gsub(/^ *\|/, "")
-        |undef_method :#{target} if method_defined?(:#{target}) ||
-        |                           protected_method_defined?(:#{target}) ||
-        |                           private_method_defined?(:#{target})
-        |#{reader_definition}
-        |#{command} :#{target}
+      <<-RUBY
+        undef_method :#{target} if method_defined?(:#{target}) ||
+                                   protected_method_defined?(:#{target}) ||
+                                   private_method_defined?(:#{target})
+        #{reader_definition}
+        #{command} :#{target}
       RUBY
     end
 

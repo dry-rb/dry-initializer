@@ -20,7 +20,7 @@ module Dry::Initializer
 
       mixin.send(:define_method, :__defaults__) { defaults }
       mixin.send(:define_method, :__coercers__) { coercers }
-      mixin.class_eval(code, __FILE__, __LINE__ + 1)
+      mixin.class_eval(code)
     end
 
     private
@@ -41,18 +41,18 @@ module Dry::Initializer
     end
 
     def code
-      <<-RUBY.gsub(/^ +\|/, "")
-        |def __initialize__(#{initializer_signatures})
-        |  @__options__ = {}
-        |#{initializer_presetters}
-        |#{initializer_setters}
-        |#{initializer_postsetters}
-        |end
-        |private :__initialize__
-        |private :__defaults__
-        |private :__coercers__
-        |
-        |#{getters}
+      <<-RUBY
+        def __initialize__(#{initializer_signatures})
+          @__options__ = {}
+        #{initializer_presetters}
+        #{initializer_setters}
+        #{initializer_postsetters}
+        end
+        private :__initialize__
+        private :__defaults__
+        private :__coercers__
+        
+        #{getters}
       RUBY
     end
 
