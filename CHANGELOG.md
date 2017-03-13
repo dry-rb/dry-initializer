@@ -1,34 +1,63 @@
+## v1.3.0 2017-03-05
+
+### Added
+- No-undefined configuration of the initializer (nepalez, flash-gordon)
+  
+  You can either extend or include module `Dry::Initializer` with additional option
+  `[undefined: false]`. This time `nil` will be assigned instead of
+  `Dry::Initializer::UNDEFINED`. Readers becomes faster because there is no need
+  to chech whether a variable was defined or not. At the same time the initializer
+  doesn't distinct cases when a variable was set to `nil` explicitly, and when it wasn's set at all:
+
+    class Foo # old behavior
+      extend Dry::Initializer
+      param :qux, optional: true
+    end
+
+    class Bar # new behavior
+      extend Dry::Initializer[undefined: false]
+      param :qux, optional: true
+    end
+
+    Foo.new.instance_variable_get(:@qux) # => Dry::Initializer::UNDEFINED
+    Bar.new.instance_variable_get(:@qux) # => nil
+
+### Internals
+- Fixed method definitions for performance at the load time (nepalez, flash-gordon)
+
+[Compare v1.2.0...v1.3.0](https://github.com/dry-rb/dry-initializer/compare/v1.2.0...v1.3.0)
+
 ## v1.2.0 2017-03-05
 
-# Fixed
+### Fixed
 - The `@__options__` variable collects renamed options after default values and coercions were applied (nepalez)
 
 [Compare v1.1.3...v1.2.0](https://github.com/dry-rb/dry-initializer/compare/v1.1.3...v1.2.0)
 
 ## v1.1.3 2017-03-01
 
-# Added
+### Added
 - Support for lambdas as default values (nepalez, gzigzigzeo)
 
 [Compare v1.1.2...v1.1.3](https://github.com/dry-rb/dry-initializer/compare/v1.1.2...v1.1.3)
 
 ## v1.1.2 2017-02-06
 
-# Internals
+### Internals
 - Remove previously defined methods before redefining them (flash-gordon)
 
 [Compare v1.1.1...v1.1.2](https://github.com/dry-rb/dry-initializer/compare/v1.1.1...v1.1.2)
 
 ## v1.1.1 2017-02-04
 
-# Bugs Fixed
+### Bugs Fixed
 - `@__options__` collects defined options only (nepalez)
 
 [Compare v1.1.0...v1.1.1](https://github.com/dry-rb/dry-initializer/compare/v1.1.0...v1.1.1)
 
 ## v1.1.0 2017-01-28
 
-# Added:
+### Added:
 - enhancement via `Dry::Initializer::Attribute.dispatchers` registry (nepalez)
 
     # Register dispatcher for `:string` option
@@ -44,7 +73,7 @@
 
     User.new(:Andy).name # => "Andy"
 
-# Internals:
+### Internals:
 - optimize assignments for performance (nepalez)
 
 [Compare v1.0.0...v1.1.0](https://github.com/dry-rb/dry-initializer/compare/v1.0.0...v1.1.0)
@@ -53,10 +82,10 @@
 
 In this version the code has been rewritten for simplicity
 
-# BREAKING CHANGES
+### BREAKING CHANGES
 - when `param` or `option` was not defined, the corresponding **variable** is set to `Dry::Initializer::UNDEFINED`, but the **reader** (when defined) will return `nil` (nepalez)
 
-# Added:
+### Added:
 - support for reloading `param` and `option` definitions (nepalez)
 
     class User
@@ -86,7 +115,7 @@ In this version the code has been rewritten for simplicity
     User.new(phone: '1234567890').phone   # => '1234567890'
     User.new(number: '1234567890').phone # => '1234567890'
 
-# Internals
+### Internals
 - `Dry::Initializer` and `Dry::Initializer::Mixin` became aliases (nepalez)
 
 [Compare v0.11.0...v1.0.0](https://github.com/dry-rb/dry-initializer/compare/v0.11.0...v1.0.0)
