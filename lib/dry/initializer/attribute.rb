@@ -40,12 +40,13 @@ module Dry::Initializer
     attr_reader :source, :target, :coercer, :default, :optional, :reader
 
     def initialize(options)
-      @source   = options[:source]
-      @target   = options[:target]
-      @coercer  = options[:type]
-      @default  = options[:default]
-      @optional = !!(options[:optional] || @default)
-      @reader   = options.fetch(:reader, :public)
+      @source    = options[:source]
+      @target    = options[:target]
+      @coercer   = options[:type]
+      @default   = options[:default]
+      @optional  = !!(options[:optional] || @default)
+      @reader    = options.fetch(:reader, :public)
+      @undefined = options.fetch(:undefined, true)
       validate
     end
 
@@ -58,12 +59,12 @@ module Dry::Initializer
       return unless reader
       command = %w(private protected).include?(reader.to_s) ? reader : :public
 
-      <<-RUBY.gsub(/^ *\|/, "")
-        |undef_method :#{target} if method_defined?(:#{target}) || protected_method_defined?(:#{target}) || private_method_defined?(:#{target})
-        |def #{target}
-        |  @#{target} unless @#{target} == Dry::Initializer::UNDEFINED
-        |end
-        |#{command} :#{target}
+      <<-RUBY
+        undef_method :#{target} if method_defined?(:#{target}) ||
+                                   protected_method_defined?(:#{target}) ||
+                                   private_method_defined?(:#{target})
+        #{reader_definition}
+        #{command} :#{target}
       RUBY
     end
 
@@ -73,6 +74,18 @@ module Dry::Initializer
       validate_target
       validate_default
       validate_coercer
+    end
+
+    def undefined
+      @undefined ? "Dry::Initializer::UNDEFINED" : "nil"
+    end
+
+    def reader_definition
+      if @undefined
+        "def #{target}; @#{target} unless @#{target} == #{undefined}; end"
+      else
+        "attr_reader :#{target}"
+      end
     end
 
     def validate_target
@@ -96,7 +109,10 @@ module Dry::Initializer
 
     def coercer_hash(type)
       return {} unless coercer
-      value = proc { |v| v == Dry::Initializer::UNDEFINED ? v : coercer.(v) }
+
+      value = coercer unless @undefined
+      value ||= proc { |v| v == Dry::Initializer::UNDEFINED ? v : coercer.(v) }
+
       { :"#{type}_#{source}" => value }
     end
   end

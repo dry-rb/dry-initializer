@@ -29,6 +29,23 @@ describe "optional value" do
     end
   end
 
+  context "with undefined: false" do
+    before do
+      class Test::Foo
+        extend Dry::Initializer[undefined: false]
+
+        param :foo
+        param :bar, optional: true
+      end
+    end
+
+    it "sets undefined values to nil" do
+      subject = Test::Foo.new(1)
+
+      expect(subject.instance_variable_get(:@bar)).to be_nil
+    end
+  end
+
   context "when has a default value" do
     before do
       class Test::Foo

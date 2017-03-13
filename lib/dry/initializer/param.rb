@@ -2,7 +2,7 @@ module Dry::Initializer
   class Param < Attribute
     # part of __initializer__ definition
     def initializer_signature
-      optional ? "#{target} = Dry::Initializer::UNDEFINED" : target
+      optional ? "#{target} = #{undefined}" : target
     end
 
     # parts of __initalizer__
@@ -46,7 +46,7 @@ module Dry::Initializer
 
     def default_part
       return unless default
-      " == Dry::Initializer::UNDEFINED ?" \
+      " == #{undefined} ?" \
       " instance_exec(&__defaults__[:param_#{target}]) :" \
       " #{target}"
     end
