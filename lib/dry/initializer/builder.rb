@@ -51,7 +51,7 @@ module Dry::Initializer
         private :__initialize__
         private :__defaults__
         private :__coercers__
-        
+
         #{getters}
       RUBY
     end

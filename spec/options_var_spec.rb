@@ -1,23 +1,26 @@
 describe "@__options__" do
-  context "when class has no options" do
+  context "when class has params" do
     before do
       class Test::Foo
-        extend Dry::Initializer::Mixin
-        param :foo
+        extend Dry::Initializer
+        param :foo, proc(&:to_s)
+        param :bar, default: proc { 1 }
+        param :baz, optional: true
       end
     end
 
-    it "is set to empty hash" do
-      subject = Test::Foo.new(1)
+    it "collects coerced params with default values" do
+      subject = Test::Foo.new(:FOO)
 
-      expect(subject.instance_variable_get(:@__options__)).to eq({})
+      expect(subject.instance_variable_get(:@__options__))
+        .to eq({ foo: "FOO", bar: 1 })
     end
   end
 
   context "when class has options" do
     before do
       class Test::Foo
-        extend Dry::Initializer::Mixin
+        extend Dry::Initializer
         option :foo
         option :bar, default: proc { 1 }
         option :baz, optional: true
