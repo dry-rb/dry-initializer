@@ -1,3 +1,11 @@
+## v1.4.0 TO BE RELEASED
+
+### Changed (backward-incompatible)
+- The `@__options__` hash now collects all assigned attributes,
+  collected via `#option` (as before), and `#param` (nepalez)
+
+[Compare v1.3.0...v1.4.0](https://github.com/dry-rb/dry-initializer/compare/v1.3.0...v1.4.0)
+
 ## v1.3.0 2017-03-05
 
 ### Added

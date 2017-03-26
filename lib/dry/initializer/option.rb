@@ -21,11 +21,6 @@ module Dry::Initializer
                   " : #{undefined}"
     end
 
-    def postsetter
-      "@__options__[:#{target}] = @#{target}" \
-      " unless @#{target} == #{undefined}"
-    end
-
     # part of __defaults__
     def default_hash
       super :option

@@ -54,7 +54,11 @@ module Dry::Initializer
       source == other.source
     end
 
-    # definition for the getter method
+    def postsetter
+      "@__options__[:#{target}] = @#{target}" \
+      " unless @#{target} == #{undefined}"
+    end
+
     def getter
       return unless reader
       command = %w(private protected).include?(reader.to_s) ? reader : :public
