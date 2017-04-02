@@ -1,4 +1,4 @@
-## v1.4.0 TO BE RELEASED
+## v1.4.0 2017-03-08
 
 ### Changed (backward-incompatible)
 - The `@__options__` hash now collects all assigned attributes,
