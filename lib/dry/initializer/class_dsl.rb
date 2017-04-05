@@ -1,22 +1,17 @@
 module Dry::Initializer
-  module DSL
+  module ClassDSL
     attr_reader :config
 
     def [](**settings)
       Module.new do
-        extend  Dry::Initializer::DSL
+        extend  Dry::Initializer::ClassDSL
         include Dry::Initializer
         @config = settings
       end
     end
 
     def define(fn = nil, &block)
-      mixin = Module.new do
-        def initialize(*args)
-          __initialize__(*args)
-        end
-      end
-
+      mixin   = Module.new { include InstanceDSL }
       builder = Builder.new Hash(config)
       builder.instance_exec(&(fn || block))
       builder.call(mixin)
@@ -29,12 +24,10 @@ module Dry::Initializer
       super
       mixin   = klass.send(:__initializer_mixin__)
       builder = klass.send(:__initializer_builder__, Hash(config))
-
       builder.call(mixin)
-      klass.include(mixin)
-      klass.send(:define_method, :initialize) do |*args|
-        __initialize__(*args)
-      end
+
+      klass.include(InstanceDSL) # defines #initialize
+      klass.include(mixin)       # defines #__initialize__ (to be redefined)
     end
 
     def mixin(fn = nil, &block)
