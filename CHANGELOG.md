@@ -1,3 +1,15 @@
+## v1.4.1 To be released ASAP
+
+### Fixed
+- Warning about redefined `#initialize` in case the method reloaded in a klass
+  that extends the module (nepalez, sergey-chechaev)
+
+### Internals
+- Rename `Dry::Initializer::DSL` -> `Dry::Initializer::ClassDSL` (nepalez)
+- Add `Dry::Initializer::InstanceDSL` (nepalez)
+
+[Compare v1.4.0...v1.4.1](https://github.com/dry-rb/dry-initializer/compare/v1.4.0...v1.4.1)
+
 ## v1.4.0 2017-03-08
 
 ### Changed (backward-incompatible)
