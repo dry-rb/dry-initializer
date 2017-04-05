@@ -1,4 +1,4 @@
-## v1.4.1 To be released ASAP
+## v1.4.1 2017-04-05
 
 ### Fixed
 - Warning about redefined `#initialize` in case the method reloaded in a klass
