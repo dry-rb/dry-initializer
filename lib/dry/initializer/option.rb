@@ -53,7 +53,9 @@ module Dry::Initializer
     def default_part
       if default
         " { instance_exec(&__defaults__[:'option_#{source}']) }"
-      elsif !optional
+      elsif optional
+        " { Dry::Initializer::UNDEFINED }"
+      else
         " { raise ArgumentError, \"option :'#{source}' is required\" }"
       end
     end
