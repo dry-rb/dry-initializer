@@ -1,5 +1,12 @@
 module Dry::Initializer
   module InstanceDSL
+    def dry_initializer_options
+      h = @__dry_initializer_options__.map do |accessor, _|
+        [accessor, public_send(accessor)] if respond_to?(accessor)
+      end
+      h.compact.to_h
+    end
+
     private
 
     # The method is reloaded explicitly
