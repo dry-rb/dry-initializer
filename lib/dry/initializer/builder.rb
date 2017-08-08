@@ -43,7 +43,7 @@ module Dry::Initializer
     def code
       <<-RUBY
         def __initialize__(#{initializer_signatures})
-          @__options__ = {}
+          @__dry_initializer_options__ = {}
         #{initializer_presetters}
         #{initializer_setters}
         #{initializer_postsetters}
@@ -68,7 +68,7 @@ module Dry::Initializer
 
     def initializer_signatures
       sig = @params.map(&:initializer_signature).compact.uniq
-      sig << (sig.any? && @options.any? ? "**__options__" : "__options__ = {}")
+      sig << (sig.any? && @options.any? ? "**__dry_initializer_options__" : "__dry_initializer_options__ = {}")
       sig.join(", ")
     end
 
@@ -92,7 +92,7 @@ module Dry::Initializer
     def defined_options
       if @options.any?
         keys = @options.map(&:target).join(" ")
-        "__options__.select { |key| %i(#{keys}).include? key }"
+        "__dry_initializer_options__.select { |key| %i(#{keys}).include? key }"
       else
         "{}"
       end

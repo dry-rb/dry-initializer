@@ -55,7 +55,7 @@ module Dry::Initializer
     end
 
     def postsetter
-      "@__options__[:#{target}] = @#{target}" \
+      "@__dry_initializer_options__[:#{target}] = @#{target}" \
       " unless @#{target} == #{undefined}"
     end
 
