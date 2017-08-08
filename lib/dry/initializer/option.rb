@@ -2,7 +2,7 @@ module Dry::Initializer
   class Option < Attribute
     # part of __initializer__ definition
     def initializer_signature
-      "**__options__"
+      "**__dry_initializer_options__"
     end
 
     # parts of __initalizer__
@@ -16,7 +16,7 @@ module Dry::Initializer
 
     def fast_setter
       return safe_setter unless dispensable?
-      "@#{target} = __options__.key?(:'#{source}')" \
+      "@#{target} = __dry_initializer_options__.key?(:'#{source}')" \
                   " ? #{safe_coerced}" \
                   " : #{undefined}"
     end
@@ -38,7 +38,7 @@ module Dry::Initializer
     end
 
     def maybe_optional
-      " if __options__.key? :'#{source}'" if dispensable?
+      " if __dry_initializer_options__.key? :'#{source}'" if dispensable?
     end
 
     def safe_coerced
@@ -47,7 +47,7 @@ module Dry::Initializer
     end
 
     def safe_default
-      "__options__.fetch(:'#{source}')#{default_part}"
+      "__dry_initializer_options__.fetch(:'#{source}')#{default_part}"
     end
 
     def default_part
