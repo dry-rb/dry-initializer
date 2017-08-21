@@ -5,9 +5,11 @@ module Dry::Initializer
       options = params.pop if config.options.any? && Hash === params.last
       options ||= {}
 
-      config.all.each do |item|
-        instance_variable_set item.ivar, config.undefined
-      end if config.undefined
+      if config.undefined
+        config.all.each do |item|
+          instance_variable_set item.ivar, config.undefined
+        end
+      end
 
       config.params.each do |item|
         value = item.value(self, params)

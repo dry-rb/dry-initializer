@@ -3,7 +3,7 @@ module Dry::Initializer
   # @private
   # Base class for parameter or option definitions
   # Defines methods to add corresponding reader to the class,
-  # and initialize corresponding value of its instance.
+  # and build value of instance attribute.
   #
   class Definition
     attr_reader :config, :source, :target, :type, :default, :reader

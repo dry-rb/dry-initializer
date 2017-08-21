@@ -6,8 +6,8 @@ class PlainRubyTest
   def initialize(foo: "FOO", bar: "BAR")
     @foo = foo
     @bar = bar
-    fail TypeError unless String === @foo
-    fail TypeError unless String === @bar
+    raise TypeError unless String === @foo
+    raise TypeError unless String === @bar
   end
 end
 

@@ -81,7 +81,7 @@ describe "reader" do
 
     it "adds a protected attr_reader" do
       protected_instance_methods = subject.class.protected_instance_methods
-      expect(protected_instance_methods).to match_array([:foo, :bar])
+      expect(protected_instance_methods).to match_array(%i[foo bar])
     end
   end
 end

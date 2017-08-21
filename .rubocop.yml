@@ -29,18 +29,18 @@ Style/FileName:
 
 Style/Lambda:
   Exclude:
-    - spec/**/*_spec.rb
+    - spec/**/*.rb
 
 Style/LambdaCall:
   Enabled: false
 
 Style/RescueModified:
   Exclude:
-    - spec/**/*_spec.rb
+    - spec/**/*.rb
 
 Style/Semicolon:
   Exclude:
-    - spec/**/*_spec.rb
+    - spec/**/*.rb
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
