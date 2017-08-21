@@ -7,7 +7,7 @@ module Dry::Initializer
       options ||= {}
 
       if config.undefined
-        config.all.each do |item|
+        config.definitions.each do |item|
           instance_variable_set item.ivar, config.undefined
         end
       end

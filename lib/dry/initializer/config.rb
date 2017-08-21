@@ -20,11 +20,11 @@ module Dry::Initializer
     # @return [Dry::Initializer::Option]
     #   list of definitions for initializer options
 
-    # @!attribute [r] all
+    # @!attribute [r] definitions
     # @return [Dry::Initializer::Definition]
     #   list of all [#params] and [#options]
 
-    attr_reader :undefined, :klass, :parent, :params, :options, :all
+    attr_reader :undefined, :klass, :parent, :params, :options, :definitions
 
     # The list of configs of all subclasses of the [#klass]
     #
@@ -46,7 +46,7 @@ module Dry::Initializer
         raise TypeError, "#{instance.inspect} is not an instance of #{klass}"
       end
 
-      all.each_with_object({}) do |item, obj|
+      definitions.each_with_object({}) do |item, obj|
         key = item.target
         next unless instance.respond_to? key
         val = instance.send(key)
@@ -64,7 +64,7 @@ module Dry::Initializer
         raise TypeError, "#{instance.inspect} is not an instance of #{klass}"
       end
 
-      all.each_with_object({}) do |item, obj|
+      definitions.each_with_object({}) do |item, obj|
         key = item.target
         val = instance.send(:instance_variable_get, item.ivar)
         obj[key] = val unless val == undefined
@@ -75,9 +75,9 @@ module Dry::Initializer
 
     # @private
     def finalize
-      @params  = final_params
-      @options = final_options
-      @all     = @params + @options
+      @params      = final_params
+      @options     = final_options
+      @definitions = @params + @options
       check_params
       children.each(&:finalize)
     end
@@ -85,13 +85,13 @@ module Dry::Initializer
     private
 
     def initialize(klass = nil)
-      @klass     = klass
-      sklass     = klass.superclass
-      @parent    = sklass.dry_initializer if sklass.is_a? Dry::Initializer
-      @undefined = parent&.undefined
-      @params    = []
-      @options   = []
-      @all       = @params + @options
+      @klass       = klass
+      sklass       = klass.superclass
+      @parent      = sklass.dry_initializer if sklass.is_a? Dry::Initializer
+      @undefined   = parent&.undefined
+      @params      = []
+      @options     = []
+      @definitions = @params + @options
     end
 
     def add_param(definition)
