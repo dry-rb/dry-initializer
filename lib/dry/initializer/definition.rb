@@ -1,6 +1,8 @@
 module Dry::Initializer
   #
   # @private
+  #
+  # @private
   # @abstract
   #
   # Base class for parameter or option definitions

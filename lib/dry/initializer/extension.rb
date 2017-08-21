@@ -1,4 +1,5 @@
 module Dry::Initializer
+  # @private
   module Extension
     attr_accessor :settings
 

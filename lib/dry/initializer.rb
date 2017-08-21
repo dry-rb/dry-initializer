@@ -1,4 +1,8 @@
+# Namespace for gems in a dry-rb community
 module Dry
+  #
+  # DSL for declaring params and options of class initializers
+  #
   module Initializer
     # rubocop: disable Style/ConstantName
     Mixin = self # for backward compatibility
@@ -15,6 +19,12 @@ module Dry
     class << self
       include Extension
 
+      # Returns a version of the module with custom settings
+      #
+      # @option settings [Boolean] undefined
+      #   If unassigned params and options should be treated different from nil
+      # @return [Dry::Initializer]
+      #
       def [](**settings)
         Module.new.tap do |mod|
           mod.extend Extension
@@ -35,13 +45,18 @@ module Dry
     # @!method param(name, type, opts)
     # Adds or redefines a parameter of [#dry_initializer]
     #
-    # @param  [name]
-    # @param  [type]
+    # @param  [Symbol]       name
+    # @param  [#call, nil]   coercer (nil)
+    # @option opts [#call]   :type
+    # @option opts [Proc]    :default
+    # @option opts [Boolean] :optional
+    # @option opts [Symbol]  :as
+    # @option opts [true, false, :protected, :public, :private] :reader
     # @return [self] itself
     #
-    def param(*args)
-      definition = Param.new(dry_initializer, *args)
-      dry_initializer.param(definition)
+    def param(name, type = nil, **opts)
+      definition = Param.new(dry_initializer, name, type, opts)
+      dry_initializer.send :add_param, definition
       definition.define_reader(self)
       self
     end
@@ -49,13 +64,13 @@ module Dry
     # @!method option(name, type, opts)
     # Adds or redefines an option of [#dry_initializer]
     #
-    # @param  [name]
-    # @param  [type]
-    # @return [self] itself
+    # @param  (see #param)
+    # @option (see #param)
+    # @return (see #param)
     #
-    def option(*args)
-      definition = Option.new(dry_initializer, *args)
-      dry_initializer.option(definition)
+    def option(name, type = nil, **opts)
+      definition = Option.new(dry_initializer, name, type, opts)
+      dry_initializer.send :add_option, definition
       definition.define_reader(self)
       self
     end

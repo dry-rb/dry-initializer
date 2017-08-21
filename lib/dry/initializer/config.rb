@@ -1,24 +1,51 @@
 module Dry::Initializer
+  #
+  # Gem-related configuration of some class
+  #
   class Config
+    # @!attribute [r] undefined
+    # @return [Dry::Initializer::UNDEFINED, nil] value of unassigned variable
+
+    # @!attribute [r] klass
+    # @return [Class] the class whose config collected by current object
+
+    # @!attribute [r] parent
+    # @return [Dry::Initializer::Config] parent configuration
+
+    # @!attribute [r] params
+    # @return [Dry::Initializer::Param]
+    #   list of definitions for initializer options
+
+    # @!attribute [r] options
+    # @return [Dry::Initializer::Option]
+    #   list of definitions for initializer options
+
+    # @!attribute [r] all
+    # @return [Dry::Initializer::Definition]
+    #   list of all [#params] and [#options]
+
     attr_reader :undefined, :klass, :parent, :params, :options, :all
 
+    # The list of configs of all subclasses of the [#klass]
+    #
+    # @return [Array<Dry::Initializer::Config>]
+    #
     def children
       ObjectSpace.each_object(Class)
                  .select { |item| item.superclass == klass }
                  .map(&:dry_initializer)
     end
 
-    def param(definition)
-      params << definition
-      finalize
-    end
-
-    def option(definition)
-      options << definition
-      finalize
-    end
-
+    # The hash of public attributes for an instance of the [#klass]
+    #
+    # @param  [Dry::Initializer::Instance] instance
+    # @return [Hash<Symbol, Object>]
+    #
     def public_attributes(instance)
+      unless instance.instance_of? klass
+        raise TypeError, "#{instance.inspect} is not an instance of #{klass}"
+      end
+
       all.each_with_object({}) do |item, obj|
         key = item.target
         next unless instance.respond_to? key
@@ -27,7 +54,16 @@ module Dry::Initializer
       end
     end
 
+    # The hash of assigned attributes for an instance of the [#klass]
+    #
+    # @param  [Dry::Initializer::Instance] instance
+    # @return [Hash<Symbol, Object>]
+    #
     def attributes(instance)
+      unless instance.instance_of? klass
+        raise TypeError, "#{instance.inspect} is not an instance of #{klass}"
+      end
+
       all.each_with_object({}) do |item, obj|
         key = item.target
         val = instance.send(:instance_variable_get, item.ivar)
@@ -37,6 +73,7 @@ module Dry::Initializer
 
     protected
 
+    # @private
     def finalize
       @params  = final_params
       @options = final_options
@@ -55,6 +92,16 @@ module Dry::Initializer
       @params    = []
       @options   = []
       @all       = @params + @options
+    end
+
+    def add_param(definition)
+      params << definition
+      finalize
+    end
+
+    def add_option(definition)
+      options << definition
+      finalize
     end
 
     def final_params
