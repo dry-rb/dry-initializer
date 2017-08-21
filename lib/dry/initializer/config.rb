@@ -1,34 +1,16 @@
 class Dry::Initializer::Config
-  include Enumerable
-
   attr_accessor :undefined
-  attr_reader   :parent
+  attr_reader   :klass
 
-  def each
-    list = all_params + all_options
-    block_given? ? list.each { |item| yield(item) } : list.to_enum
+  def parent
+    return unless klass.superclass.ancestors.include? Dry::Initializer::Instance
+    @parent ||= klass.superclass.dry_initializer
   end
 
-  def each_param
-    block_given? ? all_params.each { |item| yield(item) } : all_params.to_enum
-  end
-
-  def each_option
-    block_given? ? all_options.each { |item| yield(item) } : all_options.to_enum
-  end
-
-  def param(definition)
-    params << definition
-  end
-
-  def option(definition)
-    options << definition
-  end
-
-  private
-
-  def initialize(parent = nil)
-    @parent = parent
+  def children
+    ObjectSpace.each_object(Class)
+               .select { |item| item.superclass == klass }
+               .map(&:dry_initializer)
   end
 
   def params
@@ -39,16 +21,45 @@ class Dry::Initializer::Config
     @options ||= []
   end
 
-  def all_params
-    list = parent&.send(__method__)&.dup || []
+  def all
+    @all ||= @params + @options
+  end
+
+  def param(definition)
+    params << definition
+    finalize
+  end
+
+  def option(definition)
+    options << definition
+    finalize
+  end
+
+  def finalize
+    @params  = final_params
+    @options = final_options
+    @all     = @params + @options
+    children.each(&:finalize)
+    self
+  end
+
+  private
+
+  def initialize(klass = nil)
+    @klass = klass
+    @undefined = parent&.undefined
+  end
+
+  def final_params
+    list = parent&.params&.dup || []
     params.each_with_object(list) do |item, obj|
       item.position = obj.find_index(item) || obj.count
       obj[item.position] = item
     end
   end
 
-  def all_options
-    list = parent&.send(__method__)&.dup || []
+  def final_options
+    list = parent&.options&.dup || []
     options.each_with_object(list) do |item, obj|
       index = obj.find_index(item) || obj.count
       obj[index] = item

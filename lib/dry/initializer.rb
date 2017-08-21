@@ -32,7 +32,7 @@ module Dry
     # @return [Dry::Initializer::Definition]
     #
     def dry_initializer
-      @dry_initializer ||= Config.new
+      @dry_initializer ||= Config.new(self)
     end
 
     # @!method param(name, type, opts)
@@ -60,15 +60,6 @@ module Dry
       definition = Option.new(dry_initializer, *args)
       dry_initializer.option(definition)
       definition.define_reader(self)
-    end
-
-    private
-
-    def inherited(klass)
-      klass.__send__ :instance_variable_set,
-                     :@dry_initializer,
-                     Config.new(dry_initializer)
-      super
     end
   end
 end

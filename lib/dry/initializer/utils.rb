@@ -7,7 +7,7 @@ module Dry::Initializer::Utils
   #
   def public_options(instance)
     config = instance.class.dry_initializer
-    config.each.with_object({}) do |item, obj|
+    (config.params + config.options).each_with_object({}) do |item, obj|
       key = item.target
       next unless instance.respond_to? key
       val = instance.send(key)
@@ -22,7 +22,7 @@ module Dry::Initializer::Utils
   #
   def options(instance)
     config = instance.class.dry_initializer
-    config.each.with_object({}) do |item, obj|
+    (config.params + config.options).each_with_object({}) do |item, obj|
       key = item.target
       val = instance.send(:instance_variable_get, item.ivar)
       obj[key] = val unless val == config.undefined

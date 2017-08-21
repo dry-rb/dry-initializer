@@ -16,16 +16,6 @@ module Dry::Initializer
       @ivar ||= :"@#{target}"
     end
 
-    def option?
-      instance_of? Option
-    end
-
-    def inspect
-      "#{option? ? 'option' : 'parameter'} '#{source}'"
-    end
-    alias to_str inspect
-    alias to_s   inspect
-
     def ==(other)
       other.instance_of?(self.class) && (other.source == source)
     end
