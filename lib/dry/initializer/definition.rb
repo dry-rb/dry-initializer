@@ -1,6 +1,8 @@
 module Dry::Initializer
   #
   # @private
+  # @abstract
+  #
   # Base class for parameter or option definitions
   # Defines methods to add corresponding reader to the class,
   # and build value of instance attribute.

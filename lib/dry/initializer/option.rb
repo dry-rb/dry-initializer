@@ -1,4 +1,5 @@
 module Dry::Initializer
+  # @private
   class Option < Definition
     def value(instance, options)
       super instance, options.fetch(source, undefined)

@@ -24,16 +24,16 @@ module Dry
       end
     end
 
-    # Enumerable collection of definitions for params and options
+    # Gem-related configuration
     #
-    # @return [Dry::Initializer::Definition]
+    # @return [Dry::Initializer::Config]
     #
     def dry_initializer
       @dry_initializer ||= Config.new(self)
     end
 
     # @!method param(name, type, opts)
-    # Adds or redefines a parameter
+    # Adds or redefines a parameter of [#dry_initializer]
     #
     # @param  [name]
     # @param  [type]
@@ -43,10 +43,11 @@ module Dry
       definition = Param.new(dry_initializer, *args)
       dry_initializer.param(definition)
       definition.define_reader(self)
+      self
     end
 
     # @!method option(name, type, opts)
-    # Adds or redefines an option
+    # Adds or redefines an option of [#dry_initializer]
     #
     # @param  [name]
     # @param  [type]
@@ -56,6 +57,7 @@ module Dry
       definition = Option.new(dry_initializer, *args)
       dry_initializer.option(definition)
       definition.define_reader(self)
+      self
     end
   end
 end

@@ -6,7 +6,9 @@ module Dry::Initializer
       klass.include Instance
 
       unless settings.to_h[:undefined] == false
-        klass.dry_initializer.undefined = UNDEFINED
+        klass.dry_initializer.send :instance_variable_set,
+                                   :@undefined,
+                                   UNDEFINED
       end
 
       super

@@ -1,4 +1,5 @@
 module Dry::Initializer
+  # @private
   class Param < Definition
     attr_accessor :position
 

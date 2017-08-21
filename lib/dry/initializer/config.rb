@@ -1,26 +1,12 @@
 module Dry::Initializer
   class Config
-    attr_reader :undefined, :klass, :parent
+    attr_reader :undefined, :klass, :parent, :params, :options, :all
 
     def children
       ObjectSpace.each_object(Class)
                  .select { |item| item.superclass == klass }
                  .map(&:dry_initializer)
     end
-
-    def params
-      @params ||= []
-    end
-
-    def options
-      @options ||= []
-    end
-
-    def all
-      @all ||= params + options
-    end
-
-    attr_writer :undefined
 
     def param(definition)
       params << definition
@@ -30,15 +16,6 @@ module Dry::Initializer
     def option(definition)
       options << definition
       finalize
-    end
-
-    def finalize
-      @params  = final_params
-      @options = final_options
-      @all     = @params + @options
-      check_params
-      children.each(&:finalize)
-      self
     end
 
     def public_attributes(instance)
@@ -58,16 +35,26 @@ module Dry::Initializer
       end
     end
 
+    protected
+
+    def finalize
+      @params  = final_params
+      @options = final_options
+      @all     = @params + @options
+      check_params
+      children.each(&:finalize)
+    end
+
     private
 
     def initialize(klass = nil)
-      @klass = klass
-
-      superklass = klass.superclass
-      return unless superklass.is_a? Dry::Initializer
-
-      @parent    = superklass.dry_initializer
-      @undefined = parent.undefined
+      @klass     = klass
+      sklass     = klass.superclass
+      @parent    = sklass.dry_initializer if sklass.is_a? Dry::Initializer
+      @undefined = parent&.undefined
+      @params    = []
+      @options   = []
+      @all       = @params + @options
     end
 
     def final_params

@@ -1,4 +1,5 @@
 module Dry::Initializer
+  # @private
   module Instance
     def initialize(*params)
       config  = self.class.dry_initializer
