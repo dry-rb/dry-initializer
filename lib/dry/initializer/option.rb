@@ -2,7 +2,8 @@ module Dry::Initializer
   # @private
   class Option < Definition
     def value(instance, options)
-      super instance, options.fetch(source, undefined)
+      val = options.fetch(source, undefined)
+      handler.call instance, val
     end
 
     def inspect

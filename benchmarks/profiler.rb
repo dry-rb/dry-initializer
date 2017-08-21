@@ -3,12 +3,15 @@ require "ruby-prof"
 require "fileutils"
 
 class User
-  extend Dry::Initializer
+  extend Dry::Initializer[undefined: false]
 
-  param  :first_name,  proc(&:to_s), default: proc { "Unknown" }
-  param  :second_name, proc(&:to_s), default: proc { "Unknown" }
-  option :email,       proc(&:to_s), optional: true
-  option :phone,       proc(&:to_s), optional: true
+  param  :first_name
+  option :email
+
+  # param  :first_name,  proc(&:to_s), default: proc { "Unknown" }
+  # param  :second_name, proc(&:to_s), default: proc { "Unknown" }
+  # option :email,       proc(&:to_s), optional: true
+  # option :phone,       proc(&:to_s), optional: true
 end
 
 result = RubyProf.profile do

@@ -10,15 +10,8 @@ module Dry::Initializer
   # and build value of instance attribute.
   #
   class Definition
-    attr_reader :config, :source, :target, :type, :default, :reader
-
-    def undefined
-      config.undefined
-    end
-
-    def ivar
-      @ivar ||= :"@#{target}"
-    end
+    attr_reader :config, :source, :target, :ivar, :type, :default, :reader,
+                :handler, :undefined
 
     def ==(other)
       other.instance_of?(self.class) && (other.source == source)
@@ -41,20 +34,19 @@ module Dry::Initializer
       klass.send reader, target
     end
 
-    def value(instance, value)
-      coerce substitute(instance, value)
-    end
-
     private
 
     def initialize(config, source, coercer = nil, **options)
-      @config  = config
-      @source  = source.to_sym
-      @target  = check_target options.fetch(:as, source).to_sym
-      @type    = check_type(coercer || options[:type])
-      @reader  = prepare_reader options.fetch(:reader, true)
-      @default = check_default options[:default]
-      @default ||= proc { config.undefined } if options[:optional]
+      @config    = config
+      @undefined = config.undefined
+      @source    = source.to_sym
+      @target    = check_target options.fetch(:as, source).to_sym
+      @ivar      = :"@#{target}"
+      @type      = check_type(coercer || options[:type])
+      @reader    = prepare_reader options.fetch(:reader, true)
+      @default   = check_default options[:default]
+      @default ||= method(:undefined) if options[:optional]
+      @handler   = type ? method(:process) : method(:substitute)
     end
 
     def check_target(value)
@@ -94,8 +86,11 @@ module Dry::Initializer
 
     def coerce(value)
       return value if value == undefined
-      return value unless type
       type.call(value)
+    end
+
+    def process(instance, value)
+      coerce substitute(instance, value)
     end
   end
 end

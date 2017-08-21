@@ -3,7 +3,7 @@ Bundler.require(:benchmarks)
 require "dry-initializer"
 
 class ParamDefaults
-  extend Dry::Initializer::Mixin
+  extend Dry::Initializer
 
   param :foo, default: proc { "FOO" }
   param :bar, default: proc { "BAR" }
@@ -11,7 +11,7 @@ class ParamDefaults
 end
 
 class OptionDefaults
-  extend Dry::Initializer::Mixin
+  extend Dry::Initializer
 
   option :foo, default: proc { "FOO" }
   option :bar, default: proc { "BAR" }

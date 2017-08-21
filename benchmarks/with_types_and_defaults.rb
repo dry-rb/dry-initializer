@@ -13,7 +13,7 @@ end
 
 require "dry-initializer"
 class DryTest
-  extend Dry::Initializer::Mixin
+  extend Dry::Initializer
 
   option :foo, proc(&:to_s), default: proc { "FOO" }
   option :bar, proc(&:to_s), default: proc { "BAR" }

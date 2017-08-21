@@ -4,8 +4,8 @@ module Dry::Initializer
     attr_accessor :position
 
     def value(instance, params)
-      value = (position < params.count) ? params[position] : undefined
-      super instance, value
+      val = (position < params.count) ? params[position] : undefined
+      handler.call instance, val
     end
 
     def inspect

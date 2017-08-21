@@ -46,6 +46,18 @@ namespace :benchmark do
   end
 end
 
+desc "Runs all benchmarks"
+task benchmark: %i[
+  benchmark:without_options
+  benchmark:several_defaults
+  benchmark:params_vs_options
+  benchmark:with_types
+  benchmark:with_defaults
+  benchmark:with_types_and_defaults
+  benchmark:params
+  benchmark:options
+]
+
 desc "Runs profiler"
 task :profile do
   system "ruby benchmarks/profiler.rb && " \

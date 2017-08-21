@@ -11,7 +11,7 @@ end
 
 require "dry-initializer"
 class DryTest
-  extend Dry::Initializer::Mixin
+  extend Dry::Initializer
 
   option :foo, &(:to_s)
   option :bar, &(:to_s)

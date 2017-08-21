@@ -2,28 +2,28 @@ Bundler.require(:benchmarks)
 
 require "dry-initializer"
 class NoOptsTest
-  extend Dry::Initializer::Mixin
+  extend Dry::Initializer
 
   param  :foo
   option :bar
 end
 
 class DefaultsTest
-  extend Dry::Initializer::Mixin
+  extend Dry::Initializer
 
   param  :foo, default: proc { "FOO" }
   option :bar, default: proc { "BAR" }
 end
 
 class TypesTest
-  extend Dry::Initializer::Mixin
+  extend Dry::Initializer
 
   param  :foo, proc(&:to_s)
   option :bar, proc(&:to_s)
 end
 
 class DefaultsAndTypesTest
-  extend Dry::Initializer::Mixin
+  extend Dry::Initializer
 
   param  :foo, proc(&:to_s), default: proc { "FOO" }
   option :bar, proc(&:to_s), default: proc { "BAR" }

@@ -24,7 +24,8 @@ module Dry::Initializer
     # @return [Dry::Initializer::Definition]
     #   list of all [#params] and [#options]
 
-    attr_reader :undefined, :klass, :parent, :params, :options, :definitions
+    attr_reader :undefined, :klass, :parent,
+                :params, :options, :definitions, :ivars
 
     # The list of configs of all subclasses of the [#klass]
     #
@@ -78,6 +79,7 @@ module Dry::Initializer
       @params      = final_params
       @options     = final_options
       @definitions = @params + @options
+      @ivars       = @definitions.map(&:ivar)
       check_params
       children.each(&:finalize)
     end
@@ -85,13 +87,13 @@ module Dry::Initializer
     private
 
     def initialize(klass = nil)
-      @klass       = klass
-      sklass       = klass.superclass
-      @parent      = sklass.dry_initializer if sklass.is_a? Dry::Initializer
-      @undefined   = parent&.undefined
-      @params      = []
-      @options     = []
-      @definitions = @params + @options
+      @klass     = klass
+      sklass     = klass.superclass
+      @parent    = sklass.dry_initializer if sklass.is_a? Dry::Initializer
+      @undefined = parent&.undefined
+      @params    = []
+      @options   = []
+      finalize
     end
 
     def add_param(definition)
