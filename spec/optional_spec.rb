@@ -2,7 +2,7 @@ describe "optional value" do
   context "when has no default value" do
     before do
       class Test::Foo
-        extend Dry::Initializer::Mixin
+        extend Dry::Initializer
 
         param :foo
         param :bar, optional: true
@@ -49,7 +49,7 @@ describe "optional value" do
   context "when has a default value" do
     before do
       class Test::Foo
-        extend Dry::Initializer::Mixin
+        extend Dry::Initializer
 
         param :foo
         param :bar, optional: true, default: proc { "baz" }

@@ -3,7 +3,7 @@ require "dry-types"
 describe "type argument" do
   before do
     class Test::Foo
-      extend Dry::Initializer::Mixin
+      extend Dry::Initializer
       param  :foo, Dry::Types["strict.string"]
       option :bar, Dry::Types["strict.string"]
     end

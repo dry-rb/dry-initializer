@@ -1,7 +1,7 @@
 describe "subclassing" do
   before do
     class Test::Foo
-      extend Dry::Initializer::Mixin
+      extend Dry::Initializer
 
       param  :foo
       option :bar
@@ -37,7 +37,7 @@ describe "subclassing" do
     called = false
     mixin = Module.new { define_method(:inherited) { |_| called = true } }
 
-    base = Class.new { extend mixin; extend Dry::Initializer::Mixin }
+    base = Class.new { extend mixin; extend Dry::Initializer }
     Class.new(base)
 
     expect(called).to be true

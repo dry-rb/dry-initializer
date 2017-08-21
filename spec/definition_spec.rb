@@ -18,10 +18,10 @@ describe "definition" do
     end
   end
 
-  it_behaves_like :initializer, "extend Dry::Initializer::Mixin" do
+  it_behaves_like :initializer, "extend Dry::Initializer" do
     before do
       class Test::Foo
-        extend Dry::Initializer::Mixin
+        extend Dry::Initializer
         param  :foo
         option :bar
       end

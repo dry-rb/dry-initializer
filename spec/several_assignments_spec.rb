@@ -1,7 +1,7 @@
 describe "attribute with several assignments" do
   before do
     class Test::Foo
-      extend Dry::Initializer::Mixin
+      extend Dry::Initializer
 
       option :bar, proc(&:to_s),    optional: true
       option :"some foo", as: :bar, optional: true

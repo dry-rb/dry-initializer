@@ -1,7 +1,7 @@
 describe "options tolerance" do
   before do
     class Test::Foo
-      extend Dry::Initializer::Mixin
+      extend Dry::Initializer
     end
   end
 

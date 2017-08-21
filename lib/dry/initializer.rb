@@ -4,16 +4,13 @@ module Dry
   # DSL for declaring params and options of class initializers
   #
   module Initializer
-    # rubocop: disable Style/ConstantName
-    Mixin = self # for backward compatibility
-    # rubocop: enable Style/ConstantName
     UNDEFINED = Object.new.freeze
 
-    require_relative "initializer/config"
     require_relative "initializer/extension"
     require_relative "initializer/definition"
     require_relative "initializer/param"
     require_relative "initializer/option"
+    require_relative "initializer/config"
     require_relative "initializer/instance"
 
     class << self

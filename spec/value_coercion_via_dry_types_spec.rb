@@ -7,7 +7,7 @@ describe "value coercion via dry-types" do
     end
 
     class Test::Foo
-      extend Dry::Initializer::Mixin
+      extend Dry::Initializer
 
       param  :foo, type: Test::Types::Coercible::String
       option :bar, proc(&:to_i), default: proc { "16" }

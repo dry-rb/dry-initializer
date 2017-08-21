@@ -9,7 +9,7 @@ describe "reader" do
   context "with reader: :public or no reader: option" do
     subject do
       class Test::Foo
-        extend Dry::Initializer::Mixin
+        extend Dry::Initializer
 
         param  :foo
         param  :foo2, reader: :public
@@ -30,7 +30,7 @@ describe "reader" do
   context "with reader: false" do
     subject do
       class Test::Foo
-        extend Dry::Initializer::Mixin
+        extend Dry::Initializer
 
         param  :foo, reader: false
         option :bar, reader: false
@@ -50,7 +50,7 @@ describe "reader" do
   context "with reader: :private" do
     subject do
       class Test::Foo
-        extend Dry::Initializer::Mixin
+        extend Dry::Initializer
 
         param  :foo, reader: :private
         option :bar, reader: :private
@@ -70,7 +70,7 @@ describe "reader" do
   context "with reader: :protected" do
     subject do
       class Test::Foo
-        extend Dry::Initializer::Mixin
+        extend Dry::Initializer
 
         param  :foo, reader: :protected
         option :bar, reader: :protected
