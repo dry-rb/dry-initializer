@@ -1,5 +1,5 @@
-describe Dry::Initializer, ".options" do
-  subject { Dry::Initializer.options(instance) }
+describe Dry::Initializer, "dry_initializer.attributes" do
+  subject { instance.class.dry_initializer.attributes(instance) }
 
   context "when class has params" do
     before do

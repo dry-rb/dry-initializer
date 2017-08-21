@@ -11,12 +11,9 @@ module Dry
     require_relative "initializer/param"
     require_relative "initializer/option"
     require_relative "initializer/instance"
-    require_relative "initializer/utils"
-    require_relative "initializer/validator"
 
     class << self
       include Extension
-      include Utils
 
       def [](**settings)
         Module.new.tap do |mod|
@@ -45,7 +42,6 @@ module Dry
     def param(*args)
       definition = Param.new(dry_initializer, *args)
       dry_initializer.param(definition)
-      Validator.call(self)
       definition.define_reader(self)
     end
 

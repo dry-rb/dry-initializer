@@ -1,5 +1,5 @@
-describe Dry::Initializer, ".public_options" do
-  subject { Dry::Initializer.public_options(instance) }
+describe Dry::Initializer, ".dry_initializer.public_attributes" do
+  subject { instance.class.dry_initializer.public_attributes(instance) }
 
   context "when class has params" do
     before do
