@@ -3,7 +3,7 @@ AllCops:
   DisplayCopNames:    true
   DisplayStyleGuide:  true
   StyleGuideCopsOnly: true
-  TargetRubyVersion:  2.2
+  TargetRubyVersion:  2.3
 
 Bundler/DuplicatedGem:
   Enabled: false
@@ -34,15 +34,9 @@ Style/Lambda:
 Style/LambdaCall:
   Enabled: false
 
-Style/RaiseArgs:
-  EnforcedStyle: compact
-
 Style/Semicolon:
   Exclude:
     - spec/**/*_spec.rb
-
-Style/SignalException:
-  EnforcedStyle: semantic
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes

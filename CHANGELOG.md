@@ -1,3 +1,46 @@
+## [2.0.0] [2017-08-09]
+
+This version contains backward-incompatible change of undocumented
+`@__options__` hash.
+
+### Added
+- Namespaced variable `@__dry_initializer_options__` in liew of `@__options__` (gzigzigzeo)
+- Instance reader method `#dry_initializer_options` (gzigzigzeo)
+
+  The method returns a hash of params and options either given to the initializer explicitly,
+  or set by default. Not assigned <optional> params and options are excluded, as well as
+  any options/params whose value is equal to the `Dry::Initializer::INDEFINED` constant.
+
+  Be careful! Some values of the hash can differ from a corresponding variables
+  in case of their readers are reloaded:
+
+  ```ruby
+  class User
+    extend Dry::Initializer
+
+    param  :name                      # params included
+    option :rating, default: -> { 0 } # defaults included
+    option :email,  optional: true    # skipped when not assigned
+    option :admin                     # reader to be reloaded
+    option :employee, as: :active     # renamed
+
+    def admin
+      super ? 1 : 0
+    end
+  end
+
+  user = User.new "Joe", admin: true, employee: true
+  user.dry_initializer_options
+  # => { name: "Joe", rating: 0, admin: 1, active: true }
+
+  user.dry_initializer_options[:admin] # => 1
+  user.admin                           # => 1
+  user.instance_variable_get :@admin   # => true
+  ```
+
+### Deleted
+- No `@__options__` hash any more -- it was renamed to `@__dry_initializer_options__` (gzigzigzeo)
+
 ## v1.4.1 2017-04-05
 
 ### Fixed

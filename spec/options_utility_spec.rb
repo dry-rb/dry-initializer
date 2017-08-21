@@ -1,4 +1,6 @@
-describe "@__options__" do
+describe Dry::Initializer, ".options" do
+  subject { Dry::Initializer.options(instance) }
+
   context "when class has params" do
     before do
       class Test::Foo
@@ -9,11 +11,10 @@ describe "@__options__" do
       end
     end
 
-    it "collects coerced params with default values" do
-      subject = Test::Foo.new(:FOO)
+    let(:instance) { Test::Foo.new(:FOO) }
 
-      expect(subject.instance_variable_get(:@__options__))
-        .to eq({ foo: "FOO", bar: 1 })
+    it "collects coerced params with default values" do
+      expect(subject).to eq({ foo: "FOO", bar: 1 })
     end
   end
 
@@ -28,11 +29,10 @@ describe "@__options__" do
       end
     end
 
-    it "collects coerced and renamed options with default values" do
-      subject = Test::Foo.new(foo: :FOO, qux: :QUX)
+    let(:instance) { Test::Foo.new(foo: :FOO, qux: :QUX) }
 
-      expect(subject.instance_variable_get(:@__options__))
-        .to eq({ foo: :FOO, bar: 1, quxx: "QUX" })
+    it "collects coerced and renamed options with default values" do
+      expect(subject).to eq({ foo: :FOO, bar: 1, quxx: "QUX" })
     end
   end
 end

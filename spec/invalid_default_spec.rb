@@ -8,6 +8,6 @@ describe "invalid default value assignment" do
   end
 
   it "raises TypeError" do
-    expect { subject }.to raise_error TypeError, /1/
+    expect { subject }.to raise_error TypeError
   end
 end

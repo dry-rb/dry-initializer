@@ -1,54 +1,73 @@
 module Dry
   module Initializer
-    require_relative "initializer/exceptions/default_value_error"
-    require_relative "initializer/exceptions/type_constraint_error"
-    require_relative "initializer/exceptions/params_order_error"
+    # rubocop: disable Style/ConstantName
+    Mixin = self # for backward compatibility
+    # rubocop: enable Style/ConstantName
+    UNDEFINED = Object.new.freeze
 
-    require_relative "initializer/attribute"
+    require_relative "initializer/config"
+    require_relative "initializer/extension"
+    require_relative "initializer/definition"
     require_relative "initializer/param"
     require_relative "initializer/option"
-    require_relative "initializer/builder"
-    require_relative "initializer/instance_dsl"
-    require_relative "initializer/class_dsl"
+    require_relative "initializer/instance"
+    require_relative "initializer/utils"
+    require_relative "initializer/validator"
 
-    # rubocop: disable Style/ConstantName
-    Mixin = self # for compatibility to versions below 0.12
-    # rubocop: enable Style/ConstantName
+    class << self
+      include Extension
+      include Utils
 
-    UNDEFINED = Object.new.tap do |obj|
-      obj.define_singleton_method(:inspect) { "Dry::Initializer::UNDEFINED" }
-    end.freeze
-
-    extend Dry::Initializer::ClassDSL
-
-    def param(*args)
-      __initializer_builder__.param(*args).call(__initializer_mixin__)
+      def [](**settings)
+        Module.new.tap do |mod|
+          mod.extend Extension
+          mod.include self
+          mod.settings = settings
+        end
+      end
     end
 
+    # Enumerable collection of definitions for params and options
+    #
+    # @return [Dry::Initializer::Definition]
+    #
+    def dry_initializer
+      @dry_initializer ||= Config.new
+    end
+
+    # @!method param(name, type, opts)
+    # Adds or redefines a parameter
+    #
+    # @param  [name]
+    # @param  [type]
+    # @return [self] itself
+    #
+    def param(*args)
+      definition = Param.new(dry_initializer, *args)
+      dry_initializer.param(definition)
+      Validator.call(self)
+      definition.define_reader(self)
+    end
+
+    # @!method option(name, type, opts)
+    # Adds or redefines an option
+    #
+    # @param  [name]
+    # @param  [type]
+    # @return [self] itself
+    #
     def option(*args)
-      __initializer_builder__.option(*args).call(__initializer_mixin__)
+      definition = Option.new(dry_initializer, *args)
+      dry_initializer.option(definition)
+      definition.define_reader(self)
     end
 
     private
 
-    def __initializer_mixin__
-      @__initializer_mixin__ ||= Module.new
-    end
-
-    def __initializer_builder__(**settings)
-      @__initializer_builder__ ||= Dry::Initializer::Builder.new(settings)
-    end
-
     def inherited(klass)
-      builder = @__initializer_builder__.dup
-      mixin   = Module.new
-
-      klass.instance_variable_set :@__initializer_builder__, builder
-      klass.instance_variable_set :@__initializer_mixin__,   mixin
-
-      builder.call(mixin)
-      klass.include mixin
-
+      klass.__send__ :instance_variable_set,
+                     :@dry_initializer,
+                     Config.new(dry_initializer)
       super
     end
   end
