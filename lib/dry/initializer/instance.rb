@@ -1,5 +1,3 @@
-require "pry"
-
 module Dry::Initializer
   module Instance
     def initialize(*params)

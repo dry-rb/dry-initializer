@@ -34,6 +34,10 @@ Style/Lambda:
 Style/LambdaCall:
   Enabled: false
 
+Style/RescueModified:
+  Exclude:
+    - spec/**/*_spec.rb
+
 Style/Semicolon:
   Exclude:
     - spec/**/*_spec.rb
