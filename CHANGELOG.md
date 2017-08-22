@@ -22,6 +22,34 @@ and to @gzigzigzeo for persuading me to do this refactoring.
 - Undocumented variable `@__option__` which was the main reason for refactoring
   (gzigzigzeo, nepalez).
 
+- Support for "include syntax" of the client (nepalez)
+
+  In previous version this was an alternative syntax to initialize params
+  and options:
+
+  ```ruby
+  class Foo
+    include Dry::Initializer.define -> do
+      option :name
+    end
+  end
+  ```
+
+  This allowed to keep class namespace clean for the price of not
+  supporting any inheritance. Another important restriction was adding
+  magics to several private instance variables to store coercers and
+  default values.
+
+  Now we add only 3 class methods: `dry_initializer`, `param`, and `option`,
+  and only 1 class variable `@dry_initializer` (param and option delegated
+  to the variable).
+
+  From the other hand, moving coercers to instances and defaults made it harder
+  to correctly reload params/options in subclasses. Now both coercers and
+  defaults are stored in `dry_initializer.definitions` where they are
+  looked for by the `__initializer__`. So there's no way to preserve
+  "include syntax" any more. RIP
+
 ### Added
 - Class method `.dry_initializer` -- a container for `.params` and `.options`
   `.definitions` along with the `.null` setting (either `nil` or `UNDEFINED`)
@@ -191,8 +219,7 @@ and to @gzigzigzeo for persuading me to do this refactoring.
            active_attr:               301750.5 i/s - 11.39x  slower
   ```
 
-  There is some place for further performance optimization (for about 5-10%),
-  still it works fine already.
+  There are some places for further performance optimization (for about 5%)
 
 ## [1.4.1] [2017-04-05]
 
