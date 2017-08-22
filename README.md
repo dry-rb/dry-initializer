@@ -49,10 +49,10 @@ class User
   extend Dry::Initializer::Mixin
 
   # Params of the initializer along with corresponding readers
-  param  :name,  type: Dry::Types["strict.string"]
-  param  :role,  default: proc { 'customer' }
+  param  :name,  proc(&:to_s)
+  param  :role,  default: -> { 'customer' }
   # Options of the initializer along with corresponding readers
-  option :admin, default: proc { false }
+  option :admin, default: -> { false }
   option :vip,   optional: true
 end
 

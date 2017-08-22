@@ -7,6 +7,8 @@ module Dry
     # Singleton for unassigned values
     UNDEFINED = Object.new.freeze
 
+    Mixin = self
+
     require_relative "initializer/extension"
     require_relative "initializer/definition"
     require_relative "initializer/builders"

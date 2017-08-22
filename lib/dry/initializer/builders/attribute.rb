@@ -52,7 +52,7 @@ module Dry::Initializer::Builders
 
     def required_reader
       "#{name} = __options__.fetch(:'#{@definition.source}')" \
-      " { raise KeyError, \"#{@definition} is required\" }"
+      " { raise KeyError, \"\#{self.class}: #{@definition} is required\" }"
     end
 
     def definition_line
