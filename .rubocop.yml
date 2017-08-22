@@ -4,6 +4,8 @@ AllCops:
   DisplayStyleGuide:  true
   StyleGuideCopsOnly: true
   TargetRubyVersion:  2.3
+  Exclude:
+    - lib/tasks/*.rake
 
 Bundler/DuplicatedGem:
   Enabled: false

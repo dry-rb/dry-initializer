@@ -4,6 +4,7 @@ module Dry
   # DSL for declaring params and options of class initializers
   #
   module Initializer
+    # Singleton for unassigned values
     UNDEFINED = Object.new.freeze
 
     require_relative "initializer/extension"
