@@ -8,7 +8,7 @@ module Dry::Initializer
   # and build value of instance attribute.
   #
   class Definition
-    attr_reader :option, :undefined, :source, :target, :ivar, :type, :default,
+    attr_reader :option, :null, :source, :target, :ivar, :type, :default,
                 :reader
 
     def name
@@ -28,16 +28,16 @@ module Dry::Initializer
 
     private
 
-    def initialize(option, undefined, source, coercer = nil, **options)
+    def initialize(option, null, source, coercer = nil, **options)
       @option    = !!option
-      @undefined = undefined
+      @null      = null
       @source    = source.to_sym
       @target    = check_target options.fetch(:as, source).to_sym
       @ivar      = :"@#{target}"
       @type      = check_type(coercer || options[:type])
       @reader    = prepare_reader options.fetch(:reader, true)
       @default   = check_default options[:default]
-      @default ||= method(:undefined) if options[:optional]
+      @default ||= method(:null) if options[:optional]
     end
 
     def check_source(value)

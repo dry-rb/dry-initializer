@@ -8,7 +8,7 @@ module Dry::Initializer
 
       unless settings.to_h[:undefined] == false
         klass.dry_initializer.send :instance_variable_set,
-                                   :@undefined,
+                                   :@null,
                                    UNDEFINED
       end
 

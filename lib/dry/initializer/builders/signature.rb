@@ -16,7 +16,7 @@ module Dry::Initializer::Builders
     end
 
     def null
-      @null ||= @config.undefined ? "Dry::Initializer::UNDEFINED" : "nil"
+      @null ||= @config.null ? "Dry::Initializer::UNDEFINED" : "nil"
     end
 
     def params

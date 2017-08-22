@@ -17,7 +17,7 @@ module Dry
 
       # Returns a version of the module with custom settings
       #
-      # @option settings [Boolean] undefined
+      # @option settings [Boolean] :undefined
       #   If unassigned params and options should be treated different from nil
       # @return [Dry::Initializer]
       #

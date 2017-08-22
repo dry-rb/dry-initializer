@@ -20,11 +20,11 @@ module Dry::Initializer::Builders
     end
 
     def null
-      @null ||= @definition.undefined ? "Dry::Initializer::UNDEFINED" : "nil"
+      @null ||= @definition.null ? "Dry::Initializer::UNDEFINED" : "nil"
     end
 
     def undefined
-      @undefined ||= case @definition.undefined
+      @undefined ||= case @definition.null
                      when nil then "#{name}.nil?"
                      else "#{name} == Dry::Initializer::UNDEFINED"
                      end

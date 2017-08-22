@@ -45,7 +45,7 @@ module Dry::Initializer::Builders
     end
 
     def preset_lines
-      return unless @config.undefined
+      return unless @config.null
       @definitions.map(&:ivar)
                   .uniq
                   .map { |ivar| "  #{ivar} = Dry::Initializer::UNDEFINED" }

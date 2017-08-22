@@ -12,10 +12,10 @@ module Dry::Initializer::Builders
     private
 
     def initialize(definition)
-      @target    = definition.target
-      @ivar      = definition.ivar
-      @undefined = definition.undefined
-      @reader    = definition.reader
+      @target = definition.target
+      @ivar   = definition.ivar
+      @null   = definition.null
+      @reader = definition.reader
     end
 
     def lines
@@ -28,12 +28,12 @@ module Dry::Initializer::Builders
 
     def attribute_line
       return unless @reader
-      "attr_reader :#{@target}" unless @undefined
+      "attr_reader :#{@target}" unless @null
     end
 
     def method_lines
       return unless @reader
-      return unless @undefined
+      return unless @null
       [
         "def #{@target}",
         "  #{@ivar} unless #{@ivar} == Dry::Initializer::UNDEFINED",

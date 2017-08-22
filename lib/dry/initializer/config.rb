@@ -3,7 +3,7 @@ module Dry::Initializer
   # Gem-related configuration of some class
   #
   class Config
-    # @!attribute [r] undefined
+    # @!attribute [r] null
     # @return [Dry::Initializer::UNDEFINED, nil] value of unassigned variable
 
     # @!attribute [r] klass
@@ -16,7 +16,7 @@ module Dry::Initializer
     # @return [Hash<Symbol, Dry::Initializer::Definition>]
     #   hash of attribute definitions with their source names
 
-    attr_reader :undefined, :klass, :parent, :definitions
+    attr_reader :null, :klass, :parent, :definitions
 
     # List of configs of all subclasses of the [#klass]
     # @return [Array<Dry::Initializer::Config>]
@@ -50,7 +50,7 @@ module Dry::Initializer
         key = item.target
         next unless instance.respond_to? key
         val = instance.send(key)
-        obj[key] = val unless val == undefined
+        obj[key] = val unless val == null
       end
     end
 
@@ -65,7 +65,7 @@ module Dry::Initializer
       definitions.values.each_with_object({}) do |item, obj|
         key = item.target
         val = instance.send(:instance_variable_get, item.ivar)
-        obj[key] = val unless val == undefined
+        obj[key] = val unless val == null
       end
     end
 
@@ -93,13 +93,13 @@ module Dry::Initializer
       @klass       = klass
       sklass       = klass.superclass
       @parent      = sklass.dry_initializer if sklass.is_a? Dry::Initializer
-      @undefined   = parent&.undefined
+      @null        = parent&.null
       @definitions = {}
       finalize
     end
 
     def add_definition(option, name, type, opts)
-      definition = Definition.new(option, undefined, name, type, opts)
+      definition = Definition.new(option, null, name, type, opts)
       definitions[definition.source] = definition
       finalize
 
@@ -124,12 +124,12 @@ module Dry::Initializer
     end
 
     def check_constraint(previous, current)
-      return unless previous
-      return unless previous.default
-      return if     current.default
-      raise SyntaxError, "cannot reload optional #{previous}" \
-                         " of #{klass.superclass}" \
-                         " by required #{current} of its subclass #{klass}"
+      return if previous.nil?
+      return if previous.default
+      return unless current.default
+      raise SyntaxError, "cannot reload required #{previous}" \
+                         " of parent class #{klass.superclass}" \
+                         " by optional #{current} of its subclass #{klass}"
     end
 
     def check_order_of_params
