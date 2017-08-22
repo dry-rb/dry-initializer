@@ -109,27 +109,15 @@ module Dry::Initializer
     def final_definitions
       parent_definitions = Hash(parent&.definitions&.dup)
       definitions.each_with_object(parent_definitions) do |(key, val), obj|
-        previous = obj[key]
-        check_type(previous, val)
-        check_constraint(previous, val)
-        obj[key] = val
+        obj[key] = check_type(obj[key], val)
       end
     end
 
     def check_type(previous, current)
-      return unless previous
-      return if previous.option == current.option
+      return current unless previous
+      return current if previous.option == current.option
       raise SyntaxError, "cannot reload #{previous} of #{klass.superclass}" \
                          " by #{current} of its subclass #{klass}"
-    end
-
-    def check_constraint(previous, current)
-      return if previous.nil?
-      return if previous.default
-      return unless current.default
-      raise SyntaxError, "cannot reload required #{previous}" \
-                         " of parent class #{klass.superclass}" \
-                         " by optional #{current} of its subclass #{klass}"
     end
 
     def check_order_of_params
