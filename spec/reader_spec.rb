@@ -28,16 +28,16 @@ describe "reader" do
   end
 
   context "with reader: false" do
-    subject do
+    before do
       class Test::Foo
         extend Dry::Initializer
 
         param  :foo, reader: false
         option :bar, reader: false
       end
-
-      Test::Foo.new 1, bar: 2
     end
+
+    subject { Test::Foo.new 1, bar: 2 }
 
     it_behaves_like "it has no public attr_reader"
 
@@ -48,16 +48,16 @@ describe "reader" do
   end
 
   context "with reader: :private" do
-    subject do
+    before do
       class Test::Foo
         extend Dry::Initializer
 
         param  :foo, reader: :private
         option :bar, reader: :private
       end
-
-      Test::Foo.new 1, bar: 2
     end
+
+    subject { Test::Foo.new 1, bar: 2 }
 
     it_behaves_like "it has no public attr_reader"
 

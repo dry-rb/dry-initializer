@@ -12,42 +12,41 @@ module Dry::Initializer
     # @!attribute [r] parent
     # @return [Dry::Initializer::Config] parent configuration
 
-    # @!attribute [r] params
-    # @return [Dry::Initializer::Param]
-    #   list of definitions for initializer options
-
-    # @!attribute [r] options
-    # @return [Dry::Initializer::Option]
-    #   list of definitions for initializer options
-
     # @!attribute [r] definitions
-    # @return [Dry::Initializer::Definition]
-    #   list of all [#params] and [#options]
+    # @return [Hash<Symbol, Dry::Initializer::Definition>]
+    #   hash of attribute definitions with their source names
 
-    attr_reader :undefined, :klass, :parent,
-                :params, :options, :definitions, :ivars
+    attr_reader :undefined, :klass, :parent, :definitions
 
-    # The list of configs of all subclasses of the [#klass]
-    #
+    # List of configs of all subclasses of the [#klass]
     # @return [Array<Dry::Initializer::Config>]
-    #
     def children
       ObjectSpace.each_object(Class)
                  .select { |item| item.superclass == klass }
                  .map(&:dry_initializer)
     end
 
+    # List of definitions for initializer params
+    # @return [Array<Dry::Initializer::Definition>]
+    def params
+      definitions.values.reject(&:option)
+    end
+
+    # List of definitions for initializer options
+    # @return [Array<Dry::Initializer::Definition>]
+    def options
+      definitions.values.select(&:option)
+    end
+
     # The hash of public attributes for an instance of the [#klass]
-    #
     # @param  [Dry::Initializer::Instance] instance
     # @return [Hash<Symbol, Object>]
-    #
     def public_attributes(instance)
       unless instance.instance_of? klass
         raise TypeError, "#{instance.inspect} is not an instance of #{klass}"
       end
 
-      definitions.each_with_object({}) do |item, obj|
+      definitions.values.each_with_object({}) do |item, obj|
         key = item.target
         next unless instance.respond_to? key
         val = instance.send(key)
@@ -56,73 +55,84 @@ module Dry::Initializer
     end
 
     # The hash of assigned attributes for an instance of the [#klass]
-    #
     # @param  [Dry::Initializer::Instance] instance
     # @return [Hash<Symbol, Object>]
-    #
     def attributes(instance)
       unless instance.instance_of? klass
         raise TypeError, "#{instance.inspect} is not an instance of #{klass}"
       end
 
-      definitions.each_with_object({}) do |item, obj|
+      definitions.values.each_with_object({}) do |item, obj|
         key = item.target
         val = instance.send(:instance_variable_get, item.ivar)
         obj[key] = val unless val == undefined
       end
     end
 
+    # Code of the `#__initialize__` method
+    # @return [String]
+    def code
+      Builders::Initializer[self]
+    end
+
     protected
 
     # @private
     def finalize
-      @params      = final_params
-      @options     = final_options
-      @definitions = @params + @options
-      @ivars       = @definitions.map(&:ivar)
-      check_params
+      @definitions = final_definitions
+      check_order_of_params
+
+      klass.class_eval(code)
+
       children.each(&:finalize)
     end
 
     private
 
     def initialize(klass = nil)
-      @klass     = klass
-      sklass     = klass.superclass
-      @parent    = sklass.dry_initializer if sklass.is_a? Dry::Initializer
-      @undefined = parent&.undefined
-      @params    = []
-      @options   = []
+      @klass       = klass
+      sklass       = klass.superclass
+      @parent      = sklass.dry_initializer if sklass.is_a? Dry::Initializer
+      @undefined   = parent&.undefined
+      @definitions = {}
       finalize
     end
 
-    def add_param(definition)
-      params << definition
+    def add_definition(option, name, type, opts)
+      definition = Definition.new(option, undefined, name, type, opts)
+      definitions[definition.source] = definition
       finalize
+
+      klass.class_eval definition.code
     end
 
-    def add_option(definition)
-      options << definition
-      finalize
-    end
-
-    def final_params
-      list = parent&.params&.dup || []
-      params.each_with_object(list) do |item, obj|
-        item.position = obj.find_index(item) || obj.count
-        obj[item.position] = item
+    def final_definitions
+      parent_definitions = Hash(parent&.definitions&.dup)
+      definitions.each_with_object(parent_definitions) do |(key, val), obj|
+        previous = obj[key]
+        check_type(previous, val)
+        check_constraint(previous, val)
+        obj[key] = val
       end
     end
 
-    def final_options
-      list = parent&.options&.dup || []
-      options.each_with_object(list) do |item, obj|
-        index = obj.find_index(item) || obj.count
-        obj[index] = item
-      end
+    def check_type(previous, current)
+      return unless previous
+      return if previous.option == current.option
+      raise SyntaxError, "cannot reload #{previous} of #{klass.superclass}" \
+                         " by #{current} of its subclass #{klass}"
     end
 
-    def check_params
+    def check_constraint(previous, current)
+      return unless previous
+      return unless previous.default
+      return if     current.default
+      raise SyntaxError, "cannot reload optional #{previous}" \
+                         " of #{klass.superclass}" \
+                         " by required #{current} of its subclass #{klass}"
+    end
+
+    def check_order_of_params
       params.inject(nil) do |optional, current|
         if current.default
           current

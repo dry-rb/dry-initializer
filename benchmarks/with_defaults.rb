@@ -1,5 +1,20 @@
 Bundler.require(:benchmarks)
 
+require "dry-initializer"
+class DryTest
+  extend Dry::Initializer[undefined: false]
+
+  option :foo, default: -> { "FOO" }
+  option :bar, default: -> { "BAR" }
+end
+
+class DryTestUndefined
+  extend Dry::Initializer
+
+  option :foo, default: -> { "FOO" }
+  option :bar, default: -> { "BAR" }
+end
+
 class PlainRubyTest
   attr_reader :foo, :bar
 
@@ -7,14 +22,6 @@ class PlainRubyTest
     @foo = foo
     @bar = bar
   end
-end
-
-require "dry-initializer"
-class DryTest
-  extend Dry::Initializer
-
-  option :foo, default: proc { "FOO" }
-  option :bar, default: proc { "BAR" }
 end
 
 require "kwattr"
@@ -41,6 +48,10 @@ Benchmark.ips do |x|
 
   x.report("dry-initializer") do
     DryTest.new
+  end
+
+  x.report("dry-initializer (with UNDEFINED)") do
+    DryTestUndefined.new
   end
 
   x.report("kwattr") do

@@ -1,5 +1,20 @@
 Bundler.require(:benchmarks)
 
+require "dry-initializer"
+class DryTest
+  extend Dry::Initializer[undefined: false]
+
+  option :foo, proc(&:to_s)
+  option :bar, proc(&:to_s)
+end
+
+class DryTestUndefined
+  extend Dry::Initializer
+
+  option :foo, proc(&:to_s)
+  option :bar, proc(&:to_s)
+end
+
 class PlainRubyTest
   attr_reader :foo, :bar
 
@@ -7,14 +22,6 @@ class PlainRubyTest
     @foo = options[:foo].to_s
     @bar = options[:bar].to_s
   end
-end
-
-require "dry-initializer"
-class DryTest
-  extend Dry::Initializer
-
-  option :foo, &(:to_s)
-  option :bar, &(:to_s)
 end
 
 require "virtus"
@@ -35,7 +42,7 @@ class FastAttributesTest
   end
 end
 
-puts "Benchmark for instantiation with type constraints"
+puts "Benchmark for instantiation with coercion"
 
 Benchmark.ips do |x|
   x.config time: 15, warmup: 10
@@ -46,6 +53,10 @@ Benchmark.ips do |x|
 
   x.report("dry-initializer") do
     DryTest.new foo: "FOO", bar: "BAR"
+  end
+
+  x.report("dry-initializer (with UNDEFINED)") do
+    DryTestUndefined.new foo: "FOO", bar: "BAR"
   end
 
   x.report("virtus") do

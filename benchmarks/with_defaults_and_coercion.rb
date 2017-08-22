@@ -1,5 +1,20 @@
 Bundler.require(:benchmarks)
 
+require "dry-initializer"
+class DryTest
+  extend Dry::Initializer[undefined: false]
+
+  option :foo, proc(&:to_s), default: -> { "FOO" }
+  option :bar, proc(&:to_s), default: -> { "BAR" }
+end
+
+class DryTestUndefined
+  extend Dry::Initializer
+
+  option :foo, proc(&:to_s), default: -> { "FOO" }
+  option :bar, proc(&:to_s), default: -> { "BAR" }
+end
+
 class PlainRubyTest
   attr_reader :foo, :bar
 
@@ -9,14 +24,6 @@ class PlainRubyTest
     raise TypeError unless String === @foo
     raise TypeError unless String === @bar
   end
-end
-
-require "dry-initializer"
-class DryTest
-  extend Dry::Initializer
-
-  option :foo, proc(&:to_s), default: proc { "FOO" }
-  option :bar, proc(&:to_s), default: proc { "BAR" }
 end
 
 require "virtus"
@@ -37,6 +44,10 @@ Benchmark.ips do |x|
   end
 
   x.report("dry-initializer") do
+    DryTest.new
+  end
+
+  x.report("dry-initializer (with UNDEFINED)") do
     DryTest.new
   end
 

@@ -8,8 +8,7 @@ module Dry
 
     require_relative "initializer/extension"
     require_relative "initializer/definition"
-    require_relative "initializer/param"
-    require_relative "initializer/option"
+    require_relative "initializer/builders"
     require_relative "initializer/config"
     require_relative "initializer/instance"
 
@@ -52,9 +51,7 @@ module Dry
     # @return [self] itself
     #
     def param(name, type = nil, **opts)
-      definition = Param.new(dry_initializer, name, type, opts)
-      dry_initializer.send :add_param, definition
-      definition.define_reader(self)
+      dry_initializer.send :add_definition, false, name, type, opts
       self
     end
 
@@ -66,9 +63,7 @@ module Dry
     # @return (see #param)
     #
     def option(name, type = nil, **opts)
-      definition = Option.new(dry_initializer, name, type, opts)
-      dry_initializer.send :add_option, definition
-      definition.define_reader(self)
+      dry_initializer.send :add_definition, true, name, type, opts
       self
     end
   end

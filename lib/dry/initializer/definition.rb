@@ -1,8 +1,6 @@
 module Dry::Initializer
   #
   # @private
-  #
-  # @private
   # @abstract
   #
   # Base class for parameter or option definitions
@@ -10,35 +8,29 @@ module Dry::Initializer
   # and build value of instance attribute.
   #
   class Definition
-    attr_reader :config, :source, :target, :ivar, :type, :default, :reader,
-                :handler, :undefined
+    attr_reader :option, :undefined, :source, :target, :ivar, :type, :default,
+                :reader
+
+    def name
+      @name ||= (option ? "option" : "parameter") << " '#{source}'"
+    end
+    alias to_s    name
+    alias to_str  name
+    alias inspect name
 
     def ==(other)
       other.instance_of?(self.class) && (other.source == source)
     end
 
-    def define_reader(klass)
-      klass.send :undef_method, target if klass.method_defined? target
-      return unless reader
-
-      if undefined
-        klass.send :define_method, target do
-          ivar  = :"@#{__method__}"
-          value = instance_variable_get(ivar) if instance_variable_defined? ivar
-          (value == Dry::Initializer::UNDEFINED) ? nil : value
-        end
-      else
-        klass.send :attr_reader, target
-      end
-
-      klass.send reader, target
+    def code
+      Builders::Reader[self]
     end
 
     private
 
-    def initialize(config, source, coercer = nil, **options)
-      @config    = config
-      @undefined = config.undefined
+    def initialize(option, undefined, source, coercer = nil, **options)
+      @option    = !!option
+      @undefined = undefined
       @source    = source.to_sym
       @target    = check_target options.fetch(:as, source).to_sym
       @ivar      = :"@#{target}"
@@ -46,12 +38,23 @@ module Dry::Initializer
       @reader    = prepare_reader options.fetch(:reader, true)
       @default   = check_default options[:default]
       @default ||= method(:undefined) if options[:optional]
-      @handler   = type ? method(:process) : method(:substitute)
+    end
+
+    def check_source(value)
+      if RESERVED.include? value
+        raise ArgumentError, "Name #{value} is reserved by dry-initializer gem"
+      end
+
+      unless option || value[ATTRIBUTE]
+        raise ArgumentError, "Invalid parameter name :'#{value}'"
+      end
+
+      value
     end
 
     def check_target(value)
-      return value if value[/\w+[?]?/]
-      raise ArgumentError, "Invalid variable name :#{target}"
+      return value if value[ATTRIBUTE]
+      raise ArgumentError, "Invalid variable name :'#{value}'"
     end
 
     def check_type(value)
@@ -78,19 +81,13 @@ module Dry::Initializer
       end
     end
 
-    def substitute(instance, value)
-      return value unless value == undefined
-      raise ArgumentError, "#{inspect} should be defined" unless default
-      instance.instance_exec(&default)
-    end
-
-    def coerce(value)
-      return value if value == undefined
-      type.call(value)
-    end
-
-    def process(instance, value)
-      coerce substitute(instance, value)
-    end
+    ATTRIBUTE = /\A\w+\z/
+    RESERVED  = %i[
+      __options__
+      __config__
+      __value__
+      __definition__
+      __initializer__
+    ].freeze
   end
 end
