@@ -67,5 +67,12 @@ module Dry
       dry_initializer.send :add_definition, true, name, type, opts
       self
     end
+
+    private
+
+    def inherited(klass)
+      super
+      klass.dry_initializer
+    end
   end
 end
