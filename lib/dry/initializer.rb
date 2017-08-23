@@ -7,13 +7,23 @@ module Dry
     # Singleton for unassigned values
     UNDEFINED = Object.new.freeze
 
-    Mixin = self
-
     require_relative "initializer/extension"
     require_relative "initializer/definition"
     require_relative "initializer/builders"
     require_relative "initializer/config"
     require_relative "initializer/instance"
+
+    # @deprecated
+    Mixin = Module.new do
+      extend  Extension
+      include Dry::Initializer
+
+      def self.extended(klass)
+        warn "[DEPRECATED] Use Dry::Initializer instead of its alias" \
+             " Dry::Initializer::Mixin. The later will be removed in v2.1.0"
+        super
+      end
+    end
 
     class << self
       include Extension
