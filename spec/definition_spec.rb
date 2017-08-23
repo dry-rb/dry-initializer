@@ -37,4 +37,49 @@ describe "definition" do
       end
     end
   end
+
+  it_behaves_like :initializer, "include Dry::Initializer with block" do
+    before do
+      class Test::Foo
+        include Dry::Initializer.define {
+          param  :foo
+          option :bar
+        }
+      end
+    end
+  end
+
+  it_behaves_like :initializer, "include Dry::Initializer with lambda" do
+    before do
+      class Test::Foo
+        include Dry::Initializer.define -> do
+          param  :foo
+          option :bar
+        end
+      end
+    end
+  end
+
+  it_behaves_like :initializer, "include Dry::Initializer[undefined: false]" do
+    before do
+      class Test::Foo
+        include Dry::Initializer[undefined: false].define {
+          param  :foo
+          option :bar
+        }
+      end
+    end
+  end
+
+  # @deprecated
+  it_behaves_like :initializer, "include Dry::Initializer::Mixin" do
+    before do
+      class Test::Foo
+        include Dry::Initializer::Mixin.define {
+          param  :foo
+          option :bar
+        }
+      end
+    end
+  end
 end

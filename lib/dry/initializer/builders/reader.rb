@@ -23,7 +23,9 @@ module Dry::Initializer::Builders
     end
 
     def undef_line
-      "undef :#{@target} if method_defined? :#{@target}"
+      "undef :#{@target} if method_defined?(:#{@target})" \
+      "  || private_method_defined?(:#{@target})" \
+      "  || protected_method_defined?(:#{@target})"
     end
 
     def attribute_line

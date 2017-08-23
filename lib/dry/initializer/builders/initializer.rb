@@ -23,7 +23,6 @@ module Dry::Initializer::Builders
       [
         undef_line,
         define_line,
-        config_line,
         params_lines,
         options_lines,
         end_line
@@ -31,16 +30,12 @@ module Dry::Initializer::Builders
     end
 
     def undef_line
-      "undef :__initialize__ if method_defined? :__initialize__"
+      "undef :__dry_initializer_initialize__" \
+      " if private_method_defined? :__dry_initializer_initialize__"
     end
 
     def define_line
-      "def __initialize__(#{Signature[@config]})"
-    end
-
-    def config_line
-      return unless @definitions.any? { |item| item.default || item.type }
-      "  __config__ = self.class.dry_initializer"
+      "private def __dry_initializer_initialize__(#{Signature[@config]})"
     end
 
     def params_lines
@@ -57,6 +52,10 @@ module Dry::Initializer::Builders
 
     def end_line
       "end"
+    end
+
+    def private_line
+      "private :__dry_initializer_initialize__"
     end
   end
 end

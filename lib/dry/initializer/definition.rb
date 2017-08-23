@@ -83,11 +83,11 @@ module Dry::Initializer
 
     ATTRIBUTE = /\A\w+\z/
     RESERVED  = %i[
-      __options__
-      __config__
-      __value__
-      __definition__
-      __initializer__
+      __dry_initializer_options__
+      __dry_initializer_config__
+      __dry_initializer_value__
+      __dry_initializer_definition__
+      __dry_initializer_initializer__
     ].freeze
   end
 end

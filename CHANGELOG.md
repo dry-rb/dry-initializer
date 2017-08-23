@@ -22,34 +22,6 @@ and to @gzigzigzeo for persuading me to do this refactoring.
 - Undocumented variable `@__option__` which was the main reason for refactoring
   (gzigzigzeo, nepalez).
 
-- Support for "include syntax" of the client (nepalez)
-
-  In previous version this was an alternative syntax to initialize params
-  and options:
-
-  ```ruby
-  class Foo
-    include Dry::Initializer.define -> do
-      option :name
-    end
-  end
-  ```
-
-  This allowed to keep class namespace clean for the price of not
-  supporting any inheritance. Another important restriction was adding
-  magics to several private instance variables to store coercers and
-  default values.
-
-  Now we add only 3 class methods: `dry_initializer`, `param`, and `option`,
-  and only 1 class variable `@dry_initializer` (param and option delegated
-  to the variable).
-
-  From the other hand, moving coercers to instances and defaults made it harder
-  to correctly reload params/options in subclasses. Now both coercers and
-  defaults are stored in `dry_initializer.definitions` where they are
-  looked for by the `__initializer__`. So there's no way to preserve
-  "include syntax" any more. RIP
-
 ### Added
 - Class method `.dry_initializer` -- a container for `.params` and `.options`
   `.definitions` along with the `.null` setting (either `nil` or `UNDEFINED`)
@@ -63,6 +35,17 @@ and to @gzigzigzeo for persuading me to do this refactoring.
   object.class.dry_initializer.attributes(object)
   ```
 
+  When you use "Dry::Initializer.define -> { ... }" syntax,
+  the class method `.dry_initializer` is not defined. To access attributes
+  you should use private instance method `#__dry_initializer_config__` instead:
+
+  ```ruby
+  object.send(:__dry_initializer_config__).attributes(object)
+  ```
+
+  Both methods `.dry_initializer` and `#__dry_initializer_config__` refer
+  to the same object.
+
 - `.dry_initializer.public_attributes`. This method works differently:
   it looks through (possibly reloaded) readers instead of variables
   (gzigzigzeo, nepalez)
@@ -70,6 +53,8 @@ and to @gzigzigzeo for persuading me to do this refactoring.
   ```ruby
   object.class.dry_initializer.public_attributes(object)
   ```
+
+  You can use the same trick as above mutatis mutandis.
 
 ### Fixed
 - Definition order dependency bug (nepalez)
@@ -178,53 +163,43 @@ and to @gzigzigzeo for persuading me to do this refactoring.
 
   ```
   Benchmark for instantiation with plain params
-  Comparison:
-          value_struct:              4385273.7 i/s
-            plain Ruby:              4082944.7 i/s - 1.07x  slower
-  dry-initializer (with UNDEFINED):  1676158.5 i/s - 2.62x  slower
-       dry-initializer:              1598181.2 i/s - 2.74x  slower
-               concord:              1311328.5 i/s - 3.34x  slower
-                values:              584012.0 i/s  - 7.51x  slower
-           attr_extras:              533578.9 i/s  - 8.22x  slower
+          value_struct:  4317196.9 i/s
+            plain Ruby:  4129803.9 i/s - 1.05x  slower
+       dry-initializer:  1710702.1 i/s - 2.52x  slower
+               concord:  1372630.4 i/s - 3.15x  slower
+                values:   601651.8 i/s - 7.18x  slower
+           attr_extras:   535599.5 i/s - 8.06x  slower
   ```
 
   ```
   Benchmark for instantiation with plain options
-  Comparison:
-            plain Ruby:              1546692.0 i/s
-       dry-initializer:               594134.5 i/s - 2.60x  slower
-  dry-initializer (with UNDEFINED):   591456.7 i/s - 2.62x  slower
-                kwattr:               419324.7 i/s - 3.69x  slower
-                 anima:               381131.8 i/s - 4.06x  slower
+            plain Ruby: 1769174.1 i/s
+       dry-initializer:  636634.1 i/s - 2.78x  slower
+                kwattr:  423296.5 i/s - 4.18x  slower
+                 anima:  399415.0 i/s - 4.43x  slower
   ```
 
   ```
   Benchmark for instantiation with coercion
-  Comparison:
-            plain Ruby:              1577680.5 i/s
-       fast_attributes:               542121.9 i/s -  2.91x  slower
-  dry-initializer (with UNDEFINED):   476305.8 i/s -  3.31x  slower
-       dry-initializer:               475331.5 i/s -  3.32x  slower
-                virtus:               128249.8 i/s - 12.30x  slower
+            plain Ruby:  1565501.0 i/s
+       fast_attributes:   569952.9 i/s -  2.75x  slower
+       dry-initializer:   461122.1 i/s -  3.39x  slower
+                virtus:   138074.8 i/s - 11.34x  slower
   ```
 
   ```
   Benchmark for instantiation with default values
-  Comparison:
-            plain Ruby:               3200146.5 i/s
-                kwattr:               589089.9 i/s -  5.43x  slower
-  dry-initializer (with UNDEFINED):   544447.5 i/s -  5.88x  slower
-       dry-initializer:               539312.4 i/s -  5.93x  slower
-           active_attr:               296424.4 i/s - 10.80x  slower
+            plain Ruby:  3402455.4 i/s
+                kwattr:   586206.5 i/s -  5.80x  slower
+       dry-initializer:   528482.2 i/s -  6.44x  slower
+           active_attr:   298697.7 i/s - 11.39x  slower
   ```
 
   ```
   Benchmark for instantiation with type constraints and default values
-  Comparison:
-            plain Ruby:              2867707.8 i/s
-  dry-initializer (with UNDEFINED):   501007.0 i/s -  5.72x  slower
-       dry-initializer:               480960.6 i/s -  5.96x  slower
-                virtus:               168583.7 i/s - 17.01x  slower
+            plain Ruby: 2881696.1 i/s
+       dry-initializer:  470815.1 i/s -  6.12x  slower
+                virtus:  180272.6 i/s - 15.99x  slower
   ```
 
 ## [1.4.1] [2017-04-05]

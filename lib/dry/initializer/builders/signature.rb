@@ -6,31 +6,27 @@ module Dry::Initializer::Builders
     end
 
     def call
-      (params + star + options).join(", ")
+      [*required_params, *optional_params, "*", options].compact.join(", ")
     end
 
     private
 
     def initialize(config)
-      @config = config
+      @config  = config
+      @options = config.options.any?
+      @null    = config.null ? "Dry::Initializer::UNDEFINED" : "nil"
     end
 
-    def null
-      @null ||= @config.null ? "Dry::Initializer::UNDEFINED" : "nil"
+    def required_params
+      @config.params.reject(&:default).map(&:source)
     end
 
-    def params
-      @config.params.map do |item|
-        item.default ? "#{item.source} = #{null}" : item.source
-      end
-    end
-
-    def star
-      ["*"]
+    def optional_params
+      @config.params.select(&:default).map { |rec| "#{rec.source} = #{@null}" }
     end
 
     def options
-      @config.options.any? ? ["**__options__"] : []
+      "**__dry_initializer_options__" if @options
     end
   end
 end

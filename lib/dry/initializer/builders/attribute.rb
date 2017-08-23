@@ -13,21 +13,16 @@ module Dry::Initializer::Builders
 
     def initialize(definition)
       @definition = definition
-    end
-
-    def name
-      @name ||= @definition.option ? "__value__" : "#{@definition.source}"
-    end
-
-    def null
-      @null ||= @definition.null ? "Dry::Initializer::UNDEFINED" : "nil"
-    end
-
-    def undefined
-      @undefined ||= case @definition.null
-                     when nil then "#{name}.nil?"
-                     else "#{name} == Dry::Initializer::UNDEFINED"
-                     end
+      @option     = definition.option
+      @type       = definition.type
+      @default    = definition.default
+      @source     = definition.source
+      @ivar       = definition.ivar
+      @null       = definition.null ? "Dry::Initializer::UNDEFINED" : "nil"
+      @opts       = "__dry_initializer_options__"
+      @congif     = "__dry_initializer_config__"
+      @item       = "__dry_initializer_definition__"
+      @val        = @option ? "__dry_initializer_value__" : @source
     end
 
     def lines
@@ -42,37 +37,37 @@ module Dry::Initializer::Builders
     end
 
     def reader_line
-      return unless @definition.option
-      @definition.default ? optional_reader : required_reader
+      return unless @option
+      @default ? optional_reader : required_reader
     end
 
     def optional_reader
-      "#{name} = __options__.fetch(:'#{@definition.source}', #{null})"
+      "#{@val} = #{@opts}.fetch(:'#{@source}', #{@null})"
     end
 
     def required_reader
-      "#{name} = __options__.fetch(:'#{@definition.source}')" \
+      "#{@val} = #{@opts}.fetch(:'#{@source}')" \
       " { raise KeyError, \"\#{self.class}: #{@definition} is required\" }"
     end
 
     def definition_line
-      return unless @definition.type || @definition.default
-      "__definition__ = __config__.definitions[:'#{@definition.source}']"
+      return unless @type || @default
+      "#{@item} = __dry_initializer_config__.definitions[:'#{@source}']"
     end
 
     def default_line
-      return unless @definition.default
-      "#{name} = instance_exec(&__definition__.default) if #{undefined}"
+      return unless @default
+      "#{@val} = instance_exec(&#{@item}.default) if #{@val} == #{@null}"
     end
 
     def coercion_line
-      return unless @definition.type
-      "#{name} = __definition__.type.call(#{name}) unless #{undefined}"
+      return unless @type
+      "#{@val} = #{@item}.type.call(#{@val}) unless #{@val} == #{@null}"
     end
 
     def assignment_line
-      "#{@definition.ivar} = #{name} unless #{name} == #{null}" \
-      " && instance_variable_defined?(:#{@definition.ivar})"
+      "#{@ivar} = #{@val}" \
+      " unless #{@val} == #{@null} && instance_variable_defined?(:#{@ivar})"
     end
   end
 end

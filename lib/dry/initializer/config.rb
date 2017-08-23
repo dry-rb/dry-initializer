@@ -6,7 +6,7 @@ module Dry::Initializer
     # @!attribute [r] null
     # @return [Dry::Initializer::UNDEFINED, nil] value of unassigned variable
 
-    # @!attribute [r] klass
+    # @!attribute [r] extended_class
     # @return [Class] the class whose config collected by current object
 
     # @!attribute [r] parent
@@ -16,13 +16,27 @@ module Dry::Initializer
     # @return [Hash<Symbol, Dry::Initializer::Definition>]
     #   hash of attribute definitions with their source names
 
-    attr_reader :null, :klass, :parent, :definitions
+    attr_reader :null, :extended_class, :parent, :definitions
 
-    # List of configs of all subclasses of the [#klass]
+    # @!attribute [r] mixin
+    # @return [Module] reference to the module to be included into class
+    def mixin
+      @mixin ||= Module.new.tap do |mod|
+        __dry_initializer__ = self
+        mod.extend(Mixin::Local)
+        mod.send :define_method, :__dry_initializer_config__ do
+          __dry_initializer__
+        end
+        mod.send :private, :__dry_initializer_config__
+      end
+    end
+
+    # List of configs of all subclasses of the [#extended_class]
     # @return [Array<Dry::Initializer::Config>]
     def children
+      return [] unless extended_class
       ObjectSpace.each_object(Class)
-                 .select { |item| item.superclass == klass }
+                 .select { |item| item.superclass == extended_class }
                  .map(&:dry_initializer)
     end
 
@@ -38,14 +52,35 @@ module Dry::Initializer
       definitions.values.select(&:option)
     end
 
-    # The hash of public attributes for an instance of the [#klass]
+    # Adds or redefines a parameter
+    #
+    # @param  [Symbol]       name
+    # @param  [#call, nil]   coercer (nil)
+    # @option opts [#call]   :type
+    # @option opts [Proc]    :default
+    # @option opts [Boolean] :optional
+    # @option opts [Symbol]  :as
+    # @option opts [true, false, :protected, :public, :private] :reader
+    # @return [self] itself
+    #
+    def param(name, type = nil, **opts)
+      add_definition(false, name, type, opts)
+    end
+
+    # Adds or redefines an option of [#dry_initializer]
+    #
+    # @param  (see #param)
+    # @option (see #param)
+    # @return (see #param)
+    #
+    def option(name, type = nil, **opts)
+      add_definition(true, name, type, opts)
+    end
+
+    # The hash of public attributes for an instance of the [#extended_class]
     # @param  [Dry::Initializer::Instance] instance
     # @return [Hash<Symbol, Object>]
     def public_attributes(instance)
-      unless instance.instance_of? klass
-        raise TypeError, "#{instance.inspect} is not an instance of #{klass}"
-      end
-
       definitions.values.each_with_object({}) do |item, obj|
         key = item.target
         next unless instance.respond_to? key
@@ -54,14 +89,10 @@ module Dry::Initializer
       end
     end
 
-    # The hash of assigned attributes for an instance of the [#klass]
+    # The hash of assigned attributes for an instance of the [#extended_class]
     # @param  [Dry::Initializer::Instance] instance
     # @return [Hash<Symbol, Object>]
     def attributes(instance)
-      unless instance.instance_of? klass
-        raise TypeError, "#{instance.inspect} is not an instance of #{klass}"
-      end
-
       definitions.values.each_with_object({}) do |item, obj|
         key = item.target
         val = instance.send(:instance_variable_get, item.ivar)
@@ -81,20 +112,18 @@ module Dry::Initializer
     def finalize
       @definitions = final_definitions
       check_order_of_params
-
-      klass.class_eval(code)
-
+      mixin.class_eval(code)
       children.each(&:finalize)
     end
 
     private
 
-    def initialize(klass = nil)
-      @klass       = klass
-      sklass       = klass.superclass
-      @parent      = sklass.dry_initializer if sklass.is_a? Dry::Initializer
-      @null        = parent&.null
-      @definitions = {}
+    def initialize(extended_class = nil, null: UNDEFINED)
+      @extended_class = extended_class.tap { |klass| klass&.include mixin }
+      sklass          = extended_class&.superclass
+      @parent         = sklass.dry_initializer if sklass.is_a? Dry::Initializer
+      @null           = null || parent&.null
+      @definitions    = {}
       finalize
     end
 
@@ -103,7 +132,7 @@ module Dry::Initializer
       definitions[definition.source] = definition
       finalize
 
-      klass.class_eval definition.code
+      mixin.class_eval definition.code
     end
 
     def final_definitions
@@ -116,8 +145,9 @@ module Dry::Initializer
     def check_type(previous, current)
       return current unless previous
       return current if previous.option == current.option
-      raise SyntaxError, "cannot reload #{previous} of #{klass.superclass}" \
-                         " by #{current} of its subclass #{klass}"
+      raise SyntaxError,
+            "cannot reload #{previous} of #{extended_class.superclass}" \
+            " by #{current} of its subclass #{extended_class}"
     end
 
     def check_order_of_params
@@ -125,7 +155,7 @@ module Dry::Initializer
         if current.default
           current
         elsif optional
-          raise SyntaxError, "in #{klass} required #{current}" \
+          raise SyntaxError, "#{extended_class}: required #{current}" \
                              " goes after optional #{optional}"
         else
           optional
