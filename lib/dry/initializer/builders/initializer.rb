@@ -23,7 +23,6 @@ module Dry::Initializer::Builders
       [
         undef_line,
         define_line,
-        preset_lines,
         config_line,
         params_lines,
         options_lines,
@@ -42,13 +41,6 @@ module Dry::Initializer::Builders
     def config_line
       return unless @definitions.any? { |item| item.default || item.type }
       "  __config__ = self.class.dry_initializer"
-    end
-
-    def preset_lines
-      return unless @config.null
-      @definitions.map(&:ivar)
-                  .uniq
-                  .map { |ivar| "  #{ivar} = Dry::Initializer::UNDEFINED" }
     end
 
     def params_lines

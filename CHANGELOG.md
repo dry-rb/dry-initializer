@@ -176,50 +176,56 @@ and to @gzigzigzeo for persuading me to do this refactoring.
   rake benchmark
   ```
 
-  ```text
+  ```
   Benchmark for instantiation with plain params
   Comparison:
-           Core Struct:              4367689.2 i/s
-          value_struct:              4335418.2 i/s - same-ish
-            plain Ruby:              4095197.3 i/s - 1.07x  slower
-       dry-initializer:              2068388.7 i/s - 2.11x  slower
-  dry-initializer (with UNDEFINED):  1667690.8 i/s - 2.62x  slower
-               concord:              1346001.6 i/s - 3.24x  slower
-                values:               598742.6 i/s - 7.29x  slower
-           attr_extras:               514508.9 i/s - 8.49x  slower
+          value_struct:              4385273.7 i/s
+            plain Ruby:              4082944.7 i/s - 1.07x  slower
+  dry-initializer (with UNDEFINED):  1676158.5 i/s - 2.62x  slower
+       dry-initializer:              1598181.2 i/s - 2.74x  slower
+               concord:              1311328.5 i/s - 3.34x  slower
+                values:              584012.0 i/s  - 7.51x  slower
+           attr_extras:              533578.9 i/s  - 8.22x  slower
   ```
 
-  ```text
+  ```
   Benchmark for instantiation with plain options
   Comparison:
-            plain Ruby:              1717196.9 i/s
-       dry-initializer:               691480.7 i/s - 2.48x  slower
-  dry-initializer (with UNDEFINED):   628102.0 i/s - 2.73x  slower
-                kwattr:               431031.0 i/s - 3.98x  slower
-                 anima:               398054.6 i/s - 4.31x  slower
+            plain Ruby:              1546692.0 i/s
+       dry-initializer:               594134.5 i/s - 2.60x  slower
+  dry-initializer (with UNDEFINED):   591456.7 i/s - 2.62x  slower
+                kwattr:               419324.7 i/s - 3.69x  slower
+                 anima:               381131.8 i/s - 4.06x  slower
   ```
 
-  ```text
+  ```
   Benchmark for instantiation with coercion
   Comparison:
-            plain Ruby:               1524307.8 i/s
-       fast_attributes:               566580.4 i/s -  2.69x  slower
-       dry-initializer:               530762.9 i/s -  2.87x  slower
-  dry-initializer (with UNDEFINED):   473570.1 i/s -  3.22x  slower
-                virtus:               139497.4 i/s - 10.93x  slower
+            plain Ruby:              1577680.5 i/s
+       fast_attributes:               542121.9 i/s -  2.91x  slower
+  dry-initializer (with UNDEFINED):   476305.8 i/s -  3.31x  slower
+       dry-initializer:               475331.5 i/s -  3.32x  slower
+                virtus:               128249.8 i/s - 12.30x  slower
   ```
 
-  ```text
+  ```
   Benchmark for instantiation with default values
   Comparison:
-            plain Ruby:              3436303.5 i/s
-                kwattr:               605623.9 i/s -  5.67x  slower
-       dry-initializer:               597726.0 i/s -  5.75x  slower
-  dry-initializer (with UNDEFINED):   528369.6 i/s -  6.50x  slower
-           active_attr:               301750.5 i/s - 11.39x  slower
+            plain Ruby:               3200146.5 i/s
+                kwattr:               589089.9 i/s -  5.43x  slower
+  dry-initializer (with UNDEFINED):   544447.5 i/s -  5.88x  slower
+       dry-initializer:               539312.4 i/s -  5.93x  slower
+           active_attr:               296424.4 i/s - 10.80x  slower
   ```
 
-  There are some places for further performance optimization (for about 5%)
+  ```
+  Benchmark for instantiation with type constraints and default values
+  Comparison:
+            plain Ruby:              2867707.8 i/s
+  dry-initializer (with UNDEFINED):   501007.0 i/s -  5.72x  slower
+       dry-initializer:               480960.6 i/s -  5.96x  slower
+                virtus:               168583.7 i/s - 17.01x  slower
+  ```
 
 ## [1.4.1] [2017-04-05]
 

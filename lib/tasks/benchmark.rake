@@ -21,12 +21,12 @@ namespace :benchmark do
 
   desc "Runs benchmarks with defaults and coercion"
   task :with_defaults_and_coercion do
-    system "ruby benchmarks/defaults_and_coercion.rb"
+    system "ruby benchmarks/with_defaults_and_coercion.rb"
   end
 
   desc "Runs benchmarks for several defaults"
   task :compare_several_defaults do
-    system "ruby benchmarks/several_defaults.rb"
+    system "ruby benchmarks/with_several_defaults.rb"
   end
 end
 

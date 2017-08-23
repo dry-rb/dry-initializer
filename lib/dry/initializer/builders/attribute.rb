@@ -71,7 +71,8 @@ module Dry::Initializer::Builders
     end
 
     def assignment_line
-      "#{@definition.ivar} = #{name} unless #{undefined}"
+      "#{@definition.ivar} = #{name} unless #{name} == #{null}" \
+      " && instance_variable_defined?(:#{@definition.ivar})"
     end
   end
 end
