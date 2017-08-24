@@ -18,11 +18,11 @@ module Dry::Initializer::Builders
     end
 
     def required_params
-      @config.params.reject(&:default).map(&:source)
+      @config.params.reject(&:optional).map(&:source)
     end
 
     def optional_params
-      @config.params.select(&:default).map { |rec| "#{rec.source} = #{@null}" }
+      @config.params.select(&:optional).map { |rec| "#{rec.source} = #{@null}" }
     end
 
     def options

@@ -152,7 +152,7 @@ module Dry::Initializer
 
     def check_order_of_params
       params.inject(nil) do |optional, current|
-        if current.default
+        if current.optional
           current
         elsif optional
           raise SyntaxError, "#{extended_class}: required #{current}" \

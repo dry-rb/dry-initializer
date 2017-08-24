@@ -15,6 +15,7 @@ module Dry::Initializer::Builders
       @definition = definition
       @option     = definition.option
       @type       = definition.type
+      @optional   = definition.optional
       @default    = definition.default
       @source     = definition.source
       @ivar       = definition.ivar
@@ -38,7 +39,7 @@ module Dry::Initializer::Builders
 
     def reader_line
       return unless @option
-      @default ? optional_reader : required_reader
+      @optional ? optional_reader : required_reader
     end
 
     def optional_reader
