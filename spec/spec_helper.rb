@@ -1,4 +1,9 @@
 require "dry/initializer"
+begin
+  require "pry"
+rescue
+  nil
+end
 
 RSpec.configure do |config|
   config.order = :random

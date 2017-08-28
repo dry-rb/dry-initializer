@@ -3,7 +3,9 @@ AllCops:
   DisplayCopNames:    true
   DisplayStyleGuide:  true
   StyleGuideCopsOnly: true
-  TargetRubyVersion:  2.2
+  TargetRubyVersion:  2.3
+  Exclude:
+    - lib/tasks/*.rake
 
 Bundler/DuplicatedGem:
   Enabled: false
@@ -29,20 +31,18 @@ Style/FileName:
 
 Style/Lambda:
   Exclude:
-    - spec/**/*_spec.rb
+    - spec/**/*.rb
 
 Style/LambdaCall:
   Enabled: false
 
-Style/RaiseArgs:
-  EnforcedStyle: compact
+Style/RescueModified:
+  Exclude:
+    - spec/**/*.rb
 
 Style/Semicolon:
   Exclude:
-    - spec/**/*_spec.rb
-
-Style/SignalException:
-  EnforcedStyle: semantic
+    - spec/**/*.rb
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes

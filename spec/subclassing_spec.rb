@@ -1,8 +1,7 @@
 describe "subclassing" do
   before do
     class Test::Foo
-      extend Dry::Initializer::Mixin
-
+      extend Dry::Initializer[undefined: false]
       param  :foo
       option :bar
     end
@@ -21,6 +20,11 @@ describe "subclassing" do
     Test::Bar.new 1, 2, bar: 3, qux: 4
   end
 
+  it "preserves null definition" do
+    expect(Test::Foo.dry_initializer.null).to be_nil
+    expect(Test::Bar.dry_initializer.null).to be_nil
+  end
+
   it "preserves definitions made in the superclass" do
     expect(instance_of_subclass.foo).to eql 1
     expect(instance_of_subclass.baz).to eql 2
@@ -37,7 +41,7 @@ describe "subclassing" do
     called = false
     mixin = Module.new { define_method(:inherited) { |_| called = true } }
 
-    base = Class.new { extend mixin; extend Dry::Initializer::Mixin }
+    base = Class.new { extend mixin; extend Dry::Initializer }
     Class.new(base)
 
     expect(called).to be true

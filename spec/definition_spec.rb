@@ -18,10 +18,10 @@ describe "definition" do
     end
   end
 
-  it_behaves_like :initializer, "extend Dry::Initializer::Mixin" do
+  it_behaves_like :initializer, "extend Dry::Initializer" do
     before do
       class Test::Foo
-        extend Dry::Initializer::Mixin
+        extend Dry::Initializer
         param  :foo
         option :bar
       end
@@ -41,10 +41,12 @@ describe "definition" do
   it_behaves_like :initializer, "include Dry::Initializer with block" do
     before do
       class Test::Foo
-        include Dry::Initializer.define {
-          param  :foo
-          option :bar
-        }
+        include(
+          Dry::Initializer.define do
+            param  :foo
+            option :bar
+          end
+        )
       end
     end
   end
@@ -63,21 +65,26 @@ describe "definition" do
   it_behaves_like :initializer, "include Dry::Initializer[undefined: false]" do
     before do
       class Test::Foo
-        include Dry::Initializer[undefined: false].define {
-          param  :foo
-          option :bar
-        }
+        include(
+          Dry::Initializer[undefined: false].define do
+            param  :foo
+            option :bar
+          end
+        )
       end
     end
   end
 
+  # @deprecated
   it_behaves_like :initializer, "include Dry::Initializer::Mixin" do
     before do
       class Test::Foo
-        include Dry::Initializer::Mixin.define {
-          param  :foo
-          option :bar
-        }
+        include(
+          Dry::Initializer::Mixin.define do
+            param  :foo
+            option :bar
+          end
+        )
       end
     end
   end

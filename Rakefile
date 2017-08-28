@@ -4,50 +4,5 @@ Bundler::GemHelper.install_tasks
 require "rspec/core/rake_task"
 RSpec::Core::RakeTask.new :default
 
-namespace :benchmark do
-  desc "Runs benchmarks without options"
-  task :without_options do
-    system "ruby benchmarks/without_options.rb"
-  end
-
-  desc "Runs benchmarks for several defaults"
-  task :several_defaults do
-    system "ruby benchmarks/several_defaults.rb"
-  end
-
-  desc "Runs benchmarks for defaults of params vs. options"
-  task :params_vs_options do
-    system "ruby benchmarks/params_vs_options.rb"
-  end
-
-  desc "Runs benchmarks with types"
-  task :with_types do
-    system "ruby benchmarks/with_types.rb"
-  end
-
-  desc "Runs benchmarks with defaults"
-  task :with_defaults do
-    system "ruby benchmarks/with_defaults.rb"
-  end
-
-  desc "Runs benchmarks with types and defaults"
-  task :with_types_and_defaults do
-    system "ruby benchmarks/with_types_and_defaults.rb"
-  end
-
-  desc "Runs benchmarks for plain params"
-  task :params do
-    system "ruby benchmarks/params.rb"
-  end
-
-  desc "Runs benchmarks various opts"
-  task :options do
-    system "ruby benchmarks/options.rb"
-  end
-end
-
-desc "Runs profiler"
-task :profile do
-  system "ruby benchmarks/profiler.rb && " \
-         "dot -Tpng ./tmp/profile.dot > ./tmp/profile.png"
-end
+load "lib/tasks/benchmark.rake"
+load "lib/tasks/profile.rake"

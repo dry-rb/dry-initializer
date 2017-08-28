@@ -1,8 +1,8 @@
 Gem::Specification.new do |gem|
   gem.name     = "dry-initializer"
-  gem.version  = "1.4.1"
+  gem.version  = "2.0.0"
   gem.author   = ["Vladimir Kochnev (marshall-lee)", "Andrew Kozin (nepalez)"]
-  gem.email    = ["hashtable@yandex.ru", "andrew.kozin@gmail.com"]
+  gem.email    = "andrew.kozin@gmail.com"
   gem.homepage = "https://github.com/dryrb/dry-initializer"
   gem.summary  = "DSL for declaring params and options of the initializer"
   gem.license  = "MIT"

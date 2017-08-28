@@ -1,5 +1,20 @@
 Bundler.require(:benchmarks)
 
+require "dry-initializer"
+class DryTest
+  extend Dry::Initializer[undefined: false]
+
+  param :foo
+  param :bar
+end
+
+class DryTestUndefined
+  extend Dry::Initializer
+
+  param :foo
+  param :bar
+end
+
 class PlainRubyTest
   attr_reader :foo, :bar
 
@@ -10,14 +25,6 @@ class PlainRubyTest
 end
 
 StructTest = Struct.new(:foo, :bar)
-
-require "dry-initializer"
-class DryTest
-  extend Dry::Initializer
-
-  param :foo
-  param :bar
-end
 
 require "concord"
 class ConcordTest
@@ -36,7 +43,7 @@ class AttrExtrasText
   attr_reader :foo, :bar
 end
 
-puts "Benchmark for instantiation of plain params"
+puts "Benchmark for instantiation with plain params"
 
 Benchmark.ips do |x|
   x.config time: 15, warmup: 10
@@ -59,6 +66,10 @@ Benchmark.ips do |x|
 
   x.report("dry-initializer") do
     DryTest.new "FOO", "BAR"
+  end
+
+  x.report("dry-initializer (with UNDEFINED)") do
+    DryTestUndefined.new "FOO", "BAR"
   end
 
   x.report("concord") do

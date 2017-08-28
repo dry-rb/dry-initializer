@@ -4,7 +4,7 @@ describe "repetitive definitions" do
   context "of params" do
     before do
       class Test::Foo
-        extend Dry::Initializer::Mixin
+        extend Dry::Initializer
 
         param :foo, default: proc { 0 }
         param :bar, default: proc { 1 }
@@ -20,7 +20,7 @@ describe "repetitive definitions" do
   context "of options" do
     before do
       class Test::Foo
-        extend Dry::Initializer::Mixin
+        extend Dry::Initializer
 
         option :foo, default: proc { 0 }
         option :bar, default: proc { 1 }
@@ -36,7 +36,7 @@ describe "repetitive definitions" do
   context "of param and option" do
     before do
       class Test::Foo
-        extend Dry::Initializer::Mixin
+        extend Dry::Initializer
 
         param  :foo, default: proc { 0 }
         option :bar, default: proc { 1 }
@@ -52,9 +52,9 @@ describe "repetitive definitions" do
   context "of optional param and option" do
     before do
       class Test::Foo
-        extend Dry::Initializer::Mixin
+        extend Dry::Initializer
 
-        param  :foo, optional: true
+        param  :baz, optional: true, as: :foo
         option :bar, optional: true
         option :foo, optional: true
       end

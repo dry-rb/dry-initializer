@@ -1,7 +1,7 @@
 describe "custom initializer" do
   before do
     class Test::Foo
-      extend Dry::Initializer::Mixin
+      extend Dry::Initializer
 
       param :bar
 

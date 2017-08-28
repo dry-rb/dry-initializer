@@ -1,7 +1,7 @@
 describe "default values" do
   before do
     class Test::Foo
-      extend Dry::Initializer::Mixin
+      extend Dry::Initializer
 
       param  :foo, default: proc { :FOO }
       param  :bar, default: proc { :BAR }
@@ -52,14 +52,14 @@ describe "default values" do
   describe "when the last param has a default and there are no options" do
     before do
       class Test::Bar
-        extend Dry::Initializer::Mixin
+        extend Dry::Initializer
 
-        param  :foo
-        param  :bar, default: proc { {} }
+        param :foo
+        param :bar, default: proc { {} }
       end
     end
 
-    it "instantiate arguments" do
+    it "instantiates arguments" do
       subject = Test::Bar.new(1, 2)
 
       expect(subject.foo).to eql 1
@@ -73,7 +73,7 @@ describe "default values" do
       expect(subject.bar).to eql({})
     end
 
-    it "instantiate arguments also if the last is an hash" do
+    it "instantiates arguments also if the last is an hash" do
       subject = Test::Bar.new(1, { baz: 2, qux: 3 })
 
       expect(subject.foo).to eql 1

@@ -1,0 +1,161 @@
+module Dry::Initializer
+  #
+  # Gem-related configuration of some class
+  #
+  class Config
+    # @!attribute [r] null
+    # @return [Dry::Initializer::UNDEFINED, nil] value of unassigned variable
+
+    # @!attribute [r] extended_class
+    # @return [Class] the class whose config collected by current object
+
+    # @!attribute [r] parent
+    # @return [Dry::Initializer::Config] parent configuration
+
+    # @!attribute [r] definitions
+    # @return [Hash<Symbol, Dry::Initializer::Definition>]
+    #   hash of attribute definitions with their source names
+
+    attr_reader :null, :extended_class, :parent, :definitions
+
+    # @!attribute [r] mixin
+    # @return [Module] reference to the module to be included into class
+    def mixin
+      @mixin ||= Module.new.tap do |mod|
+        __dry_initializer__ = self
+        mod.extend(Mixin::Local)
+        mod.send :define_method, :__dry_initializer_config__ do
+          __dry_initializer__
+        end
+        mod.send :private, :__dry_initializer_config__
+      end
+    end
+
+    # List of configs of all subclasses of the [#extended_class]
+    # @return [Array<Dry::Initializer::Config>]
+    def children
+      @children ||= Set.new
+    end
+
+    # List of definitions for initializer params
+    # @return [Array<Dry::Initializer::Definition>]
+    def params
+      definitions.values.reject(&:option)
+    end
+
+    # List of definitions for initializer options
+    # @return [Array<Dry::Initializer::Definition>]
+    def options
+      definitions.values.select(&:option)
+    end
+
+    # Adds or redefines a parameter
+    # @param  [Symbol]       name
+    # @param  [#call, nil]   coercer (nil)
+    # @option opts [#call]   :type
+    # @option opts [Proc]    :default
+    # @option opts [Boolean] :optional
+    # @option opts [Symbol]  :as
+    # @option opts [true, false, :protected, :public, :private] :reader
+    # @return [self] itself
+    def param(name, type = nil, **opts)
+      add_definition(false, name, type, opts)
+    end
+
+    # Adds or redefines an option of [#dry_initializer]
+    #
+    # @param  (see #param)
+    # @option (see #param)
+    # @return (see #param)
+    #
+    def option(name, type = nil, **opts)
+      add_definition(true, name, type, opts)
+    end
+
+    # The hash of public attributes for an instance of the [#extended_class]
+    # @param  [Dry::Initializer::Instance] instance
+    # @return [Hash<Symbol, Object>]
+    def public_attributes(instance)
+      definitions.values.each_with_object({}) do |item, obj|
+        key = item.target
+        next unless instance.respond_to? key
+        val = instance.send(key)
+        obj[key] = val unless val == null
+      end
+    end
+
+    # The hash of assigned attributes for an instance of the [#extended_class]
+    # @param  [Dry::Initializer::Instance] instance
+    # @return [Hash<Symbol, Object>]
+    def attributes(instance)
+      definitions.values.each_with_object({}) do |item, obj|
+        key = item.target
+        val = instance.send(:instance_variable_get, item.ivar)
+        obj[key] = val unless val == null
+      end
+    end
+
+    # Code of the `#__initialize__` method
+    # @return [String]
+    def code
+      Builders::Initializer[self]
+    end
+
+    # Finalizes config
+    # @return [self]
+    def finalize
+      @definitions = final_definitions
+      check_order_of_params
+      mixin.class_eval(code)
+      children.each(&:finalize)
+      self
+    end
+
+    private
+
+    def initialize(extended_class = nil, null: UNDEFINED)
+      @extended_class = extended_class.tap { |klass| klass&.include mixin }
+      sklass          = extended_class&.superclass
+      @parent         = sklass.dry_initializer if sklass.is_a? Dry::Initializer
+      @null           = null || parent&.null
+      @definitions    = {}
+      finalize
+    end
+
+    def add_definition(option, name, type, opts)
+      definition = Definition.new(option, null, name, type, opts)
+      definitions[definition.source] = definition
+      finalize
+
+      mixin.class_eval definition.code
+    end
+
+    def final_definitions
+      parent_definitions = Hash(parent&.definitions&.dup)
+      definitions.each_with_object(parent_definitions) do |(key, val), obj|
+        obj[key] = check_type(obj[key], val)
+      end
+    end
+
+    def check_type(previous, current)
+      return current unless previous
+      return current if previous.option == current.option
+      raise SyntaxError,
+            "cannot reload #{previous} of #{extended_class.superclass}" \
+            " by #{current} of its subclass #{extended_class}"
+    end
+
+    def check_order_of_params
+      params.inject(nil) do |optional, current|
+        if current.optional
+          current
+        elsif optional
+          raise SyntaxError, "#{extended_class}: required #{current}" \
+                             " goes after optional #{optional}"
+        else
+          optional
+        end
+      end
+    end
+  end
+end

@@ -9,7 +9,7 @@ describe "reader" do
   context "with reader: :public or no reader: option" do
     subject do
       class Test::Foo
-        extend Dry::Initializer::Mixin
+        extend Dry::Initializer
 
         param  :foo
         param  :foo2, reader: :public
@@ -28,16 +28,16 @@ describe "reader" do
   end
 
   context "with reader: false" do
-    subject do
+    before do
       class Test::Foo
-        extend Dry::Initializer::Mixin
+        extend Dry::Initializer
 
         param  :foo, reader: false
         option :bar, reader: false
       end
-
-      Test::Foo.new 1, bar: 2
     end
+
+    subject { Test::Foo.new 1, bar: 2 }
 
     it_behaves_like "it has no public attr_reader"
 
@@ -48,16 +48,16 @@ describe "reader" do
   end
 
   context "with reader: :private" do
-    subject do
+    before do
       class Test::Foo
-        extend Dry::Initializer::Mixin
+        extend Dry::Initializer
 
         param  :foo, reader: :private
         option :bar, reader: :private
       end
-
-      Test::Foo.new 1, bar: 2
     end
+
+    subject { Test::Foo.new 1, bar: 2 }
 
     it_behaves_like "it has no public attr_reader"
 
@@ -70,7 +70,7 @@ describe "reader" do
   context "with reader: :protected" do
     subject do
       class Test::Foo
-        extend Dry::Initializer::Mixin
+        extend Dry::Initializer
 
         param  :foo, reader: :protected
         option :bar, reader: :protected
@@ -81,7 +81,7 @@ describe "reader" do
 
     it "adds a protected attr_reader" do
       protected_instance_methods = subject.class.protected_instance_methods
-      expect(protected_instance_methods).to match_array([:foo, :bar])
+      expect(protected_instance_methods).to match_array(%i[foo bar])
     end
   end
 end

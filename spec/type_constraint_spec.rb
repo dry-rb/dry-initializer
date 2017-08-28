@@ -4,7 +4,7 @@ describe "type constraint" do
   context "by dry-type" do
     before do
       class Test::Foo
-        extend Dry::Initializer::Mixin
+        extend Dry::Initializer
         param :foo, Dry::Types["strict.string"], optional: true
       end
     end
@@ -39,7 +39,7 @@ describe "type constraint" do
     it "raises TypeError" do
       expect do
         class Test::Foo
-          extend Dry::Initializer::Mixin
+          extend Dry::Initializer
           param :foo, type: String
         end
       end.to raise_error(TypeError)

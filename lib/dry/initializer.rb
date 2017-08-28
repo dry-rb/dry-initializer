@@ -1,55 +1,59 @@
+require "set"
+
+# Namespace for gems in a dry-rb community
 module Dry
+  #
+  # DSL for declaring params and options of class initializers
+  #
   module Initializer
-    require_relative "initializer/exceptions/default_value_error"
-    require_relative "initializer/exceptions/type_constraint_error"
-    require_relative "initializer/exceptions/params_order_error"
+    # Singleton for unassigned values
+    UNDEFINED = Object.new.freeze
 
-    require_relative "initializer/attribute"
-    require_relative "initializer/param"
-    require_relative "initializer/option"
-    require_relative "initializer/builder"
-    require_relative "initializer/instance_dsl"
-    require_relative "initializer/class_dsl"
+    require_relative "initializer/dsl"
+    require_relative "initializer/definition"
+    require_relative "initializer/builders"
+    require_relative "initializer/config"
+    require_relative "initializer/mixin"
 
-    # rubocop: disable Style/ConstantName
-    Mixin = self # for compatibility to versions below 0.12
-    # rubocop: enable Style/ConstantName
+    # Adds methods [.[]] and [.define]
+    extend DSL
 
-    UNDEFINED = Object.new.tap do |obj|
-      obj.define_singleton_method(:inspect) { "Dry::Initializer::UNDEFINED" }
-    end.freeze
-
-    extend Dry::Initializer::ClassDSL
-
-    def param(*args)
-      __initializer_builder__.param(*args).call(__initializer_mixin__)
+    # Gem-related configuration
+    # @return [Dry::Initializer::Config]
+    def dry_initializer
+      @dry_initializer ||= Config.new(self)
     end
 
-    def option(*args)
-      __initializer_builder__.option(*args).call(__initializer_mixin__)
+    # Adds or redefines a parameter of [#dry_initializer]
+    # @param  [Symbol]       name
+    # @param  [#call, nil]   coercer (nil)
+    # @option opts [#call]   :type
+    # @option opts [Proc]    :default
+    # @option opts [Boolean] :optional
+    # @option opts [Symbol]  :as
+    # @option opts [true, false, :protected, :public, :private] :reader
+    # @return [self] itself
+    def param(name, type = nil, **opts)
+      dry_initializer.param(name, type, opts)
+      self
+    end
+
+    # Adds or redefines an option of [#dry_initializer]
+    # @param  (see #param)
+    # @option (see #param)
+    # @return (see #param)
+    def option(name, type = nil, **opts)
+      dry_initializer.option(name, type, opts)
+      self
     end
 
     private
 
-    def __initializer_mixin__
-      @__initializer_mixin__ ||= Module.new
-    end
-
-    def __initializer_builder__(**settings)
-      @__initializer_builder__ ||= Dry::Initializer::Builder.new(settings)
-    end
-
     def inherited(klass)
-      builder = @__initializer_builder__.dup
-      mixin   = Module.new
-
-      klass.instance_variable_set :@__initializer_builder__, builder
-      klass.instance_variable_set :@__initializer_mixin__,   mixin
-
-      builder.call(mixin)
-      klass.include mixin
-
       super
+      config = Config.new(klass, null: dry_initializer.null)
+      klass.send(:instance_variable_set, :@dry_initializer, config)
+      dry_initializer.children << config
     end
   end
 end
