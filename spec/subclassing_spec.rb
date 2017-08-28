@@ -1,8 +1,7 @@
 describe "subclassing" do
   before do
     class Test::Foo
-      extend Dry::Initializer
-
+      extend Dry::Initializer[undefined: false]
       param  :foo
       option :bar
     end
@@ -19,6 +18,11 @@ describe "subclassing" do
 
   let(:instance_of_subclass) do
     Test::Bar.new 1, 2, bar: 3, qux: 4
+  end
+
+  it "preserves null definition" do
+    expect(Test::Foo.dry_initializer.null).to be_nil
+    expect(Test::Bar.dry_initializer.null).to be_nil
   end
 
   it "preserves definitions made in the superclass" do

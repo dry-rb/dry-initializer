@@ -1,3 +1,5 @@
+require "set"
+
 # Namespace for gems in a dry-rb community
 module Dry
   #
@@ -49,7 +51,9 @@ module Dry
 
     def inherited(klass)
       super
-      dry_initializer.children << klass.dry_initializer
+      config = Config.new(klass, null: dry_initializer.null)
+      klass.send(:instance_variable_set, :@dry_initializer, config)
+      dry_initializer.children << config
     end
   end
 end
