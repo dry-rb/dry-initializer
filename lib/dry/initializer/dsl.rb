@@ -1,6 +1,8 @@
 module Dry::Initializer
+  # Module-level DSL
   module DSL
     # Setting for null (undefined value)
+    # @return [nil, Dry::Initializer::UNDEFINED]
     attr_reader :null
 
     # Returns a version of the module with custom settings

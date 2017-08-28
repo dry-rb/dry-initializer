@@ -11,7 +11,7 @@ Gem::Specification.new do |gem|
   gem.test_files       = gem.files.grep(/^spec/)
   gem.extra_rdoc_files = Dir["README.md", "LICENSE", "CHANGELOG.md"]
 
-  gem.required_ruby_version = ">= 2.2"
+  gem.required_ruby_version = ">= 2.3"
 
   gem.add_development_dependency "rspec", "~> 3.0"
   gem.add_development_dependency "rake", "> 10"
