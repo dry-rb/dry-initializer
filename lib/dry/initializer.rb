@@ -49,7 +49,7 @@ module Dry
 
     def inherited(klass)
       super
-      klass.dry_initializer
+      dry_initializer.children << klass.dry_initializer
     end
   end
 end

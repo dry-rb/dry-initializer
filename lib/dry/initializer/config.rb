@@ -34,10 +34,7 @@ module Dry::Initializer
     # List of configs of all subclasses of the [#extended_class]
     # @return [Array<Dry::Initializer::Config>]
     def children
-      return [] unless extended_class
-      ObjectSpace.each_object(Class)
-                 .select { |item| item.superclass == extended_class }
-                 .map(&:dry_initializer)
+      @children ||= Set.new
     end
 
     # List of definitions for initializer params
