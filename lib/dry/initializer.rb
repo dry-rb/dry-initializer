@@ -17,15 +17,12 @@ module Dry
     extend DSL
 
     # Gem-related configuration
-    #
     # @return [Dry::Initializer::Config]
-    #
     def dry_initializer
       @dry_initializer ||= Config.new(self)
     end
 
     # Adds or redefines a parameter of [#dry_initializer]
-    #
     # @param  [Symbol]       name
     # @param  [#call, nil]   coercer (nil)
     # @option opts [#call]   :type
@@ -34,18 +31,15 @@ module Dry
     # @option opts [Symbol]  :as
     # @option opts [true, false, :protected, :public, :private] :reader
     # @return [self] itself
-    #
     def param(name, type = nil, **opts)
       dry_initializer.param(name, type, opts)
       self
     end
 
     # Adds or redefines an option of [#dry_initializer]
-    #
     # @param  (see #param)
     # @option (see #param)
     # @return (see #param)
-    #
     def option(name, type = nil, **opts)
       dry_initializer.option(name, type, opts)
       self

@@ -4,11 +4,9 @@ module Dry::Initializer
     attr_reader :null
 
     # Returns a version of the module with custom settings
-    #
     # @option settings [Boolean] :undefined
     #   If unassigned params and options should be treated different from nil
     # @return [Dry::Initializer]
-    #
     def [](undefined: true, **)
       null = (undefined == false) ? nil : UNDEFINED
       Module.new.tap do |mod|
@@ -19,10 +17,8 @@ module Dry::Initializer
     end
 
     # Returns mixin module to be included to target class by hand
-    #
     # @return [Module]
     # @yield proc defining params and options
-    #
     def define(procedure = nil, &block)
       config = Config.new(null: null)
       config.instance_exec(&(procedure || block))

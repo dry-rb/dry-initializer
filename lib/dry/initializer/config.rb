@@ -53,7 +53,6 @@ module Dry::Initializer
     end
 
     # Adds or redefines a parameter
-    #
     # @param  [Symbol]       name
     # @param  [#call, nil]   coercer (nil)
     # @option opts [#call]   :type
@@ -62,7 +61,6 @@ module Dry::Initializer
     # @option opts [Symbol]  :as
     # @option opts [true, false, :protected, :public, :private] :reader
     # @return [self] itself
-    #
     def param(name, type = nil, **opts)
       add_definition(false, name, type, opts)
     end
@@ -106,14 +104,14 @@ module Dry::Initializer
       Builders::Initializer[self]
     end
 
-    protected
-
-    # @private
+    # Finalizes config
+    # @return [self]
     def finalize
       @definitions = final_definitions
       check_order_of_params
       mixin.class_eval(code)
       children.each(&:finalize)
+      self
     end
 
     private
