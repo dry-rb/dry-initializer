@@ -16,6 +16,22 @@ describe "definition" do
         option :bar
       end
     end
+
+    it "preservers definition params" do
+      params = Test::Foo.dry_initializer.params.map do |definition|
+        [definition.source, definition.options]
+      end
+
+      expect(params).to eq [[:foo, { as: :foo, reader: :public }]]
+    end
+
+    it "preservers definition options" do
+      options = Test::Foo.dry_initializer.options.map do |definition|
+        [definition.source, definition.options]
+      end
+
+      expect(options).to eq [[:bar, { as: :bar, reader: :public }]]
+    end
   end
 
   it_behaves_like :initializer, "extend Dry::Initializer" do
