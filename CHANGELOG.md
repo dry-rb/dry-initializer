@@ -5,7 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.0.0] To be released ASAP
+## [2.1.0] [2017-09-11]
+
+### Added
+- Method `#options` to param/option definition (nepalez)
+
+  ```ruby
+  class User
+    extend Dry::Initializer
+    option :name,  proc(&:to_s), optional: true
+    option :email, optional: true
+  end
+
+  User.dry_initializer.options.map do |option|
+    [option.source, option.options]
+  end
+  # => [
+  #      [:name,  { type: proc(&:to_s), as: :name, optional: true }],
+  #      [:email, { as: :email, optional: true }]
+  #    ]
+  ```
+
+  This method can be helpful for replicating params/options
+  in another class without inheritance.
+
+## [2.0.0] [2017-08-28]
 
 The gem has been rewritten under the hood keeping its documented
 interface about the same (see "Deleted" section below for the only
