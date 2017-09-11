@@ -11,6 +11,16 @@ module Dry::Initializer
     attr_reader :option, :null, :source, :target, :ivar,
                 :type, :optional, :default, :reader
 
+    def options
+      {
+        as:       target,
+        type:     type,
+        optional: optional,
+        default:  default,
+        reader:   reader
+      }.reject { |_, value| value.nil? }
+    end
+
     def name
       @name ||= (option ? "option" : "parameter") << " '#{source}'"
     end
