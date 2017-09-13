@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.2.0] [2017-09-13]
+
+### Added
+- Option `:desc` for option/param to add a description (nepalez)
+
+- Methods `Definition#inch` and `Config#inch` to inspect definitions (nepalez)
+
+  ```ruby
+  class User
+    extend Dry::Initializer
+    option :name,  proc(&:to_s), optional: true, desc: "User name"
+    option :email, optional: true, desc: "user email"
+  end
+
+  User.dry_initializer.inch
+  # @!method initialize(*, **options)
+  # Initializes an instance of User
+  # @option [Object] :name (optional) User name
+  # @option [Object] :email (optional) User email
+  # @return [User]
+  ```
+
 ## [2.1.0] [2017-09-11]
 
 ### Added
@@ -687,3 +709,5 @@ First public release
 [1.4.0]: https://github.com/dry-rb/dry-initializer/compare/v1.3.0...v1.4.0
 [1.4.1]: https://github.com/dry-rb/dry-initializer/compare/v1.4.0...v1.4.1
 [2.0.0]: https://github.com/dry-rb/dry-initializer/compare/v1.4.1...v2.0.0
+[2.1.0]: https://github.com/dry-rb/dry-initializer/compare/v2.0.0...v2.1.0
+[2.2.0]: https://github.com/dry-rb/dry-initializer/compare/v2.1.0...v2.2.0
