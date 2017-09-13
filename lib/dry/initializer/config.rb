@@ -111,6 +111,18 @@ module Dry::Initializer
       self
     end
 
+    # Human-readable representation of configured params and options
+    # @return [String]
+    def inch
+      line  =  Builders::Signature[self]
+      line  =  line.gsub("__dry_initializer_options__", "options")
+      lines =  ["@!method initialize(#{line})"]
+      lines += ["Initializes an instance of #{extended_class}"]
+      lines += definitions.values.map(&:inch)
+      lines += ["@return [#{extended_class}]"]
+      lines.join("\n")
+    end
+
     private
 
     def initialize(extended_class = nil, null: UNDEFINED)

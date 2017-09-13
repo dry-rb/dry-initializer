@@ -11,7 +11,7 @@ module Dry::Initializer::Builders
 
     private
 
-    # rubocop: disable Style/MethodLength
+    # rubocop: disable Metrics/MethodLength
     def initialize(definition)
       @definition = definition
       @option     = definition.option
@@ -26,7 +26,7 @@ module Dry::Initializer::Builders
       @item       = "__dry_initializer_definition__"
       @val        = @option ? "__dry_initializer_value__" : @source
     end
-    # rubocop: enable Style/MethodLength
+    # rubocop: enable Metrics/MethodLength
 
     def lines
       [

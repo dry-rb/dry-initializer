@@ -38,6 +38,15 @@ module Dry::Initializer
       Builders::Reader[self]
     end
 
+    def inch
+      @inch ||= (option ? "@option" : "@param ").tap do |text|
+        text << " [Object]"
+        text << (option ? " :#{source}" : " #{source}")
+        text << (optional ? " (optional)" : " (required)")
+        text << " #{desc}" if desc
+      end
+    end
+
     private
 
     def initialize(option, null, source, coercer = nil, **options)
