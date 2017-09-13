@@ -5,7 +5,7 @@ describe Dry::Initializer, ".dry_initializer.public_attributes" do
     before do
       class Test::Foo
         extend Dry::Initializer
-        param  :foo, proc(&:to_s)
+        param  :foo, proc(&:to_s), desc: "a weird parameter"
         option :moo, optional: true
         option :bar, default: proc { 1 },     reader: false
         option :baz, optional: true,          reader: :protected

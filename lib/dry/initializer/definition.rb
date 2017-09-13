@@ -9,7 +9,8 @@ module Dry::Initializer
   #
   class Definition
     attr_reader :option, :null, :source, :target, :ivar,
-                :type, :optional, :default, :reader
+                :type, :optional, :default, :reader,
+                :desc
 
     def options
       {
@@ -17,7 +18,8 @@ module Dry::Initializer
         type:     type,
         optional: optional,
         default:  default,
-        reader:   reader
+        reader:   reader,
+        desc:     desc
       }.reject { |_, value| value.nil? }
     end
 
@@ -48,6 +50,7 @@ module Dry::Initializer
       @reader   = prepare_reader options.fetch(:reader, true)
       @default  = check_default options[:default]
       @optional = options.fetch(:optional, @default)
+      @desc     = options[:desc]&.to_s&.capitalize
     end
 
     def check_source(value)
