@@ -81,10 +81,11 @@ module Dry::Initializer
 
     def check_type(value)
       return if value.nil?
-      arity = value.respond_to?(:call) ? value.method(:call).arity : 0
-      return value unless arity.zero? || arity > 1
+      arity =   value.arity               if value.is_a? Proc
+      arity ||= value.method(:call).arity if value.respond_to? :call
+      return value if [1, 2].include? arity.to_i.abs
       raise TypeError,
-            "type of #{inspect} should respond to #call with one argument"
+            "type of #{inspect} should respond to #call with 1..2 arguments"
     end
 
     def check_default(value)

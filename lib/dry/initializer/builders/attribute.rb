@@ -65,7 +65,12 @@ module Dry::Initializer::Builders
 
     def coercion_line
       return unless @type
-      "#{@val} = #{@item}.type.call(#{@val}) unless #{@val} == #{@null}"
+      arity = @type.is_a?(Proc) ? @type.arity : @type.method(:call).arity
+      if arity.abs == 1
+        "#{@val} = #{@item}.type.call(#{@val}) unless #{@val} == #{@null}"
+      else
+        "#{@val} = #{@item}.type.call(#{@val}, self) unless #{@val} == #{@null}"
+      end
     end
 
     def assignment_line

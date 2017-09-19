@@ -1,6 +1,36 @@
 require "dry-types"
 
 describe "type constraint" do
+  context "by a proc with 1 argument" do
+    before do
+      class Test::Foo
+        extend Dry::Initializer
+        param :foo, proc(&:to_s), optional: true
+      end
+    end
+
+    subject { Test::Foo.new :foo }
+
+    it "coerces a value" do
+      expect(subject.foo).to eq "foo"
+    end
+  end
+
+  context "by a proc with 2 arguments" do
+    before do
+      class Test::Foo
+        extend Dry::Initializer
+        param :foo, proc { |val, obj| "#{obj.hash}:#{val}" }, optional: true
+      end
+    end
+
+    subject { Test::Foo.new :foo }
+
+    it "coerces a value with self as a second argument" do
+      expect(subject.foo).to eq "#{subject.hash}:foo"
+    end
+  end
+
   context "by dry-type" do
     before do
       class Test::Foo

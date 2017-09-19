@@ -5,6 +5,35 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.3.0] [WIP]
+
+### Added
+- Type coercer can take second argument for the initialized instance (nepalez)
+  This allows to wrap assigned value to the object that refers back
+  to the initializer instance. More verbose example:
+
+  ```ruby
+  class Location < String
+    attr_reader :parameter # refers back to its parameter
+  
+    def initialize(name, parameter)
+      super(name)
+      @parameter = parameter
+    end
+  end
+
+  class Parameter
+    extend Dry::Initializer
+    param :name
+    param :location, ->(value, param) { Location.new(value, param) }
+  end
+
+  offset = Parameter.new "offset", location: "query"
+  offset.name     # => "offset"
+  offset.location # => "query"
+  offset.location.parameter == offset # true
+  ```
+
 ## [2.2.0] [2017-09-13]
 
 ### Added
@@ -711,3 +740,4 @@ First public release
 [2.0.0]: https://github.com/dry-rb/dry-initializer/compare/v1.4.1...v2.0.0
 [2.1.0]: https://github.com/dry-rb/dry-initializer/compare/v2.0.0...v2.1.0
 [2.2.0]: https://github.com/dry-rb/dry-initializer/compare/v2.1.0...v2.2.0
+[2.3.0]: https://github.com/dry-rb/dry-initializer/compare/v2.2.0...v2.3.0
