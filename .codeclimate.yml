@@ -2,6 +2,13 @@
 engines:
   rubocop:
     enabled: true
+    checks:
+      Rubocop/Style/FrozenStringLiteralComment:
+        enabled: false
+      Rubocop/Style/PercentLiteralDelimiters:
+        enabled: false
+      Rubocop/Lint/UnderscorePrefixedVariableName:
+        enabled: false
   duplication:
     enabled: true
     config:
@@ -10,6 +17,7 @@ engines:
 exclude_paths:
 - "benchmarks/**/*"
 - "spec/**/*"
+- "lib/tasks/**/*"
 ratings:
    paths:
    - "lib/**/*"
