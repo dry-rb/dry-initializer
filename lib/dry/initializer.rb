@@ -14,6 +14,7 @@ module Dry
     require_relative "initializer/builders"
     require_relative "initializer/config"
     require_relative "initializer/mixin"
+    require_relative "initializer/dispatchers"
 
     # Adds methods [.[]] and [.define]
     extend DSL
@@ -34,7 +35,7 @@ module Dry
     # @option opts [true, false, :protected, :public, :private] :reader
     # @return [self] itself
     def param(name, type = nil, **opts)
-      dry_initializer.param(name, type, opts)
+      dry_initializer.param(name, type, Dispatchers[opts])
       self
     end
 
@@ -43,7 +44,7 @@ module Dry
     # @option (see #param)
     # @return (see #param)
     def option(name, type = nil, **opts)
-      dry_initializer.option(name, type, opts)
+      dry_initializer.option(name, type, Dispatchers[opts])
       self
     end
 
