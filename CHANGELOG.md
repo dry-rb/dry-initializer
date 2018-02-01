@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.4.0] [2018-02-01]
+
+### Added
+- Dispatchers for adding syntax sugar to `param` and `options` (nepalez)
+
+  ```ruby
+  # Converts `integer: true` to `type: proc(&:to_i)`
+  dispatcher = ->(op) { op[:integer] ? op.merge(type: proc(&:to_i)) : op }
+  # Register a dispatcher
+  Dry::Initializer::Dispatchers << dispatcher
+  # Use syntax sugar
+  class User
+    param :id, integer: true # same as param :id, proc(&:to_i)
+  end
+  ```
+
 ## [2.3.0] [2017-09-19]
 
 ### Added
@@ -741,3 +757,4 @@ First public release
 [2.1.0]: https://github.com/dry-rb/dry-initializer/compare/v2.0.0...v2.1.0
 [2.2.0]: https://github.com/dry-rb/dry-initializer/compare/v2.1.0...v2.2.0
 [2.3.0]: https://github.com/dry-rb/dry-initializer/compare/v2.2.0...v2.3.0
+[2.4.0]: https://github.com/dry-rb/dry-initializer/compare/v2.3.0...v2.4.0
