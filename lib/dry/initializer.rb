@@ -27,8 +27,7 @@ module Dry
 
     # Adds or redefines a parameter of [#dry_initializer]
     # @param  [Symbol]       name
-    # @param  [#call, nil]   coercer (nil)
-    # @option opts [#call]   :type
+    # @param  [#call, nil]   type (nil)
     # @option opts [Proc]    :default
     # @option opts [Boolean] :optional
     # @option opts [Symbol]  :as
