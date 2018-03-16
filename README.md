@@ -46,7 +46,7 @@ require 'dry-initializer'
 require 'dry-types'
 
 class User
-  extend Dry::Initializer
+  extend Dry::Initializer[undefined: true]
 
   # Params of the initializer along with corresponding readers
   param  :name,  proc(&:to_s)

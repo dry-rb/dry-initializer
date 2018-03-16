@@ -9,8 +9,12 @@ module Dry::Initializer
     # @option settings [Boolean] :undefined
     #   If unassigned params and options should be treated different from nil
     # @return [Dry::Initializer]
-    def [](undefined: true, **)
-      null = (undefined == false) ? nil : UNDEFINED
+    def [](undefined: UNDEFINED, **)
+      null = case undefined
+             when UNDEFINED then UNDEFINED
+             when false     then nil
+             when true      then true
+             end
       Module.new.tap do |mod|
         mod.extend DSL
         mod.include self

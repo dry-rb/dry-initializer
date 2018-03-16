@@ -46,6 +46,23 @@ describe "optional value" do
     end
   end
 
+  context "with undefined: true" do
+    before do
+      class Test::Foo
+        extend Dry::Initializer[undefined: true]
+
+        param :foo
+        param :bar, optional: true
+      end
+    end
+
+    it "sets undefined values to UNDEFINED" do
+      subject = Test::Foo.new(1)
+
+      expect(subject.bar).to eq Dry::Initializer::UNDEFINED
+    end
+  end
+
   context "when has a default value" do
     before do
       class Test::Foo

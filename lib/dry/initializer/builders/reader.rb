@@ -36,9 +36,10 @@ module Dry::Initializer::Builders
     def method_lines
       return unless @reader
       return unless @null
+
       [
         "def #{@target}",
-        "  #{@ivar} unless #{@ivar} == Dry::Initializer::UNDEFINED",
+        "  #{@ivar} unless #{@ivar} == Dry::Initializer::UNDEFINED && !#{@null == true}",
         "end"
       ]
     end
