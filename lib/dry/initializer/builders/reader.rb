@@ -38,7 +38,7 @@ module Dry::Initializer::Builders
       return unless @null
       [
         "def #{@target}",
-        "  #{@ivar} unless #{@ivar} == Dry::Initializer::UNDEFINED",
+        "  #{@ivar} unless Dry::Initializer::UNDEFINED == #{@ivar}",
         "end"
       ]
     end
