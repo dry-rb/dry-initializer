@@ -60,22 +60,22 @@ module Dry::Initializer::Builders
 
     def default_line
       return unless @default
-      "#{@val} = instance_exec(&#{@item}.default) if #{@val} == #{@null}"
+      "#{@val} = instance_exec(&#{@item}.default) if #{@null} == #{@val}"
     end
 
     def coercion_line
       return unless @type
       arity = @type.is_a?(Proc) ? @type.arity : @type.method(:call).arity
       if arity.abs == 1
-        "#{@val} = #{@item}.type.call(#{@val}) unless #{@val} == #{@null}"
+        "#{@val} = #{@item}.type.call(#{@val}) unless #{@null} == #{@val}"
       else
-        "#{@val} = #{@item}.type.call(#{@val}, self) unless #{@val} == #{@null}"
+        "#{@val} = #{@item}.type.call(#{@val}, self) unless #{@null} == #{@val}"
       end
     end
 
     def assignment_line
       "#{@ivar} = #{@val}" \
-      " unless #{@val} == #{@null} && instance_variable_defined?(:#{@ivar})"
+      " unless #{@null} == #{@val} && instance_variable_defined?(:#{@ivar})"
     end
   end
 end
