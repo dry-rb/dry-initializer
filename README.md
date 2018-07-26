@@ -70,11 +70,11 @@ See full documentation on the [Dry project official site][docs]
 
 ## Benchmarks
 
-The `dry-initializer` is pretty fast for rubies 2.2+ [comparing to other libraries][benchmarks].
+The `dry-initializer` is pretty fast for rubies 2.3+ [comparing to other libraries][benchmarks].
 
 ## Compatibility
 
-Tested under rubies [compatible to MRI 2.2+](.travis.yml).
+Tested under rubies [compatible to MRI 2.3+](.travis.yml).
 
 ## Contributing
 
