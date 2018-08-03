@@ -79,7 +79,7 @@ module Dry::Initializer
         key = item.target
         next unless instance.respond_to? key
         val = instance.send(key)
-        obj[key] = val unless val == null
+        obj[key] = val unless null == val
       end
     end
 
@@ -90,7 +90,7 @@ module Dry::Initializer
       definitions.values.each_with_object({}) do |item, obj|
         key = item.target
         val = instance.send(:instance_variable_get, item.ivar)
-        obj[key] = val unless val == null
+        obj[key] = val unless null == val
       end
     end
 
