@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.6.0] [2018-09-09]
+
+### Fixed
+- `nil` coercion (belousovAV)
+
+  When default value is `nil` instead of `Dry::Initializer::UNDEFINED`,
+  the coercion should be applied to any value, including `nil`, because
+  we cannot distinct "undefined" `nil` from the "assigned" `nil` value.
+
 ## [2.4.0] [2018-02-01]
 
 ### Added
@@ -367,18 +376,20 @@ and to @gzigzigzeo for persuading me to do this refactoring.
 ### Added
 - enhancement via `Dry::Initializer::Attribute.dispatchers` registry (nepalez)
 
-    # Register dispatcher for `:string` option
-    Dry::Initializer::Attribute.dispatchers << ->(string: nil, **op) do
-      string ? op.merge(type: proc(&:to_s)) : op
-    end
+  ```ruby
+  # Register dispatcher for `:string` option
+  Dry::Initializer::Attribute.dispatchers << ->(string: nil, **op) do
+    string ? op.merge(type: proc(&:to_s)) : op
+  end
 
-    # Now you can use the `:string` key for `param` and `option`
-    class User
-      extend Dry::Initializer
-      param :name, string: true
-    end
+  # Now you can use the `:string` key for `param` and `option`
+  class User
+    extend Dry::Initializer
+    param :name, string: true
+  end
 
-    User.new(:Andy).name # => "Andy"
+  User.new(:Andy).name # => "Andy"
+  ```
 
 ### Changed
 - optimize assignments for performance (nepalez)
@@ -758,3 +769,4 @@ First public release
 [2.2.0]: https://github.com/dry-rb/dry-initializer/compare/v2.1.0...v2.2.0
 [2.3.0]: https://github.com/dry-rb/dry-initializer/compare/v2.2.0...v2.3.0
 [2.4.0]: https://github.com/dry-rb/dry-initializer/compare/v2.3.0...v2.4.0
+[2.6.0]: https://github.com/dry-rb/dry-initializer/compare/v2.5.0...v2.6.0
