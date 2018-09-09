@@ -20,7 +20,8 @@ module Dry::Initializer::Builders
       @default    = definition.default
       @source     = definition.source
       @ivar       = definition.ivar
-      @null       = definition.null ? "Dry::Initializer::UNDEFINED" : "nil"
+      @default_null = "Dry::Initializer::UNDEFINED"
+      @null       = definition.null ? @default_null : "nil"
       @opts       = "__dry_initializer_options__"
       @congif     = "__dry_initializer_config__"
       @item       = "__dry_initializer_definition__"
@@ -67,9 +68,11 @@ module Dry::Initializer::Builders
       return unless @type
       arity = @type.is_a?(Proc) ? @type.arity : @type.method(:call).arity
       if arity.abs == 1
-        "#{@val} = #{@item}.type.call(#{@val}) unless #{@null} == #{@val}"
+        "#{@val} = #{@item}.type.call(#{@val})" \
+        " unless #{@default_null} == #{@val}"
       else
-        "#{@val} = #{@item}.type.call(#{@val}, self) unless #{@null} == #{@val}"
+        "#{@val} = #{@item}.type.call(#{@val}, self)" \
+        " unless #{@default_null} == #{@val}"
       end
     end
 
