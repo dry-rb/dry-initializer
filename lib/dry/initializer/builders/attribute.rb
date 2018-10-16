@@ -67,7 +67,7 @@ module Dry::Initializer::Builders
     def coercion_line
       return unless @type
       arity = @type.is_a?(Proc) ? @type.arity : @type.method(:call).arity
-      if arity.abs == 1
+      if arity.abs == 1 || Dry::Types::Type === @type
         "#{@val} = #{@item}.type.call(#{@val})" \
         " unless #{@default_null} == #{@val}"
       else

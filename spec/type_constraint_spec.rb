@@ -32,10 +32,13 @@ describe "type constraint" do
   end
 
   context "by dry-type" do
+    let(:constraint) { Dry::Types["strict.string"] }
+
     before do
-      class Test::Foo
+      constraint = self.constraint
+      Test::Foo = Class.new do
         extend Dry::Initializer
-        param :foo, Dry::Types["strict.string"], optional: true
+        param :foo, constraint, optional: true
       end
     end
 
@@ -61,6 +64,15 @@ describe "type constraint" do
       it "not applicable to Dry::Initializer::UNDEFINED" do
         expect(subject.instance_variable_get(:@foo))
           .to eq Dry::Initializer::UNDEFINED
+      end
+    end
+
+    context "with arity other than 1" do
+      let(:constraint) { Dry::Types.module::Array.of(Dry::Types["strict.string"]) }
+      subject { Test::Foo.new ["foo"] }
+
+      it "completes the initialization" do
+        expect { subject }.not_to raise_error
       end
     end
   end
