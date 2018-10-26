@@ -7,7 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.6.0] [2018-09-09] (YANKED)
 
+## [2.5.0] [2018-08-17]
+
 ### Fixed
+
 - `nil` coercion (belousovAV)
 
   When default value is `nil` instead of `Dry::Initializer::UNDEFINED`,
