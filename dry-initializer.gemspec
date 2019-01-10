@@ -3,7 +3,7 @@ Gem::Specification.new do |gem|
   gem.version  = "2.6.0"
   gem.author   = ["Vladimir Kochnev (marshall-lee)", "Andrew Kozin (nepalez)"]
   gem.email    = "andrew.kozin@gmail.com"
-  gem.homepage = "https://github.com/dryrb/dry-initializer"
+  gem.homepage = "https://github.com/dry-rb/dry-initializer"
   gem.summary  = "DSL for declaring params and options of the initializer"
   gem.license  = "MIT"
 
