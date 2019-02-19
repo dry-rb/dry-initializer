@@ -133,8 +133,10 @@ module Dry::Initializer
       finalize
     end
 
-    def add_definition(option, name, type, opts)
-      definition = Definition.new(option, null, name, type, Dispatchers[opts])
+    def add_definition(option, name, type, opt)
+      options = \
+        Dispatchers[option: option, null: null, source: name, type: type, **opt]
+      definition = Definition.new(options)
       definitions[definition.source] = definition
       finalize
 
