@@ -34,7 +34,7 @@ module Dry
     # @option opts [true, false, :protected, :public, :private] :reader
     # @return [self] itself
     def param(name, type = nil, **opts)
-      dry_initializer.param(name, type, Dispatchers[opts])
+      dry_initializer.param(name, type, **opts)
       self
     end
 
@@ -43,7 +43,7 @@ module Dry
     # @option (see #param)
     # @return (see #param)
     def option(name, type = nil, **opts)
-      dry_initializer.option(name, type, Dispatchers[opts])
+      dry_initializer.option(name, type, **opts)
       self
     end
 
