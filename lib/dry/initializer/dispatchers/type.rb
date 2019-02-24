@@ -5,8 +5,10 @@ module Dry::Initializer::Dispatchers::Type
   extend self
 
   def call(type: nil, **options)
+    type, list = type.is_a?(Array) ? [type.first, true] : [type, false]
     type = callable! type
     check_arity! type
+    type = [type] if list
 
     { type: type, **options }
   end

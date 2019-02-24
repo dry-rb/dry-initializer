@@ -33,6 +33,7 @@ module Dry::Initializer
   module Dispatchers
     require_relative "dispatchers/default"
     require_relative "dispatchers/desc"
+    require_relative "dispatchers/list_type"
     require_relative "dispatchers/reader"
     require_relative "dispatchers/source"
     require_relative "dispatchers/target"
@@ -51,7 +52,7 @@ module Dry::Initializer
       private
 
       def list
-        @list ||= [Source, Target, Type, Default, Reader, Desc]
+        @list ||= [Source, Target, Type, ListType, Default, Reader, Desc]
       end
     end
   end
