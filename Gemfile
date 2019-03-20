@@ -17,7 +17,7 @@ group :benchmarks do
   gem "concord"
   gem "fast_attributes"
   gem "kwattr"
-  gem "ruby-prof"
+  gem "ruby-prof", platform: :mri
   gem "value_struct"
   gem "values"
   gem "virtus"

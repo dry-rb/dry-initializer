@@ -1,7 +1,8 @@
 require "dry/initializer"
+
 begin
   require "pry"
-rescue
+rescue LoadError
   nil
 end
 
