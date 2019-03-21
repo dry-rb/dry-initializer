@@ -11,6 +11,7 @@ rvm:
   - jruby-9000
   - rbx-3
   - ruby-head
+  - truffleruby
 env:
   global:
     - JRUBY_OPTS='--dev -J-Xmx1024M'
@@ -19,6 +20,7 @@ matrix:
     - rvm: rbx-3
     - rvm: ruby-head
     - rvm: jruby-head
+    - rvm: truffleruby
   include:
     - rvm: jruby-head
       before_install: gem install bundler --no-ri --no-rdoc
