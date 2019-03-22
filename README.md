@@ -2,7 +2,6 @@
 
 [![Gem Version](https://badge.fury.io/rb/dry-initializer.svg)][gem]
 [![Build Status](https://travis-ci.org/dry-rb/dry-initializer.svg?branch=master)][travis]
-[![Dependency Status](https://gemnasium.com/dry-rb/dry-initializer.svg)][gemnasium]
 [![Code Climate](https://codeclimate.com/github/dry-rb/dry-initializer/badges/gpa.svg)][codeclimate]
 [![Test Coverage](https://codeclimate.com/github/dry-rb/dry-initializer/badges/coverage.svg)][coveralls]
 [![Inline docs](http://inch-ci.org/github/dry-rb/dry-initializer.svg?branch=master)][inchpages]
