@@ -1,13 +1,14 @@
 ---
 language: ruby
-sudo: false
 cache: bundler
 bundler_args: --without benchmarks tools
 script:
   - bundle exec rake spec
 rvm:
-  - 2.3.0
-  - 2.4.0
+  - 2.3.8
+  - 2.4.5
+  - 2.5.5
+  - 2.6.2
   - jruby-9000
   - rbx-3
   - ruby-head
