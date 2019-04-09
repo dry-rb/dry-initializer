@@ -6,9 +6,7 @@ module Dry
   # DSL for declaring params and options of class initializers
   #
   module Initializer
-    # Singleton for unassigned values
-    UNDEFINED = Object.new.freeze
-
+    require_relative "initializer/undefined"
     require_relative "initializer/dsl"
     require_relative "initializer/definition"
     require_relative "initializer/builders"
