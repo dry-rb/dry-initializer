@@ -1,59 +1,111 @@
-module Dry::Initializer
-  #
-  # @private
-  #
-  # Dispatchers are responsible for processing arguments
-  # of `.param` and `.option` step-by-step.
-  #
-  # They also allow to add syntax sugar to these methods.
-  # New dispatcher should convert the source hash of options into
-  # the resulting hash so that you can send additional keys to the helpers.
-  #
-  # Notice that custom dispatchers are placed on top of the stack,
-  # to _pre-process_ options that will be post-processed
-  # by standard dispatchers before sending the resulting options
-  # to the [Dry::Initializer::Definition].
-  #
-  # @example Add special dispatcher
-  #
-  #   # Define a dispatcher for key :integer
-  #   dispatcher = proc do |opts|
-  #     opts.merge(type: proc(&:to_i)) if opts[:integer]
-  #   end
-  #
-  #   # Register a dispatcher
-  #   Dry::Initializer::Dispatchers << dispatcher
-  #
-  #   # Now you can use option `integer: true` instead of `type: proc(&:to_i)`
-  #   class Foo
-  #     extend Dry::Initializer
-  #     param :id, integer: true
-  #   end
-  #
-  module Dispatchers
-    require_relative "dispatchers/default"
-    require_relative "dispatchers/desc"
-    require_relative "dispatchers/list_type"
-    require_relative "dispatchers/reader"
-    require_relative "dispatchers/source"
-    require_relative "dispatchers/target"
-    require_relative "dispatchers/type"
+#
+# The module is responsible for __normalizing__ arguments
+# of `.param` and `.option`.
+#
+# What the module does is convert the source list of arguments
+# into the standard set of options:
+# - `:option`   -- whether an argument is an option (or param)
+# - `:source`   -- the name of source option
+# - `:target`   -- the target name of the reader
+# - `:reader`   -- if the reader's privacy (:public, :protected, :private, nil)
+# - `:ivar`     -- the target nane of the variable
+# - `:type`     -- the callable coercer of the source value
+# - `:optional` -- if the argument is optional
+# - `:default`  -- the proc returning the default value of the source value
+# - `:null`     -- the value to be set to unassigned optional argument
+#
+# It is this set is used to build [Dry::Initializer::Definition].
+#
+# @example
+#    # from `option :foo, [], as: :bar, optional: :true
+#    input = { name: :foo, as: :bar, type: [], optional: true }
+#
+#    Dry::Initializer::Dispatcher.call(input)
+#    # => {
+#    #      source:   "foo",
+#    #      target:   "bar",
+#    #      reader:   :public,
+#    #      ivar:     "@bar",
+#    #      type:  ->(v) { Array(v) } }, # simplified for brevity
+#    #      optional: true,
+#    #      default:  -> { Dry::Initializer::UNDEFINED },
+#    #    }
+#
+# # Settings
+#
+# The module uses global setting `null` to define what value
+# should be set to variables that kept unassigned. By default it
+# uses `Dry::Initializer::UNDEFINED`
+#
+# # Syntax Extensions
+#
+# The module supports syntax extensions. You can add any number
+# of custom dispatchers __on top__ of the stack of default dispatchers.
+# Every dispatcher should be a callable object that takes
+# the source set of options and converts it to another set of options.
+#
+# @example Add special dispatcher
+#
+#   # Define a dispatcher for key :integer
+#   dispatcher = proc do |integer: false, **opts|
+#     opts.merge(type: proc(&:to_i)) if integer
+#   end
+#
+#   # Register a dispatcher
+#   Dry::Initializer::Dispatchers << dispatcher
+#
+#   # Now you can use option `integer: true` instead of `type: proc(&:to_i)`
+#   class Foo
+#     extend Dry::Initializer
+#     param :id, integer: true
+#   end
+#
+module Dry::Initializer::Dispatchers
+  extend self
 
-    class << self
-      def <<(item)
-        @list = [item] | list
-        self
-      end
+  # @!attribute [rw] null Defines a value to be set to unassigned attributes
+  # @return [Object]
+  attr_accessor :null
 
-      def [](**options)
-        list.inject(options) { |opts, item| item.call(opts) }
-      end
+  #
+  # Registers a new dispatcher
+  #
+  # @param [#call] dispatcher
+  # @return [self] itself
+  #
+  def <<(dispatcher)
+    @pipeline = [dispatcher] + pipeline
+    self
+  end
 
-      private
+  #
+  # Normalizes the source set of options
+  #
+  # @param [Hash<Symbol, Object>] options
+  # @return [Hash<Symbol, Objct>] normalized set of options
+  #
+  def call(**options)
+    options = { null: null }.merge(options)
+    pipeline.reduce(options) { |opts, dispatcher| dispatcher.call(opts) }
+  end
 
-      def list
-        @list ||= [Source, Target, Type, ListType, Default, Reader, Desc]
-      end
-    end
+  private
+
+  require_relative "dispatchers/check_type"
+  require_relative "dispatchers/prepare_default"
+  require_relative "dispatchers/prepare_ivar"
+  require_relative "dispatchers/prepare_optional"
+  require_relative "dispatchers/prepare_reader"
+  require_relative "dispatchers/prepare_source"
+  require_relative "dispatchers/prepare_target"
+  require_relative "dispatchers/unwrap_type"
+  require_relative "dispatchers/wrap_type"
+
+  def pipeline
+    @pipeline ||= [
+      PrepareSource, PrepareTarget, PrepareIvar, PrepareReader,
+      PrepareDefault, PrepareOptional,
+      UnwrapType, CheckType, WrapType
+    ]
   end
 end

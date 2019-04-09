@@ -3,7 +3,7 @@
 #
 # It must respond to `.call` without arguments
 #
-module Dry::Initializer::Dispatchers::Default
+module Dry::Initializer::Dispatchers::PrepareDefault
   extend self
 
   def call(default: nil, optional: nil, **options)
