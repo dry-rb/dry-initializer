@@ -42,7 +42,7 @@ describe "type constraint" do
     context "in case of mismatch" do
       subject { Test::Foo.new 1 }
 
-      it "raises TypeError" do
+      it "raises ArgumentError" do
         expect { subject }.to raise_error TypeError, /1/
       end
     end
@@ -66,13 +66,13 @@ describe "type constraint" do
   end
 
   context "by invalid constraint" do
-    it "raises TypeError" do
+    it "raises ArgumentError" do
       expect do
         class Test::Foo
           extend Dry::Initializer
           param :foo, type: String
         end
-      end.to raise_error(TypeError)
+      end.to raise_error(ArgumentError)
     end
   end
 end
