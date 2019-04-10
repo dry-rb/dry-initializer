@@ -91,6 +91,7 @@ module Dry::Initializer::Dispatchers
 
   private
 
+  require_relative "dispatchers/build_nested_type"
   require_relative "dispatchers/check_type"
   require_relative "dispatchers/prepare_default"
   require_relative "dispatchers/prepare_ivar"
@@ -105,7 +106,7 @@ module Dry::Initializer::Dispatchers
     @pipeline ||= [
       PrepareSource, PrepareTarget, PrepareIvar, PrepareReader,
       PrepareDefault, PrepareOptional,
-      UnwrapType, CheckType, WrapType
+      UnwrapType, CheckType, BuildNestedType, WrapType
     ]
   end
 end
