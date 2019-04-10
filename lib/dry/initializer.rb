@@ -30,18 +30,20 @@ module Dry
     # @option opts [Boolean] :optional
     # @option opts [Symbol]  :as
     # @option opts [true, false, :protected, :public, :private] :reader
+    # @yield block with nested definition
     # @return [self] itself
-    def param(name, type = nil, **opts)
-      dry_initializer.param(name, type, **opts)
+    def param(name, type = nil, **opts, &block)
+      dry_initializer.param(name, type, **opts, &block)
       self
     end
 
     # Adds or redefines an option of [#dry_initializer]
     # @param  (see #param)
     # @option (see #param)
+    # @yield  (see #param)
     # @return (see #param)
-    def option(name, type = nil, **opts)
-      dry_initializer.option(name, type, **opts)
+    def option(name, type = nil, **opts, &block)
+      dry_initializer.option(name, type, **opts, &block)
       self
     end
 
