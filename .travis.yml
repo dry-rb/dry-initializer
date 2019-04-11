@@ -6,10 +6,10 @@ script:
   - bundle exec rake spec
 rvm:
   - 2.3.8
-  - 2.4.5
+  - 2.4.6
   - 2.5.5
   - 2.6.2
-  - jruby-9000
+  - jruby-9.2.7.0
   - rbx-3
   - ruby-head
   - truffleruby
@@ -20,7 +20,6 @@ matrix:
   allow_failures:
     - rvm: rbx-3
     - rvm: ruby-head
-    - rvm: jruby-head
     - rvm: truffleruby
   include:
     - rvm: jruby-head
