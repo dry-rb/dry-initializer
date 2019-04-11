@@ -20,7 +20,8 @@ matrix:
   allow_failures:
     - rvm: rbx-3
     - rvm: ruby-head
+    - rvm: jruby-head
     - rvm: truffleruby
   include:
     - rvm: jruby-head
-      before_install: gem install bundler --no-ri --no-rdoc
+      before_install: gem install bundler --no-document
