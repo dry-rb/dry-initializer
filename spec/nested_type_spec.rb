@@ -1,5 +1,5 @@
 describe "nested type argument" do
-  subject { Test::Xyz.new(bar: { baz: 42 }) }
+  subject { Test::Xyz.new("bar" => { "baz" => 42 }) }
 
   context "with nested definition only" do
     before do

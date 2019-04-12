@@ -55,5 +55,7 @@ module Dry
       klass.send(:instance_variable_set, :@dry_initializer, config)
       dry_initializer.children << config
     end
+
+    require_relative "initializer/struct"
   end
 end
