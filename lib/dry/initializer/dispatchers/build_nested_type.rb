@@ -13,6 +13,7 @@ module Dry::Initializer::Dispatchers::BuildNestedType
   # rubocop: disable Metrics/ParameterLists
   def call(parent:, source:, target:, type: nil, block: nil, **options)
     check_certainty!(source, type, block)
+    check_name!(target)
     type ||= build_nested_type(parent, target, block)
     { parent: parent, source: source, target: target, type: type, **options }
   end
@@ -30,12 +31,12 @@ module Dry::Initializer::Dispatchers::BuildNestedType
     MESSAGE
   end
 
-  def check_name!(name, const_name)
-    return unless const_name == ""
+  def check_name!(name)
+    return unless name[/^_|__|_$/]
 
     raise ArgumentError, <<~MESSAGE
       The name of the argument '#{name}' cannot be used for nested struct.
-      A proper name should start from a unicode letter.
+      A proper name can use underscores _ to divide alphanumeric parts only.
     MESSAGE
   end
 
@@ -47,17 +48,11 @@ module Dry::Initializer::Dispatchers::BuildNestedType
   end
 
   def full_name(parent, name)
-    const_name = name.to_s.split("_").compact.map(&:capitalize).join
-    check_name! name, const_name
-    "::#{parent.name}::#{const_name}"
+    "::#{parent.name}::#{name.to_s.split("_").compact.map(&:capitalize).join}"
   end
 
   def build_struct(klass_name, block)
-    eval "class #{klass_name}; extend Dry::Initializer; end"
-    klass = const_get(klass_name)
-    klass.class_eval(&block)
-    klass.singleton_class.send(:define_method, :call) { |opts| new(opts) }
-    klass.singleton_class.send(:undef_method, :param)
-    klass
+    eval "class #{klass_name} < Dry::Initializer::Struct; end"
+    const_get(klass_name).tap { |klass| klass.class_eval(&block) }
   end
 end
