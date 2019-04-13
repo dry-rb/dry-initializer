@@ -6,9 +6,10 @@ script:
   - bundle exec rake spec
 rvm:
   - 2.3.8
-  - 2.4.5
+  - 2.4.6
   - 2.5.5
   - 2.6.2
+  - jruby-9.2.7.0
   - jruby-9000
   - rbx-3
   - ruby-head
@@ -24,4 +25,4 @@ matrix:
     - rvm: truffleruby
   include:
     - rvm: jruby-head
-      before_install: gem install bundler --no-ri --no-rdoc
+      before_install: gem install bundler --no-document
