@@ -6,9 +6,7 @@ module Dry
   # DSL for declaring params and options of class initializers
   #
   module Initializer
-    # Singleton for unassigned values
-    UNDEFINED = Object.new.freeze
-
+    require_relative "initializer/undefined"
     require_relative "initializer/dsl"
     require_relative "initializer/definition"
     require_relative "initializer/builders"
@@ -32,18 +30,20 @@ module Dry
     # @option opts [Boolean] :optional
     # @option opts [Symbol]  :as
     # @option opts [true, false, :protected, :public, :private] :reader
+    # @yield block with nested definition
     # @return [self] itself
-    def param(name, type = nil, **opts)
-      dry_initializer.param(name, type, Dispatchers[opts])
+    def param(name, type = nil, **opts, &block)
+      dry_initializer.param(name, type, **opts, &block)
       self
     end
 
     # Adds or redefines an option of [#dry_initializer]
     # @param  (see #param)
     # @option (see #param)
+    # @yield  (see #param)
     # @return (see #param)
-    def option(name, type = nil, **opts)
-      dry_initializer.option(name, type, Dispatchers[opts])
+    def option(name, type = nil, **opts, &block)
+      dry_initializer.option(name, type, **opts, &block)
       self
     end
 
@@ -55,5 +55,7 @@ module Dry
       klass.send(:instance_variable_set, :@dry_initializer, config)
       dry_initializer.children << config
     end
+
+    require_relative "initializer/struct"
   end
 end

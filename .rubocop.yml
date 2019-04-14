@@ -10,13 +10,17 @@ AllCops:
 Bundler/DuplicatedGem:
   Enabled: false
 
+Naming/FileName:
+  Exclude:
+    - lib/dry-initializer.rb
+
 Style/CaseEquality:
   Enabled: false
 
-Style/ClassVars:
+Style/ClassAndModuleChildren:
   Enabled: false
 
-Style/ClassAndModuleChildren:
+Style/ClassVars:
   Enabled: false
 
 Style/Documentation:
@@ -25,10 +29,6 @@ Style/Documentation:
 Style/DoubleNegation:
   Enabled: false
 
-Style/FileName:
-  Exclude:
-    - lib/dry-initializer.rb
-
 Style/Lambda:
   Exclude:
     - spec/**/*.rb
@@ -36,7 +36,7 @@ Style/Lambda:
 Style/LambdaCall:
   Enabled: false
 
-Style/RescueModified:
+Style/RescueModifier:
   Exclude:
     - spec/**/*.rb
 

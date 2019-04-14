@@ -5,7 +5,65 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.7.0] Unreleased
+## [3.0.0] [2019-04-14]
+
+### Added
+
+- Support of wrapped types/coercers (nepalez)
+
+  ```ruby
+  class Test
+    # Wrap type to the array
+    param :foo, [proc(&:to_s)]
+  end
+
+  # And the value will be wrapped as well
+  test = Test.new(42)
+  test.foo # => ["42"]
+  ```
+
+- It works with several layers of nesting (nepalez)
+
+  ```ruby
+  class Test
+    # Wrap type to the array
+    param :foo, [[proc(&:to_s)]]
+  end
+
+  # And the value will be wrapped as well
+  test = Test.new(42)
+  test.foo # => [["42"]]
+  ```
+
+- Support of nested types/coercers (nepalez)
+
+  ```ruby
+  class Test
+    param :foo do
+      option :bar do
+        option :baz, proc(&:to_s)
+      end
+    end
+  end
+
+  test = Test.new(bar: { "baz" => 42 })
+  test.foo.bar.baz # => "42"
+  ```
+
+- Wrapped/nested combinations are supported as well (nepalez)
+
+  ```ruby
+  class Test
+    param :foo, [] do
+      option :bar, proc(&:to_s)
+    end
+  end
+
+  test = Test.new(bar: 42)
+  test.foo.first.bar # => "42"
+  ```
+
+## [2.7.0] Unreleazed
 
 ### Fixed
 
@@ -787,3 +845,4 @@ First public release
 [2.4.0]: https://github.com/dry-rb/dry-initializer/compare/v2.3.0...v2.4.0
 [2.6.0]: https://github.com/dry-rb/dry-initializer/compare/v2.4.0...v2.5.0
 [2.6.0]: https://github.com/dry-rb/dry-initializer/compare/v2.5.0...v2.6.0
+[3.0.0]: https://github.com/dry-rb/dry-initializer/compare/v2.5.0...v3.0.0

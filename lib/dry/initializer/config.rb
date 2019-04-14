@@ -57,8 +57,8 @@ module Dry::Initializer
     # @option opts [Symbol]  :as
     # @option opts [true, false, :protected, :public, :private] :reader
     # @return [self] itself
-    def param(name, type = nil, **opts)
-      add_definition(false, name, type, opts)
+    def param(name, type = nil, **opts, &block)
+      add_definition(false, name, type, block, opts)
     end
 
     # Adds or redefines an option of [#dry_initializer]
@@ -67,8 +67,8 @@ module Dry::Initializer
     # @option (see #param)
     # @return (see #param)
     #
-    def option(name, type = nil, **opts)
-      add_definition(true, name, type, opts)
+    def option(name, type = nil, **opts, &block)
+      add_definition(true, name, type, block, opts)
     end
 
     # The hash of public attributes for an instance of the [#extended_class]
@@ -133,13 +133,25 @@ module Dry::Initializer
       finalize
     end
 
-    def add_definition(option, name, type, opts)
-      definition = Definition.new(option, null, name, type, Dispatchers[opts])
+    # rubocop: disable Metrics/MethodLength
+    def add_definition(option, name, type, block, **opts)
+      opts = {
+        parent: extended_class,
+        option: option,
+        null:   null,
+        source: name,
+        type:   type,
+        block:  block,
+        **opts,
+      }
+
+      options = Dispatchers.call(opts)
+      definition = Definition.new(options)
       definitions[definition.source] = definition
       finalize
-
       mixin.class_eval definition.code
     end
+    # rubocop: enable Metrics/MethodLength
 
     def final_definitions
       parent_definitions = Hash(parent&.definitions&.dup)

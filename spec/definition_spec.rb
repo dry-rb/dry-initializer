@@ -22,7 +22,9 @@ describe "definition" do
         [definition.source, definition.options]
       end
 
-      expect(params).to eq [[:foo, { as: :foo, reader: :public }]]
+      expect(params).to eq [
+        [:foo, { as: :foo, reader: :public, optional: false }]
+      ]
     end
 
     it "preservers definition options" do
@@ -30,7 +32,9 @@ describe "definition" do
         [definition.source, definition.options]
       end
 
-      expect(options).to eq [[:bar, { as: :bar, reader: :public }]]
+      expect(options).to eq [
+        [:bar, { as: :bar, reader: :public, optional: false }]
+      ]
     end
   end
 
