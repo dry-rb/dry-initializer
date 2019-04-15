@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.1] [2019-04-15]
+
+### Fixed
+
+- Usage of underscored names of `option`-s and `param`-s (nepalez)
+
+  You can use any sequence of underscores except for in nested types.
+  In nested types single underscores can be used to split alphanumeric
+  parts only.
+
+  ```ruby
+  class Test
+    extend Dry::Initializer
+
+    # Proper usage
+    option :foo_bar do
+      option :__foo__, proc(&:to_s)
+    end
+  end
+
+    # Improper usage
+    option :__foo__ do
+      # ...
+    end
+
+    option :foo__bar do
+      # ...
+    end
+  end
+  ```
+
+  This restriction is necessary because we constantize option/param names
+  when defining nested structs.
+
 ## [3.0.0] [2019-04-14]
 
 ### Added
@@ -846,3 +880,4 @@ First public release
 [2.6.0]: https://github.com/dry-rb/dry-initializer/compare/v2.4.0...v2.5.0
 [2.6.0]: https://github.com/dry-rb/dry-initializer/compare/v2.5.0...v2.6.0
 [3.0.0]: https://github.com/dry-rb/dry-initializer/compare/v2.5.0...v3.0.0
+[3.0.1]: https://github.com/dry-rb/dry-initializer/compare/v3.0.0...v3.0.1
