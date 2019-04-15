@@ -5,14 +5,14 @@ describe "type constraint" do
     before do
       class Test::Foo
         extend Dry::Initializer
-        param :foo, proc(&:to_s), optional: true
+        param :__foo__, proc(&:to_s), optional: true
       end
     end
 
     subject { Test::Foo.new :foo }
 
     it "coerces a value" do
-      expect(subject.foo).to eq "foo"
+      expect(subject.__foo__).to eq "foo"
     end
   end
 

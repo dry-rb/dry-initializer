@@ -13,7 +13,7 @@ module Dry::Initializer::Dispatchers::BuildNestedType
   # rubocop: disable Metrics/ParameterLists
   def call(parent:, source:, target:, type: nil, block: nil, **options)
     check_certainty!(source, type, block)
-    check_name!(target)
+    check_name!(target, block)
     type ||= build_nested_type(parent, target, block)
     { parent: parent, source: source, target: target, type: type, **options }
   end
@@ -22,8 +22,8 @@ module Dry::Initializer::Dispatchers::BuildNestedType
   private
 
   def check_certainty!(source, type, block)
-    return unless type
     return unless block
+    return unless type
 
     raise ArgumentError, <<~MESSAGE
       You should define coercer of values of argument '#{source}'
@@ -31,7 +31,8 @@ module Dry::Initializer::Dispatchers::BuildNestedType
     MESSAGE
   end
 
-  def check_name!(name)
+  def check_name!(name, block)
+    return unless block
     return unless name[/^_|__|_$/]
 
     raise ArgumentError, <<~MESSAGE
