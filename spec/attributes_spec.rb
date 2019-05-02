@@ -16,6 +16,18 @@ describe Dry::Initializer, "dry_initializer.attributes" do
     it "collects coerced params with default values" do
       expect(subject).to eq({ foo: "FOO", bar: 1 })
     end
+
+    context "and a param name has upper-cased letters" do
+      before do
+        class Test::Foo
+          param :quxQux, default: proc { "quxQux" }
+        end
+      end
+
+      it "maintains the param's case" do
+        expect(subject).to eq({ foo: "FOO", bar: 1, quxQux: "quxQux" })
+      end
+    end
   end
 
   context "when class has options" do
@@ -33,6 +45,18 @@ describe Dry::Initializer, "dry_initializer.attributes" do
 
     it "collects coerced and renamed options with default values" do
       expect(subject).to eq({ foo: :FOO, bar: 1, quxx: "QUX" })
+    end
+
+    context "and an option name has upper-cased letters" do
+      before do
+        class Test::Foo
+          option :quxQux, default: proc { "quxQux" }
+        end
+      end
+
+      it "maintains the option's case" do
+        expect(subject).to eq({ foo: :FOO, bar: 1, quxx: "QUX", quxQux: "quxQux" })
+      end
     end
   end
 end

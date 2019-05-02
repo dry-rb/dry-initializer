@@ -18,7 +18,7 @@ module Dry::Initializer::Dispatchers::PrepareTarget
 
   def call(source:, target: nil, as: nil, **options)
     target ||= as || source
-    target = target.to_s.to_sym.downcase
+    target = target.to_s.to_sym
 
     check_ruby_name!(target)
     check_reserved_names!(target)
