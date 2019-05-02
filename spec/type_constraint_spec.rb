@@ -43,7 +43,7 @@ describe "type constraint" do
       subject { Test::Foo.new 1 }
 
       it "raises ArgumentError" do
-        expect { subject }.to raise_error TypeError, /1/
+        expect { subject }.to raise_error Dry::Types::ConstraintError, /1/
       end
     end
 

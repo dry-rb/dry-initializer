@@ -3,7 +3,7 @@ require "dry-types"
 describe "value coercion via dry-types" do
   before do
     module Test::Types
-      include Dry::Types.module
+      include Dry.Types
     end
 
     class Test::Foo
