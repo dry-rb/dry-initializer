@@ -6,6 +6,8 @@ AllCops:
   TargetRubyVersion:  2.3
   Exclude:
     - lib/tasks/*.rake
+    - vendor/**/*
+    - tmp/**/*
 
 Bundler/DuplicatedGem:
   Enabled: false
