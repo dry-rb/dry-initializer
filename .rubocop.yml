@@ -38,6 +38,9 @@ Style/Lambda:
 Style/LambdaCall:
   Enabled: false
 
+Style/ModuleFunction:
+  Enabled: false
+
 Style/RescueModifier:
   Exclude:
     - spec/**/*.rb

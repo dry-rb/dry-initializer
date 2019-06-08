@@ -142,7 +142,7 @@ module Dry::Initializer
         source: name,
         type:   type,
         block:  block,
-        **opts,
+        **opts
       }
 
       options = Dispatchers.call(opts)
