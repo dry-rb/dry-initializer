@@ -3,7 +3,8 @@ language: ruby
 cache: bundler
 bundler_args: --without benchmarks tools
 script:
-  - bundle exec rake spec
+  - bundle exec rspec
+  - bundle exec rubocop
 rvm:
   - 2.3.8
   - 2.4.6
@@ -11,7 +12,6 @@ rvm:
   - 2.6.3
   - jruby-9.2.7.0
   - jruby-9000
-  - rbx-3
   - ruby-head
   - truffleruby
 env:
@@ -19,7 +19,6 @@ env:
     - JRUBY_OPTS='--dev -J-Xmx1024M'
 matrix:
   allow_failures:
-    - rvm: rbx-3
     - rvm: ruby-head
     - rvm: jruby-head
     - rvm: truffleruby

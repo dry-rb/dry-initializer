@@ -18,6 +18,10 @@ describe "nested type argument" do
     it "builds the type" do
       expect(subject.x.y.z).to eq "42"
     end
+
+    it "converts the nested type to hash" do
+      expect(subject.x.to_h).to eq("y" => { "z" => "42" })
+    end
   end
 
   context "with nested and wrapped definitions" do
