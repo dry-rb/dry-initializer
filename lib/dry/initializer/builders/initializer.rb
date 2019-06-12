@@ -53,9 +53,5 @@ module Dry::Initializer::Builders
     def end_line
       "end"
     end
-
-    def private_line
-      "private :__dry_initializer_initialize__"
-    end
   end
 end
