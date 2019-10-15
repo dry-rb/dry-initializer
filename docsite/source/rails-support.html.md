@@ -4,7 +4,7 @@ layout: gem-single
 name: dry-initializer
 ---
 
-Rails plugin is implemented in a separate [dry-initializer-rails][dry-initializer-rails] gem.
+Rails plugin is implemented in a separate [dry-initializer-rails](https://github.com/nepalez/dry-initializer-rails) gem.
 
 It provides coercion of assigned values to corresponding ActiveRecord instances.
 
@@ -82,7 +82,7 @@ order.product  # => <Item @name='the_thing_no_123' ...>
 
 ### Container Syntax
 
-If you prefer [container syntax][container-syntax], extend plugin inside the block:
+If you prefer [container syntax](docs::container-version), extend plugin inside the block:
 
 ```ruby
 require 'dry-initializer-rails'
@@ -96,11 +96,6 @@ end
 
 ### Types vs Models
 
-[Type constraints][type-constraints] are checked before the coercion.
+[Type constraints](docs::type-constraints) are checked before the coercion.
 
-When mixing `:type` and `:model` settings for the same param/option, you should use [sum types][sum-types] that accept both model instances and their attributes.
-
-[container-syntax]: http://dry-rb.org/gems/dry-initializer/container-version/
-[dry-initializer-rails]: https://github.com/nepalez/dry-initializer-rails
-[sum-types]: http://dry-rb.org/gems/dry-types/sum/
-[type-constraints]: http://dry-rb.org/gems/dry-initializer/type-constraints/
+When mixing `:type` and `:model` settings for the same param/option, you should use [sum types](/gems/dry-types/1.2/sum) that accept both model instances and their attributes.
