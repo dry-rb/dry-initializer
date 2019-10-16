@@ -26,4 +26,5 @@ end
 group :development, :test do
   gem "pry", platform: :mri
   gem "pry-byebug", platform: :mri
+  gem 'ossy', git: 'https://github.com/solnic/ossy.git', branch: 'master'
 end
