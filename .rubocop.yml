@@ -1,56 +1,86 @@
----
+# this file is managed by dry-rb/devtools project
+
 AllCops:
-  DisplayCopNames:    true
-  DisplayStyleGuide:  true
-  StyleGuideCopsOnly: true
-  TargetRubyVersion:  2.3
-  Exclude:
-    - lib/tasks/*.rake
-    - vendor/**/*
-    - tmp/**/*
+  TargetRubyVersion: 2.4
 
-Bundler/DuplicatedGem:
+Style/EachWithObject:
   Enabled: false
 
-Naming/FileName:
-  Exclude:
-    - lib/dry-initializer.rb
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: single_quotes
 
-Style/CaseEquality:
+Style/Alias:
   Enabled: false
 
-Style/ClassAndModuleChildren:
+Style/LambdaCall:
   Enabled: false
 
-Style/ClassVars:
+Style/StabbyLambdaParentheses:
+  Enabled: false
+
+Style/FormatString:
   Enabled: false
 
 Style/Documentation:
   Enabled: false
 
-Style/DoubleNegation:
+Layout/SpaceInLambdaLiteral:
   Enabled: false
 
-Style/Lambda:
-  Exclude:
-    - spec/**/*.rb
+Layout/MultilineMethodCallIndentation:
+  Enabled: true
+  EnforcedStyle: indented
 
-Style/LambdaCall:
+Metrics/LineLength:
+  Max: 100
+
+Metrics/MethodLength:
+  Max: 22
+
+Metrics/ClassLength:
+  Max: 150
+
+Metrics/AbcSize:
+  Max: 20
+
+Metrics/BlockLength:
   Enabled: false
 
-Style/ModuleFunction:
+Metrics/CyclomaticComplexity:
+  Enabled: true
+  Max: 10
+
+Lint/BooleanSymbol:
   Enabled: false
 
-Style/RescueModifier:
+Style/AccessModifierDeclarations:
+  Enabled: false
+
+Style/BlockDelimiters:
+  Enabled: false
+
+Layout/IndentFirstArrayElement:
+  EnforcedStyle: consistent
+
+Style/ClassAndModuleChildren:
   Exclude:
-    - spec/**/*.rb
+    - "spec/**/*_spec.rb"
 
-Style/Semicolon:
+Lint/HandleExceptions:
   Exclude:
-    - spec/**/*.rb
+    - "spec/spec_helper.rb"
 
-Style/StringLiterals:
-  EnforcedStyle: double_quotes
+Naming/FileName:
+  Exclude:
+    - "lib/dry-*.rb"
 
-Style/StringLiteralsInInterpolation:
-  EnforcedStyle: double_quotes
+Style/SymbolArray:
+  Exclude:
+    - "spec/**/*_spec.rb"
+
+Style/ConditionalAssignment:
+  Enabled: false
+
+Naming/MethodName:
+  Enabled: false

@@ -1,23 +1,17 @@
----
-engines:
+# this file is managed by dry-rb/devtools project
+
+version: "2"
+
+prepare:
+  fetch:
+  - url: "https://raw.githubusercontent.com/dry-rb/devtools/master/.rubocop.yml"
+    path: ".rubocop.yml"
+
+exclude_patterns:
+  - "benchmarks/"
+  - "examples/"
+  - "spec/"
+
+plugins:
   rubocop:
     enabled: true
-    checks:
-      Rubocop/Style/FrozenStringLiteralComment:
-        enabled: false
-      Rubocop/Style/PercentLiteralDelimiters:
-        enabled: false
-      Rubocop/Lint/UnderscorePrefixedVariableName:
-        enabled: false
-  duplication:
-    enabled: true
-    config:
-      languages:
-        - ruby
-exclude_paths:
-- "benchmarks/**/*"
-- "spec/**/*"
-- "lib/tasks/**/*"
-ratings:
-   paths:
-   - "lib/**/*"
