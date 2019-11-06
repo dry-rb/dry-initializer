@@ -28,3 +28,7 @@ group :development, :test do
   gem "pry-byebug", platform: :mri
   gem 'ossy', git: 'https://github.com/solnic/ossy.git', branch: 'master', platform: :mri
 end
+
+group :test do
+  gem 'simplecov', require: false
+end
