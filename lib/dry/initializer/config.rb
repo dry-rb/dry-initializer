@@ -58,7 +58,7 @@ module Dry::Initializer
     # @option opts [true, false, :protected, :public, :private] :reader
     # @return [self] itself
     def param(name, type = nil, **opts, &block)
-      add_definition(false, name, type, block, opts)
+      add_definition(false, name, type, block, **opts)
     end
 
     # Adds or redefines an option of [#dry_initializer]
@@ -68,7 +68,7 @@ module Dry::Initializer
     # @return (see #param)
     #
     def option(name, type = nil, **opts, &block)
-      add_definition(true, name, type, block, opts)
+      add_definition(true, name, type, block, **opts)
     end
 
     # The hash of public attributes for an instance of the [#extended_class]
@@ -145,8 +145,8 @@ module Dry::Initializer
         **opts
       }
 
-      options = Dispatchers.call(opts)
-      definition = Definition.new(options)
+      options = Dispatchers.call(**opts)
+      definition = Definition.new(**options)
       definitions[definition.source] = definition
       finalize
       mixin.class_eval definition.code

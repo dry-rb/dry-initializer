@@ -85,8 +85,8 @@ module Dry::Initializer::Dispatchers
   # @return [Hash<Symbol, Objct>] normalized set of options
   #
   def call(**options)
-    options = { null: null }.merge(options)
-    pipeline.reduce(options) { |opts, dispatcher| dispatcher.call(opts) }
+    options = { null: null, **options }
+    pipeline.reduce(options) { |opts, dispatcher| dispatcher.call(**opts) }
   end
 
   private
