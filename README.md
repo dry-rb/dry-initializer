@@ -1,7 +1,7 @@
 # dry-initializer [![Join the chat at https://gitter.im/dry-rb/chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dry-rb/chat)
 
 [![Gem Version](https://badge.fury.io/rb/dry-initializer.svg)][gem]
-[![Build Status](https://travis-ci.org/dry-rb/dry-initializer.svg?branch=master)][travis]
+[![Build Status](https://github.com/dry-rb/dry-initializer/workflows/ci/badge.svg)][ci]
 [![Code Climate](https://codeclimate.com/github/dry-rb/dry-initializer/badges/gpa.svg)][codeclimate]
 [![Test Coverage](https://api.codeclimate.com/v1/badges/73cb64231f3fb2c86e26/test_coverage)][codeclimate]
 [![Inline docs](http://inch-ci.org/github/dry-rb/dry-initializer.svg?branch=master)][inchpages]
