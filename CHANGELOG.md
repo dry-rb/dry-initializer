@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.2][2019-11-07]
+
+### Fixed
+
+- Warnings about keyword arguments (flash-gordon)
+
 ## [3.0.1] [2019-04-15]
 
 ### Fixed
@@ -148,7 +154,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   ```ruby
   class Location < String
     attr_reader :parameter # refers back to its parameter
-  
+
     def initialize(name, parameter)
       super(name)
       @parameter = parameter
@@ -436,7 +442,7 @@ and to @gzigzigzeo for persuading me to do this refactoring.
 
 ### Added
 - No-undefined configuration of the initializer (nepalez, flash-gordon)
-  
+
   You can either extend or include module `Dry::Initializer` with additional option
   `[undefined: false]`. This time `nil` will be assigned instead of
   `Dry::Initializer::UNDEFINED`. Readers becomes faster because there is no need
@@ -548,7 +554,7 @@ In this version the code has been rewritten for simplicity
 
 ### Internal
 - Refactor the way [#initializer] method is (re)defined (nepalez)
-  
+
   When you extend class with `Dry::Initializer::Mixin`, the initializer is
   defined not "inside" the class per se, but inside the included module. The
   reference to that module is stored as class-level `__initializer_mixin__`.
@@ -881,3 +887,4 @@ First public release
 [2.6.0]: https://github.com/dry-rb/dry-initializer/compare/v2.5.0...v2.6.0
 [3.0.0]: https://github.com/dry-rb/dry-initializer/compare/v2.5.0...v3.0.0
 [3.0.1]: https://github.com/dry-rb/dry-initializer/compare/v3.0.0...v3.0.1
+[3.0.2]: https://github.com/dry-rb/dry-initializer/compare/v3.0.1...v3.0.2
