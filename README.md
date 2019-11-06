@@ -1,4 +1,4 @@
-# dry-initializer [![Join the chat at https://gitter.im/dry-rb/chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dry-rb/chat)
+# dry-initializer [![Join the chat at https://dry-rb.zulipchat.com](https://img.shields.io/badge/dry--rb-join%20chat-%23346b7a.svg)][chat]
 
 [![Gem Version](https://badge.fury.io/rb/dry-initializer.svg)][gem]
 [![Build Status](https://github.com/dry-rb/dry-initializer/workflows/ci/badge.svg)][ci]
@@ -14,6 +14,7 @@
 [docs]: http://dry-rb.org/gems/dry-initializer/
 [benchmarks]: https://github.com/dry-rb/dry-initializer/wiki
 [license]: http://opensource.org/licenses/MIT
+[chat]: https://dry-rb.zulipchat.com
 
 DSL for building class initializer with params and options.
 
