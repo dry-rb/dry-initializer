@@ -8,7 +8,7 @@ class Dry::Initializer::Struct
     undef_method :param
 
     def new(options)
-      super Hash(options).each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
+      super(**Hash(options).each_with_object({}) { |(k, v), h| h[k.to_sym] = v })
     end
     alias call new
   end
