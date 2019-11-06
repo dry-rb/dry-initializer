@@ -3,12 +3,11 @@
 [![Gem Version](https://badge.fury.io/rb/dry-initializer.svg)][gem]
 [![Build Status](https://travis-ci.org/dry-rb/dry-initializer.svg?branch=master)][travis]
 [![Code Climate](https://codeclimate.com/github/dry-rb/dry-initializer/badges/gpa.svg)][codeclimate]
-[![Test Coverage](https://codeclimate.com/github/dry-rb/dry-initializer/badges/coverage.svg)][coveralls]
+[![Test Coverage](https://api.codeclimate.com/v1/badges/73cb64231f3fb2c86e26/test_coverage)][codeclimate]
 [![Inline docs](http://inch-ci.org/github/dry-rb/dry-initializer.svg?branch=master)][inchpages]
 
 [gem]: https://rubygems.org/gems/dry-initializer
-[travis]: https://travis-ci.org/dry-rb/dry-initializer
-[gemnasium]: https://gemnasium.com/dry-rb/dry-initializer
+[ci]: https://github.com/dry-rb/dry-initializer/actions?query=workflow%3Aci
 [codeclimate]: https://codeclimate.com/github/dry-rb/dry-initializer
 [coveralls]: https://coveralls.io/r/dry-rb/dry-initializer
 [inchpages]: http://inch-ci.org/github/dry-rb/dry-initializer
@@ -77,14 +76,13 @@ Tested under rubies [compatible to MRI 2.3+](.travis.yml).
 
 ## Contributing
 
-* [Fork the project](https://github.com/dry-rb/dry-initializer)
-* Create your feature branch (`git checkout -b my-new-feature`)
-* Add tests for it
-* Commit your changes (`git commit -am '[UPDATE] Add some feature'`)
-* Push to the branch (`git push origin my-new-feature`)
-* Create a new Pull Request
+- [Fork the project](https://github.com/dry-rb/dry-initializer)
+- Create your feature branch (`git checkout -b my-new-feature`)
+- Add tests for it
+- Commit your changes (`git commit -am '[UPDATE] Add some feature'`)
+- Push to the branch (`git push origin my-new-feature`)
+- Create a new Pull Request
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License][license].
-
