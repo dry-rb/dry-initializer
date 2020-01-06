@@ -6,7 +6,7 @@ module Dry::Initializer::Builders
     end
 
     def call
-      [*required_params, *optional_params, "*", options].compact.join(", ")
+      [*required_params, *optional_params, '*', options].compact.join(', ')
     end
 
     private
@@ -14,7 +14,7 @@ module Dry::Initializer::Builders
     def initialize(config)
       @config  = config
       @options = config.options.any?
-      @null    = config.null ? "Dry::Initializer::UNDEFINED" : "nil"
+      @null    = config.null ? 'Dry::Initializer::UNDEFINED' : 'nil'
     end
 
     def required_params
@@ -26,7 +26,7 @@ module Dry::Initializer::Builders
     end
 
     def options
-      "**__dry_initializer_options__" if @options
+      '**__dry_initializer_options__' if @options
     end
   end
 end

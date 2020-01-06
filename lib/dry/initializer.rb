@@ -1,4 +1,4 @@
-require "set"
+require 'set'
 
 # Namespace for gems in a dry-rb community
 module Dry
@@ -6,13 +6,13 @@ module Dry
   # DSL for declaring params and options of class initializers
   #
   module Initializer
-    require_relative "initializer/undefined"
-    require_relative "initializer/dsl"
-    require_relative "initializer/definition"
-    require_relative "initializer/builders"
-    require_relative "initializer/config"
-    require_relative "initializer/mixin"
-    require_relative "initializer/dispatchers"
+    require_relative 'initializer/undefined'
+    require_relative 'initializer/dsl'
+    require_relative 'initializer/definition'
+    require_relative 'initializer/builders'
+    require_relative 'initializer/config'
+    require_relative 'initializer/mixin'
+    require_relative 'initializer/dispatchers'
 
     # Adds methods [.[]] and [.define]
     extend DSL
@@ -56,6 +56,6 @@ module Dry
       dry_initializer.children << config
     end
 
-    require_relative "initializer/struct"
+    require_relative 'initializer/struct'
   end
 end

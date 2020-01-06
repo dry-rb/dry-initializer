@@ -1,1 +1,1 @@
-require_relative "dry/initializer"
+require_relative 'dry/initializer'

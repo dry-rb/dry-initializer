@@ -91,16 +91,16 @@ module Dry::Initializer::Dispatchers
 
   private
 
-  require_relative "dispatchers/build_nested_type"
-  require_relative "dispatchers/check_type"
-  require_relative "dispatchers/prepare_default"
-  require_relative "dispatchers/prepare_ivar"
-  require_relative "dispatchers/prepare_optional"
-  require_relative "dispatchers/prepare_reader"
-  require_relative "dispatchers/prepare_source"
-  require_relative "dispatchers/prepare_target"
-  require_relative "dispatchers/unwrap_type"
-  require_relative "dispatchers/wrap_type"
+  require_relative 'dispatchers/build_nested_type'
+  require_relative 'dispatchers/check_type'
+  require_relative 'dispatchers/prepare_default'
+  require_relative 'dispatchers/prepare_ivar'
+  require_relative 'dispatchers/prepare_optional'
+  require_relative 'dispatchers/prepare_reader'
+  require_relative 'dispatchers/prepare_source'
+  require_relative 'dispatchers/prepare_target'
+  require_relative 'dispatchers/unwrap_type'
+  require_relative 'dispatchers/wrap_type'
 
   def pipeline
     @pipeline ||= [

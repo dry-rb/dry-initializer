@@ -1,12 +1,12 @@
-describe "custom dispatchers" do
-  subject { Test::Foo.new "123" }
+describe 'custom dispatchers' do
+  subject { Test::Foo.new '123' }
 
   before do
     dispatcher = ->(op) { op[:integer] ? op.merge(type: proc(&:to_i)) : op }
     Dry::Initializer::Dispatchers << dispatcher
   end
 
-  context "with extend syntax" do
+  context 'with extend syntax' do
     before do
       class Test::Foo
         extend Dry::Initializer
@@ -14,12 +14,12 @@ describe "custom dispatchers" do
       end
     end
 
-    it "adds syntax sugar" do
+    it 'adds syntax sugar' do
       expect(subject.id).to eq 123
     end
   end
 
-  context "with include syntax" do
+  context 'with include syntax' do
     before do
       class Test::Foo
         include Dry::Initializer.define -> do
@@ -28,7 +28,7 @@ describe "custom dispatchers" do
       end
     end
 
-    it "adds syntax sugar" do
+    it 'adds syntax sugar' do
       expect(subject.id).to eq 123
     end
   end

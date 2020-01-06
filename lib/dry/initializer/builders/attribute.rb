@@ -20,17 +20,17 @@ module Dry::Initializer::Builders
       @default    = definition.default
       @source     = definition.source
       @ivar       = definition.ivar
-      @null       = definition.null ? "Dry::Initializer::UNDEFINED" : "nil"
-      @opts       = "__dry_initializer_options__"
-      @congif     = "__dry_initializer_config__"
-      @item       = "__dry_initializer_definition__"
-      @val        = @option ? "__dry_initializer_value__" : @source
+      @null       = definition.null ? 'Dry::Initializer::UNDEFINED' : 'nil'
+      @opts       = '__dry_initializer_options__'
+      @congif     = '__dry_initializer_config__'
+      @item       = '__dry_initializer_definition__'
+      @val        = @option ? '__dry_initializer_value__' : @source
     end
     # rubocop: enable Metrics/MethodLength
 
     def lines
       [
-        "",
+        '',
         definition_line,
         reader_line,
         default_line,

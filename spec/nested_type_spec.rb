@@ -1,7 +1,7 @@
-describe "nested type argument" do
-  subject { Test::Xyz.new("bar" => { "baz" => 42 }) }
+describe 'nested type argument' do
+  subject { Test::Xyz.new('bar' => { 'baz' => 42 }) }
 
-  context "with nested definition only" do
+  context 'with nested definition only' do
     before do
       class Test::Xyz
         extend Dry::Initializer
@@ -15,16 +15,16 @@ describe "nested type argument" do
       end
     end
 
-    it "builds the type" do
-      expect(subject.x.y.z).to eq "42"
+    it 'builds the type' do
+      expect(subject.x.y.z).to eq '42'
     end
 
-    it "converts the nested type to hash" do
-      expect(subject.x.to_h).to eq("y" => { "z" => "42" })
+    it 'converts the nested type to hash' do
+      expect(subject.x.to_h).to eq('y' => { 'z' => '42' })
     end
   end
 
-  context "with nested and wrapped definitions" do
+  context 'with nested and wrapped definitions' do
     before do
       class Test::Xyz
         extend Dry::Initializer
@@ -38,11 +38,11 @@ describe "nested type argument" do
       end
     end
 
-    it "builds the type" do
+    it 'builds the type' do
       x = subject.x
       expect(x).to be_instance_of Array
 
-      expect(x.first.y.z).to eq "42"
+      expect(x.first.y.z).to eq '42'
     end
   end
 end

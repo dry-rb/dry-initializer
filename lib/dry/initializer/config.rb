@@ -115,7 +115,7 @@ module Dry::Initializer
     # @return [String]
     def inch
       line  =  Builders::Signature[self]
-      line  =  line.gsub("__dry_initializer_options__", "options")
+      line  =  line.gsub('__dry_initializer_options__', 'options')
       lines =  ["@!method initialize(#{line})"]
       lines += ["Initializes an instance of #{extended_class}"]
       lines += definitions.values.map(&:inch)

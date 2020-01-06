@@ -1,4 +1,4 @@
-describe "custom initializer" do
+describe 'custom initializer' do
   before do
     class Test::Foo
       extend Dry::Initializer
@@ -21,7 +21,7 @@ describe "custom initializer" do
     end
   end
 
-  it "reloads the initializer" do
+  it 'reloads the initializer' do
     baz = Test::Baz.new(5, 5)
 
     expect(baz.bar).to eq 15 # 5 * 3

@@ -1,9 +1,9 @@
 require_relative 'support/coverage'
 
-require "dry/initializer"
+require 'dry/initializer'
 
 begin
-  require "pry"
+  require 'pry'
 rescue LoadError
   nil
 end
