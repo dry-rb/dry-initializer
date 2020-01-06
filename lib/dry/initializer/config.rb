@@ -78,6 +78,7 @@ module Dry::Initializer
       definitions.values.each_with_object({}) do |item, obj|
         key = item.target
         next unless instance.respond_to? key
+
         val = instance.send(key)
         obj[key] = val unless null == val
       end
@@ -138,10 +139,10 @@ module Dry::Initializer
       opts = {
         parent: extended_class,
         option: option,
-        null:   null,
+        null: null,
         source: name,
-        type:   type,
-        block:  block,
+        type: type,
+        block: block,
         **opts
       }
 
@@ -163,6 +164,7 @@ module Dry::Initializer
     def check_type(previous, current)
       return current unless previous
       return current if previous.option == current.option
+
       raise SyntaxError,
             "cannot reload #{previous} of #{extended_class.superclass}" \
             " by #{current} of its subclass #{extended_class}"

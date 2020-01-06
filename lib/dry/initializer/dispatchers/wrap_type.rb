@@ -21,6 +21,7 @@ module Dry::Initializer::Dispatchers::WrapType
       type ? type.call(value) : value
     else
       return [wrap_value(value, count - 1, type)] unless value.is_a?(Array)
+
       value.map { |item| wrap_value(item, count - 1, type) }
     end
   end

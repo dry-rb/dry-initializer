@@ -41,6 +41,7 @@ module Dry::Initializer::Builders
 
     def reader_line
       return unless @option
+
       @optional ? optional_reader : required_reader
     end
 
@@ -55,16 +56,19 @@ module Dry::Initializer::Builders
 
     def definition_line
       return unless @type || @default
+
       "#{@item} = __dry_initializer_config__.definitions[:'#{@source}']"
     end
 
     def default_line
       return unless @default
+
       "#{@val} = instance_exec(&#{@item}.default) if #{@null} == #{@val}"
     end
 
     def coercion_line
       return unless @type
+
       arity = @type.is_a?(Proc) ? @type.arity : @type.method(:call).arity
       if arity.abs == 1
         "#{@val} = #{@item}.type.call(#{@val}) unless #{@null} == #{@val}"

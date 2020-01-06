@@ -30,12 +30,14 @@ module Dry::Initializer::Builders
 
     def attribute_line
       return unless @reader
+
       "attr_reader :#{@target}" unless @null
     end
 
     def method_lines
       return unless @reader
       return unless @null
+
       [
         "def #{@target}",
         "  #{@ivar} unless Dry::Initializer::UNDEFINED == #{@ivar}",

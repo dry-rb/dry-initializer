@@ -40,14 +40,14 @@ module Dry::Initializer::Builders
 
     def params_lines
       @definitions.reject(&:option)
-                  .flat_map { |item| Attribute[item] }
-                  .map { |line| "  " << line }
+        .flat_map { |item| Attribute[item] }
+        .map { |line| "  " << line }
     end
 
     def options_lines
       @definitions.select(&:option)
-                  .flat_map { |item| Attribute[item] }
-                  .map { |line| "  " << line }
+        .flat_map { |item| Attribute[item] }
+        .map { |line| "  " << line }
     end
 
     def end_line

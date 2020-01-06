@@ -14,12 +14,12 @@ module Dry::Initializer
 
     def options
       {
-        as:       target,
-        type:     type,
+        as: target,
+        type: type,
         optional: optional,
-        default:  default,
-        reader:   reader,
-        desc:     desc
+        default: default,
+        reader: reader,
+        desc: desc
       }.reject { |_, value| value.nil? }
     end
 
