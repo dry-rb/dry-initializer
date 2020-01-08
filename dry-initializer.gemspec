@@ -1,6 +1,8 @@
+require File.expand_path('lib/dry/initializer/version', __dir__)
+
 Gem::Specification.new do |gem|
   gem.name     = 'dry-initializer'
-  gem.version  = '3.0.2'
+  gem.version  = Dry::Initializer::VERSION
   gem.author   = ['Vladimir Kochnev (marshall-lee)', 'Andrew Kozin (nepalez)']
   gem.email    = 'andrew.kozin@gmail.com'
   gem.homepage = 'https://github.com/dry-rb/dry-initializer'
