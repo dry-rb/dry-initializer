@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.3] [2020-01-08]
+
+### Fixed
+
+- Constrained member arrays work correctly now (see #33) (@bjeanes + @solnic)
+
 ## [3.0.2] [2019-11-07]
 
 ### Fixed
