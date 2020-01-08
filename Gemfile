@@ -4,6 +4,12 @@ eval_gemfile 'Gemfile.devtools'
 
 gemspec
 
+if ENV['DRY_TYPES_FROM_MASTER'].eql?('true')
+  gem 'dry-types', github: 'dry-rb/dry-types', branch: 'master'
+else
+  gem 'dry-types'
+end
+
 group :benchmarks do
   if RUBY_VERSION < '2.4'
     gem 'activesupport', '< 5'

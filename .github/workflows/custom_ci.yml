@@ -30,9 +30,14 @@ jobs:
           - "2.4"
           - "2.3"
           - "jruby"
+        runtime_deps:
+          - "dry-types-latest"
+          - "dry-types-master"
         include:
           - ruby: "2.6"
             coverage: "true"
+          - runtime_deps: "dry-types-master"
+            dry_types_from_master: "true"
     steps:
       - uses: actions/checkout@v1
       - name: Set up Ruby
@@ -45,8 +50,11 @@ jobs:
           bundle config set without 'tools benchmarks docs'
       - name: Bundle install
         run: bundle install --jobs 4 --retry 3
+        env:
+          DRY_TYPES_FROM_MASTER: ${{matrix.dry_types_from_master}}
       - name: Run all tests
         env:
+          DRY_TYPES_FROM_MASTER: ${{matrix.dry_types_from_master}}
           COVERAGE: ${{matrix.coverage}}
           CODACY_RUN_LOCAL: true
           CODACY_PROJECT_TOKEN: ${{secrets.CODACY_PROJECT_TOKEN}}
