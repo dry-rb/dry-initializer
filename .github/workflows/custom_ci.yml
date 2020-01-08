@@ -1,11 +1,9 @@
-# this file is managed by dry-rb/devtools project
-
 name: ci
 
 on:
   push:
     paths:
-      - .github/workflows/ci.yml
+      - .github/workflows/custom_ci.yml
       - lib/**
       - spec/**
       - Rakefile
