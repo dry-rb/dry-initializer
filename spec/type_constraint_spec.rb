@@ -70,14 +70,30 @@ describe 'type constraint' do
       end
     end
 
-    context 'with a member array string' do
-      let(:constraint) { Dry::Types['array'].of(Dry::Types['strict.string']) }
+    context 'with a integer member array' do
+      let(:constraint) { Dry::Types['array'].of(Dry::Types['coercible.integer']) }
 
       context 'with arity other than 1' do
-        subject { Test::Foo.new ['foo'] }
+        subject { Test::Foo.new ['1'] }
 
         it 'completes the initialization' do
-          expect { subject }.not_to raise_error
+          expect(subject.foo).to eql([1])
+        end
+      end
+
+      context 'when value is not valid' do
+        subject { Test::Foo.new 'foo' }
+
+        it 'raises constraint error' do
+          expect { subject }.to raise_error(Dry::Types::ConstraintError, /foo/)
+        end
+      end
+
+      context 'when member value is not valid' do
+        subject { Test::Foo.new ['foo'] }
+
+        it 'raises constraint error' do
+          expect { subject }.to raise_error(Dry::Types::CoercionError, /foo/)
         end
       end
     end
