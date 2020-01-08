@@ -1,21 +1,35 @@
+# this file is managed by dry-rb/devtools project
+
 name: ci
 
 on:
   push:
     paths:
-      - .github/workflows/custom_ci.yml
+      - .github/workflows/ci.yml
       - lib/**
       - spec/**
+      - Rakefile
       - Gemfile
+      - Gemfile.devtools
       - "*.gemspec"
+      - ".rubocop.yml"
+  pull_request:
+    branches:
+      - master
 
 jobs:
-  tests-mri:
+  tests:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        ruby: ["2.6", "2.5", "2.4", "2.3", "2.7", "jruby"]
+        ruby:
+          - "2.7"
+          - "2.6"
+          - "2.5"
+          - "2.4"
+          - "2.3"
+          - "jruby"
         include:
           - ruby: "2.6"
             coverage: "true"
@@ -25,30 +39,15 @@ jobs:
         uses: eregon/use-ruby-action@master
         with:
           ruby-version: ${{matrix.ruby}}
-      - name: Download test reporter
-        if: "matrix.coverage == 'true'"
-        run: |
-          mkdir -p tmp/
-          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
-          chmod +x ./tmp/cc-test-reporter
-          ./tmp/cc-test-reporter before-build
-      - name: Run all tests
-        env:
-          CI: "true"
-          COVERAGE: ${{matrix.coverage}}
+      - name: Install latest bundler
         run: |
           gem install bundler
-          bundle config set without 'tools docs benchmarks'
-          bundle install --jobs 4 --retry 3
-          bundle exec rake
-      - name: Send coverage results
-        if: "matrix.coverage == 'true'"
+          bundle config set without 'tools benchmarks docs'
+      - name: Bundle install
+        run: bundle install --jobs 4 --retry 3
+      - name: Run all tests
         env:
-          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
-          GIT_COMMIT_SHA: ${{github.sha}}
-          GIT_BRANCH: ${{github.ref}}
-          GIT_COMMITTED_AT: ${{github.event.head_commit.timestamp}}
-        run: |
-          GIT_BRANCH=`ruby -e "puts ENV['GITHUB_REF'].split('/', 3).last"` \
-          GIT_COMMITTED_AT=`ruby -r time -e "puts Time.iso8601(ENV['GIT_COMMITTED_AT']).to_i"` \
-          ./tmp/cc-test-reporter after-build
+          COVERAGE: ${{matrix.coverage}}
+          CODACY_RUN_LOCAL: true
+          CODACY_PROJECT_TOKEN: ${{secrets.CODACY_PROJECT_TOKEN}}
+        run: bundle exec rake
