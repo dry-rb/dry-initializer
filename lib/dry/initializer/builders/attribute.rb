@@ -71,7 +71,7 @@ module Dry::Initializer::Builders
 
       arity = @type.is_a?(Proc) ? @type.arity : @type.method(:call).arity
 
-      if arity.abs == 1 || Dry::Types::Type === @type
+      if arity.abs == 1 || Dry::Types::Type.equal?(@type)
         "#{@val} = #{@item}.type.call(#{@val}) unless #{@null} == #{@val}"
       else
         "#{@val} = #{@item}.type.call(#{@val}, self) unless #{@null} == #{@val}"
