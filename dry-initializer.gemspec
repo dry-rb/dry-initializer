@@ -15,5 +15,4 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency 'rspec', '~> 3.0'
   gem.add_development_dependency 'rake', '> 10'
-  gem.add_development_dependency 'rubocop', '~> 0.49.0'
 end
