@@ -31,7 +31,7 @@ describe 'type constraint' do
     end
   end
 
-  context "by dry-type" do
+  context 'by dry-type' do
     before do
       constraint = self.constraint
 
@@ -41,8 +41,8 @@ describe 'type constraint' do
       end
     end
 
-    context "with a strict string" do
-      let(:constraint) { Dry::Types["strict.string"] }
+    context 'with a strict string' do
+      let(:constraint) { Dry::Types['strict.string'] }
 
       context 'in case of mismatch' do
         subject { Test::Foo.new 1 }
@@ -70,13 +70,13 @@ describe 'type constraint' do
       end
     end
 
-    context "with a member array string" do
-      let(:constraint) { Dry::Types["array"].of(Dry::Types["strict.string"]) }
+    context 'with a member array string' do
+      let(:constraint) { Dry::Types['array'].of(Dry::Types['strict.string']) }
 
-      context "with arity other than 1" do
-        subject { Test::Foo.new ["foo"] }
+      context 'with arity other than 1' do
+        subject { Test::Foo.new ['foo'] }
 
-        it "completes the initialization" do
+        it 'completes the initialization' do
           expect { subject }.not_to raise_error
         end
       end
