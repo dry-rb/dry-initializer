@@ -31,36 +31,54 @@ describe 'type constraint' do
     end
   end
 
-  context 'by dry-type' do
+  context "by dry-type" do
     before do
-      class Test::Foo
+      constraint = self.constraint
+
+      Test::Foo = Class.new do
         extend Dry::Initializer
-        param :foo, Dry::Types['strict.string'], optional: true
+        param :foo, constraint, optional: true
       end
     end
 
-    context 'in case of mismatch' do
-      subject { Test::Foo.new 1 }
+    context "with a strict string" do
+      let(:constraint) { Dry::Types["strict.string"] }
 
-      it 'raises ArgumentError' do
-        expect { subject }.to raise_error Dry::Types::ConstraintError, /1/
+      context 'in case of mismatch' do
+        subject { Test::Foo.new 1 }
+
+        it 'raises ArgumentError' do
+          expect { subject }.to raise_error Dry::Types::ConstraintError, /1/
+        end
+      end
+
+      context 'in case of match' do
+        subject { Test::Foo.new 'foo' }
+
+        it 'completes the initialization' do
+          expect { subject }.not_to raise_error
+        end
+      end
+
+      context 'if optional value not set' do
+        subject { Test::Foo.new }
+
+        it 'not applicable to Dry::Initializer::UNDEFINED' do
+          expect(subject.instance_variable_get(:@foo))
+            .to eq Dry::Initializer::UNDEFINED
+        end
       end
     end
 
-    context 'in case of match' do
-      subject { Test::Foo.new 'foo' }
+    context "with a member array string" do
+      let(:constraint) { Dry::Types["array"].of(Dry::Types["strict.string"]) }
 
-      it 'completes the initialization' do
-        expect { subject }.not_to raise_error
-      end
-    end
+      context "with arity other than 1" do
+        subject { Test::Foo.new ["foo"] }
 
-    context 'if optional value not set' do
-      subject { Test::Foo.new }
-
-      it 'not applicable to Dry::Initializer::UNDEFINED' do
-        expect(subject.instance_variable_get(:@foo))
-          .to eq Dry::Initializer::UNDEFINED
+        it "completes the initialization" do
+          expect { subject }.not_to raise_error
+        end
       end
     end
   end
