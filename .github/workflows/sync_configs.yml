@@ -34,7 +34,7 @@ jobs:
           do
             n="$(basename $f)";
             o=".github/workflows/custom/$n";
-            [ -f $o ] && bin/ossy c m $f $o .github/workflows/$n
+            [ -f $o ] && bin/ossy c m $f $o .github/workflows/$n || echo "no custom config found for $f"
           done
       - name: Compile file templates
         run: |
