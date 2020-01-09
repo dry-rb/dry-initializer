@@ -1,0 +1,12 @@
+jobs:
+  tests:
+    strategy:
+      matrix:
+        runtime_deps:
+          - "dry-types-latest"
+          - "dry-types-master"
+        include:
+          - runtime_deps: "dry-types-master"
+            dry_types_from_master: "true"
+    env:
+      DRY_TYPES_FROM_MASTER: ${{matrix.dry_types_from_master}}

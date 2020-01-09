@@ -9,6 +9,9 @@ jobs:
   sync-configs:
     runs-on: ubuntu-latest
     if: github.event.action == 'sync_configs'
+    env:
+      GITHUB_LOGIN: dry-bot
+      GITHUB_TOKEN: ${{ secrets.GH_PAT }}
     steps:
       - uses: actions/checkout@v1
       - name: Set up Ruby
@@ -26,9 +29,6 @@ jobs:
       - name: Clone devtools
         run: git clone https://github.com/dry-rb/devtools.git tmp/devtools
       - name: Compile file templates
-        env:
-          GITHUB_LOGIN: dry-bot
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           if [ -f "project.yml" ]; then
             for t in `ls tmp/devtools/templates`
@@ -36,6 +36,14 @@ jobs:
               bin/ossy t c $t $(echo $t | sed -e 's/^tmp\/devtools\/templates\///g' | sed -e 's/\.erb$//g') project.yml
             done
           fi
+      - name: Merge configuration files from devtools
+        run: |
+          for f in `ls tmp/devtools/shared/.github/workflows/*.yml`
+          do
+            n="$(basename $f)";
+            o=".github/workflows/custom/$n";
+            [ -f $o ] && bin/ossy c m $f $o .github/workflows/$n
+          done
       - name: Update configuration files from devtools
         run: |
           if [ -f ".github/workflows/custom_ci.yml" ]; then
