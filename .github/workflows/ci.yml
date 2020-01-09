@@ -63,17 +63,3 @@ jobs:
         CODACY_RUN_LOCAL: true
         CODACY_PROJECT_TOKEN: "${{secrets.CODACY_PROJECT_TOKEN}}"
       run: bundle exec rake
-true:
-  push:
-    paths:
-    - ".github/workflows/custom_ci.yml"
-    - lib/**
-    - spec/**
-    - Rakefile
-    - Gemfile
-    - Gemfile.devtools
-    - "*.gemspec"
-    - ".rubocop.yml"
-  pull_request:
-    branches:
-    - master
