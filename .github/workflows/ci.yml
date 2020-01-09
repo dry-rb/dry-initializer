@@ -52,14 +52,5 @@ jobs:
         CODACY_RUN_LOCAL: true
         CODACY_PROJECT_TOKEN: "${{secrets.CODACY_PROJECT_TOKEN}}"
       run: bundle exec rake
-    - name: Bundle install
-      run: bundle install --jobs 4 --retry 3
-      env:
-        DRY_TYPES_FROM_MASTER: "${{matrix.dry_types_from_master}}"
-    - name: Run all tests
-      env:
-        DRY_TYPES_FROM_MASTER: "${{matrix.dry_types_from_master}}"
-        COVERAGE: "${{matrix.coverage}}"
-        CODACY_RUN_LOCAL: true
-        CODACY_PROJECT_TOKEN: "${{secrets.CODACY_PROJECT_TOKEN}}"
-      run: bundle exec rake
+    env:
+      DRY_TYPES_FROM_MASTER: "${{matrix.dry_types_from_master}}"
