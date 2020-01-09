@@ -28,14 +28,6 @@ jobs:
         run: ln -sf "$(bundle info ossy --path)/bin/ossy" bin/ossy
       - name: Clone devtools
         run: git clone https://github.com/dry-rb/devtools.git tmp/devtools
-      - name: Merge configuration files from devtools
-        run: |
-          for f in `ls tmp/devtools/workflows/*.yml`
-          do
-            n="$(basename $f)";
-            c=".github/workflows/custom/$n";
-            [ -f $c ] && bin/ossy c m $f $c .github/workflows/$n || echo "no custom config found for $f"
-          done
       - name: Compile file templates
         run: |
           if [ -f "project.yml" ]; then
@@ -44,8 +36,21 @@ jobs:
               bin/ossy t c tmp/devtools/templates/$t $(basename $t .erb) project.yml
             done
           fi
+      - name: Merge configuration files from devtools
+        run: |
+          for f in `ls tmp/devtools/workflows/*.yml`
+          do
+            n="$(basename $f)";
+            c=".github/workflows/custom/$n";
+            [ -f $c ] && bin/ossy c m $f $c .github/workflows/$n || echo "no custom config found for $f"
+          done
       - name: Update configuration files from devtools
-        run: rsync -arv tmp/devtools/shared/ .
+        run: |
+          if [ -f ".github/workflows/custom_ci.yml" ]; then
+            rsync -arv --exclude '.github/workflows/ci.yml' tmp/devtools/shared/ . ;
+          else
+            rsync -arv tmp/devtools/shared/ . ;
+          fi
       - name: Commit changes
         run: |
           rm bin/ossy
