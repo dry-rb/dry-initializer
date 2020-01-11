@@ -42,6 +42,8 @@ jobs:
             done
 
             git push --all "https://dry-bot:${{secrets.GH_PAT}}@github.com/$GITHUB_REPOSITORY.git"
+          else
+            echo "no need to update branches"
           fi
       - name: Trigger dry-rb.org deploy
         env:
