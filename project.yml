@@ -1,2 +1,9 @@
 name: dry-initializer
 codacy_id: 03c8923afd734e9fb0f4bfe9cc893edb
+gemspec:
+  authors: ["Vladimir Kochnev (marshall-lee)", "Andrew Kozin (nepalez)"]
+  email: ["andrew.kozin@gmail.com"]
+  summary: "DSL for declaring params and options of the initializer"
+  development_dependencies:
+    - rake
+    - rspec
