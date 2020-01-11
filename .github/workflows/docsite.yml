@@ -43,7 +43,6 @@ jobs:
 
             git push --all "https://dry-bot:${{secrets.GH_PAT}}@github.com/$GITHUB_REPOSITORY.git"
           fi
-        run:
       - name: Trigger dry-rb.org deploy
         env:
           GITHUB_LOGIN: dry-bot
