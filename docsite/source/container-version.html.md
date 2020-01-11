@@ -26,7 +26,10 @@ require 'dry-initializer'
 
 class BaseService
   extend Dry::Initializer
-  alias_method :dependency, :param
+  
+  class << self
+    alias_method :dependency, :param
+  end
 end
 
 class ShowUser < BaseService
