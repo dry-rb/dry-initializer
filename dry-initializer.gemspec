@@ -1,20 +1,31 @@
-require File.expand_path('lib/dry/initializer/version', __dir__)
+# frozen_string_literal: true
+# this file is managed by dry-rb/devtools project
 
-Gem::Specification.new do |gem|
-  gem.name     = 'dry-initializer'
-  gem.version  = Dry::Initializer::VERSION
-  gem.author   = ['Vladimir Kochnev (marshall-lee)', 'Andrew Kozin (nepalez)']
-  gem.email    = 'andrew.kozin@gmail.com'
-  gem.homepage = 'https://github.com/dry-rb/dry-initializer'
-  gem.summary  = 'DSL for declaring params and options of the initializer'
-  gem.license  = 'MIT'
+lib = File.expand_path('lib', __dir__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'dry/initializer/version'
 
-  gem.files            = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
-  gem.test_files       = gem.files.grep(/^spec/)
-  gem.extra_rdoc_files = Dir['README.md', 'LICENSE', 'CHANGELOG.md']
+Gem::Specification.new do |spec|
+  spec.name          = 'dry-initializer'
+  spec.authors       = ["Vladimir Kochnev (marshall-lee)", "Andrew Kozin (nepalez)"]
+  spec.email         = ["andrew.kozin@gmail.com"]
+  spec.license       = 'MIT'
+  spec.version       = Dry::Initializer::VERSION.dup
 
-  gem.required_ruby_version = '>= 2.3'
+  spec.summary       = "DSL for declaring params and options of the initializer"
+  spec.description   = spec.summary
+  spec.homepage      = 'https://dry-rb.org/gems/dry-initializer'
+  spec.files         = Dir['CHANGELOG.md', 'LICENSE', 'README.md', 'dry-initializer.gemspec', 'lib/**/*']
+  spec.require_paths = ['lib']
 
-  gem.add_development_dependency 'rspec', '~> 3.0'
-  gem.add_development_dependency 'rake', '> 10'
+  spec.metadata['allowed_push_host'] = 'https://rubygems.org'
+  spec.metadata['changelog_uri']     = 'https://github.com/dry-rb/dry-initializer/blob/master/CHANGELOG.md'
+  spec.metadata['source_code_uri']   = 'https://github.com/dry-rb/dry-initializer'
+  spec.metadata['bug_tracker_uri']   = 'https://github.com/dry-rb/dry-initializer/issues'
+
+  spec.required_ruby_version = '>= 2.4.0'
+
+  # to update dependencies edit project.yml
+  spec.add_development_dependency "rake"
+  spec.add_development_dependency "rspec"
 end
