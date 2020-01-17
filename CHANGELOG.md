@@ -1,23 +1,16 @@
-# Change Log
-
-All notable changes to this project will be documented in this file.
-
-The format is based on [Keep a Changelog](http://keepachangelog.com/)
-and this project adheres to [Semantic Versioning](http://semver.org/).
-
-## [3.0.3] [2020-01-08]
+## 3.0.3 2020-01-08
 
 ### Fixed
 
 - Constrained member arrays work correctly now (see #33) (@bjeanes + @solnic)
 
-## [3.0.2] [2019-11-07]
+## 3.0.2 2019-11-07
 
 ### Fixed
 
 - Warnings about keyword arguments (flash-gordon)
 
-## [3.0.1] [2019-04-15]
+## 3.0.1 2019-04-15
 
 ### Fixed
 
@@ -51,7 +44,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   This restriction is necessary because we constantize option/param names
   when defining nested structs.
 
-## [3.0.0] [2019-04-14]
+## 3.0.0 2019-04-14
 
 ### Added
 
@@ -124,7 +117,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.6.0] [2018-09-09] (YANKED)
 
-## [2.5.0] [2018-08-17]
+## 2.5.0 2018-08-17
 
 ### Fixed
 
@@ -134,7 +127,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   the coercion should be applied to any value, including `nil`, because
   we cannot distinct "undefined" `nil` from the "assigned" `nil` value.
 
-## [2.4.0] [2018-02-01]
+## 2.4.0 2018-02-01
 
 ### Added
 - Dispatchers for adding syntax sugar to `param` and `options` (nepalez)
@@ -150,7 +143,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   end
   ```
 
-## [2.3.0] [2017-09-19]
+## 2.3.0 2017-09-19
 
 ### Added
 - Type coercer can take second argument for the initialized instance (nepalez)
@@ -179,7 +172,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   offset.location.parameter == offset # true
   ```
 
-## [2.2.0] [2017-09-13]
+## 2.2.0 2017-09-13
 
 ### Added
 - Option `:desc` for option/param to add a description (nepalez)
@@ -201,7 +194,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   # @return [User]
   ```
 
-## [2.1.0] [2017-09-11]
+## 2.1.0 2017-09-11
 
 ### Added
 - Method `#options` to param/option definition (nepalez)
@@ -225,7 +218,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   This method can be helpful for replicating params/options
   in another class without inheritance.
 
-## [2.0.0] [2017-08-28]
+## 2.0.0 2017-08-28
 
 The gem has been rewritten under the hood keeping its documented
 interface about the same (see "Deleted" section below for the only
@@ -422,7 +415,7 @@ and to @gzigzigzeo for persuading me to do this refactoring.
                 virtus:  180272.6 i/s - 15.99x  slower
   ```
 
-## [1.4.1] [2017-04-05]
+## 1.4.1 2017-04-05
 
 ### Fixed
 - Warning about redefined `#initialize` in case the method reloaded in a klass
@@ -438,13 +431,13 @@ and to @gzigzigzeo for persuading me to do this refactoring.
 
   This story will come to the end in `v2.1.0`.
 
-## [1.4.0] [2017-03-08]
+## 1.4.0 2017-03-08
 
 ### Changed (backward-incompatible)
 - The `@__options__` hash now collects all assigned attributes,
   collected via `#option` (as before), and `#param` (nepalez)
 
-## [1.3.0] [2017-03-05]
+## 1.3.0 2017-03-05
 
 ### Added
 - No-undefined configuration of the initializer (nepalez, flash-gordon)
@@ -471,27 +464,27 @@ and to @gzigzigzeo for persuading me to do this refactoring.
 ### Changed
 - Fixed method definitions for performance at the load time (nepalez, flash-gordon)
 
-## [1.2.0] [2017-03-05]
+## 1.2.0 2017-03-05
 
 ### Fixed
 - The `@__options__` variable collects renamed options after default values and coercions were applied (nepalez)
 
-## [1.1.3] [2017-03-01]
+## 1.1.3 2017-03-01
 
 ### Added
 - Support for lambdas as default values (nepalez, gzigzigzeo)
 
-## [1.1.2] [2017-02-06]
+## 1.1.2 2017-02-06
 
 ### Changed
 - Remove previously defined methods before redefining them (flash-gordon)
 
-## [1.1.1] [2017-02-04]
+## 1.1.1 2017-02-04
 
 ### Fixed
 - `@__options__` collects defined options only (nepalez)
 
-## [1.1.0] [2017-01-28]
+## 1.1.0 2017-01-28
 
 ### Added
 - enhancement via `Dry::Initializer::Attribute.dispatchers` registry (nepalez)
@@ -514,7 +507,7 @@ and to @gzigzigzeo for persuading me to do this refactoring.
 ### Changed
 - optimize assignments for performance (nepalez)
 
-## [1.0.0] [2017-01-22]
+## 1.0.0 2017-01-22
 
 In this version the code has been rewritten for simplicity
 
@@ -553,7 +546,7 @@ In this version the code has been rewritten for simplicity
     User.new(phone: '1234567890').phone   # => '1234567890'
     User.new(number: '1234567890').phone # => '1234567890'
 
-## [0.11.0] [2017-01-02]
+## 0.11.0 2017-01-02
 
 ### Added
 - Support of reloading `#initializer` with `super` (nepalez)
@@ -584,7 +577,7 @@ In this version the code has been rewritten for simplicity
 
   See specification `spec/custom_initializer_spec.rb` to see how this works.
 
-## [0.10.2] [2016-12-31]
+## 0.10.2 2016-12-31
 
 ### Added
 - Support of Ruby 2.4 (flas-gordon)
@@ -592,17 +585,17 @@ In this version the code has been rewritten for simplicity
 ### Internal
 - Code clearance for ROM integration (flash-gordon)
 
-## [0.10.1] [2016-12-27]
+## 0.10.1 2016-12-27
 
 ### Fixed
 - Wrong arity when there were no options and the last param had a default (nolith)
 
-## [0.10.0] [2016-11-20]
+## 0.10.0 2016-11-20
 
 ### Deleted (BREAKING CHANGE!)
 - Deprecated method DSL#using (nepalez)
 
-## [0.9.3] [2016-11-20]
+## 0.9.3 2016-11-20
 
 ### Deprecated
 - After discussion in [PR #17]: https://github.com/dry-rb/dry-initializer/pull/17)
@@ -616,19 +609,19 @@ In this version the code has been rewritten for simplicity
   option :"First name", as: :first_name
   ```
 
-## [0.9.2] [2016-11-10]
+## 0.9.2 2016-11-10
 
 ### Fixed
 - Validation of attributes (params and options) (nepalez)
 
-## [0.9.1] [2016-11-06]
+## 0.9.1 2016-11-06
 
 ### Added
 - Support for renaming an option during initialization (nepalez)
 
   option :name, as: :username # to take :name option and create :username attribute
 
-## [0.9.0] [2016-11-06]
+## 0.9.0 2016-11-06
 
 ### Added
 - The method `#initialize` is defined when a class extended the module (nepalez)
@@ -644,14 +637,14 @@ In this version the code has been rewritten for simplicity
 ### Internal
 - Refactor scope (`using`) to support methods renaming and aliasing (nepalez)
 
-## [0.8.1] [2016-11-05]
+## 0.8.1 2016-11-05
 
 ### Added
 - Support for `dry-struct`ish syntax for constraints (type as a second parameter) (nepalez)
 
     option :name, Dry::Types['strict.string']
 
-## [0.8.0] [2016-11-05]
+## 0.8.0 2016-11-05
 
 In this version we switched from key arguments to ** to support special keys:
 
@@ -695,41 +688,41 @@ are deprecated and will be removed in the next version of the gem.
 - `tolerant_to_unknown_options`
 - `intolerant_to_unknown_options`
 
-## [0.7.0] [2016-10-11]
+## 0.7.0 2016-10-11
 
 ### Added
 - Shared settings with `#using` method (nepalez)
 
-## [0.6.0] [2016-10-09]
+## 0.6.0 2016-10-09
 
 ### Added
 - Support for private and protected readers in the `reader:` option (jmgarnier)
 
-## [0.5.0] [2016-08-21]
+## 0.5.0 2016-08-21
 
 ### Added
 - Allow `optional` attribute to be left undefined (nepalez)
 
-## [0.4.0] [2016-05-28]
+## 0.4.0 2016-05-28
 
 ### Deleted (backward-incompatible changes)
 - Support of modules and case equality as type constraints (nepalez)
 
-## [0.3.3] [2016-05-28]
+## 0.3.3 2016-05-28
 
 - Add deprecation warnings about modules and case equality as type constraints (nepalez)
 
-## [0.3.2] [2016-05-25]
+## 0.3.2 2016-05-25
 
 ### Fixed
 - Add explicit requirement for ruby 'set' (rickenharp)
 
-## [0.3.1] [2016-05-22]
+## 0.3.1 2016-05-22
 
 ### Added
 - Support for tolerance to unknown options (nepalez)
 
-## [0.3.0] [2016-05-19]
+## 0.3.0 2016-05-19
 
 Breaks interface for adding new plugins. Register new plugin via:
 
@@ -762,7 +755,7 @@ its method #register doesn't mutate the builder instance.
 - Decouple mixin from a builder to prevent pollution (nepalez)
 - Ensure default value block can use private variables (jeremyf)
 
-## [0.2.1] [2016-05-19]
+## 0.2.1 2016-05-19
 
 ### Fixed
 - Fix polluting superclass with declarations from subclass (nepalez)
@@ -772,7 +765,7 @@ its method #register doesn't mutate the builder instance.
 - Decouple mixin from a builder to prevent pollution (nepalez)
 - Ensure default value block can use private variables (jeremyf)
 
-## [0.2.0] [2016-05-16]
+## 0.2.0 2016-05-16
 
 The gem internals has been rewritten heavily to make the gem pluggable and fix
 bugs in "container style". Type constraints were extracted to a plugin
@@ -832,12 +825,12 @@ Default assignments became slower (while plain type constraint are not)!
   They are made inside `##__after_initialize__` callback, that is biult via `default_method(&block)`
   using instance evals.
 
-## [0.1.1] [2016-04-28]
+## 0.1.1 2016-04-28
 
 ### Added
 - `include Dry::Initializer.define -> do ... end` syntax (flash-gordon)
 
-## [0.1.0] [2016-04-26]
+## 0.1.0 2016-04-26
 
 Class DSL splitted to mixin and container versions (thanks to @AMHOL for the idea).
 Backward compatibility is broken.
@@ -848,7 +841,7 @@ Backward compatibility is broken.
 ### Added
 - Use `include Dry::Initializer.define(&block)` as an alternative to extending the class (nepalez)
 
-## [0.0.1] [2016-04-09]
+## 0.0.1 2016-04-09
 
 First public release
 
