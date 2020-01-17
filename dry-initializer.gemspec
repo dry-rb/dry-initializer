@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
   spec.summary       = "DSL for declaring params and options of the initializer"
   spec.description   = spec.summary
   spec.homepage      = 'https://dry-rb.org/gems/dry-initializer'
-  spec.files         = Dir['CHANGELOG.md', 'LICENSE', 'README.md', 'dry-initializer.gemspec', 'lib/**/*']
+  spec.files         = Dir["CHANGELOG.md", "LICENSE", "README.md", "dry-initializer.gemspec", "lib/**/*"]
   spec.require_paths = ['lib']
 
   spec.metadata['allowed_push_host'] = 'https://rubygems.org'
