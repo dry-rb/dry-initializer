@@ -5,12 +5,16 @@
 
 - Constrained member arrays work correctly now (see #33) (@bjeanes + @solnic)
 
+[Compare v3.0.2...v3.0.3](https://github.com/dry-rb/dry-initializer/compare/v3.0.2...v3.0.3)
+
 ## 3.0.2 2019-11-07
 
 
 ### Fixed
 
 - Warnings about keyword arguments (flash-gordon)
+
+[Compare v3.0.1...v3.0.2](https://github.com/dry-rb/dry-initializer/compare/v3.0.1...v3.0.2)
 
 ## 3.0.1 2019-04-15
 
@@ -46,6 +50,8 @@
 
   This restriction is necessary because we constantize option/param names
   when defining nested structs.
+
+[Compare v3.0.0...v3.0.1](https://github.com/dry-rb/dry-initializer/compare/v3.0.0...v3.0.1)
 
 ## 3.0.0 2019-04-14
 
@@ -116,6 +122,8 @@
   the incompatibility become clear (bjeanes, nepalez)
 - ## [2.6.0] [2018-09-09] (YANKED)
 
+[Compare v2.5.0...v3.0.0](https://github.com/dry-rb/dry-initializer/compare/v2.5.0...v3.0.0)
+
 ## 2.5.0 2018-08-17
 
 
@@ -126,6 +134,8 @@
   When default value is `nil` instead of `Dry::Initializer::UNDEFINED`,
   the coercion should be applied to any value, including `nil`, because
   we cannot distinct "undefined" `nil` from the "assigned" `nil` value.
+
+[Compare v2.4.0...v2.5.0](https://github.com/dry-rb/dry-initializer/compare/v2.4.0...v2.5.0)
 
 ## 2.4.0 2018-02-01
 
@@ -144,6 +154,8 @@
     param :id, integer: true # same as param :id, proc(&:to_i)
   end
   ```
+
+[Compare v2.3.0...v2.4.0](https://github.com/dry-rb/dry-initializer/compare/v2.3.0...v2.4.0)
 
 ## 2.3.0 2017-09-19
 
@@ -176,6 +188,8 @@
   offset.location.parameter == offset # true
   ```
 
+[Compare v2.2.0...v2.3.0](https://github.com/dry-rb/dry-initializer/compare/v2.2.0...v2.3.0)
+
 ## 2.2.0 2017-09-13
 
 
@@ -198,6 +212,8 @@
   # @option [Object] :email (optional) User email
   # @return [User]
   ```
+
+[Compare v2.1.0...v2.2.0](https://github.com/dry-rb/dry-initializer/compare/v2.1.0...v2.2.0)
 
 ## 2.1.0 2017-09-11
 
@@ -224,6 +240,8 @@
 
   This method can be helpful for replicating params/options
   in another class without inheritance.
+
+[Compare v2.0.0...v2.1.0](https://github.com/dry-rb/dry-initializer/compare/v2.0.0...v2.1.0)
 
 ## 2.0.0 2017-08-28
 
@@ -405,6 +423,8 @@ and to @gzigzigzeo for persuading me to do this refactoring.
        dry-initializer:  470815.1 i/s -  6.12x  slower
                 virtus:  180272.6 i/s - 15.99x  slower
   ```
+[Compare v1.4.1...v2.0.0](https://github.com/dry-rb/dry-initializer/compare/v1.4.1...v2.0.0)
+
 ## 1.4.1 2017-04-05
 
 
@@ -417,6 +437,8 @@ and to @gzigzigzeo for persuading me to do this refactoring.
 
 - Rename `Dry::Initializer::DSL` -> `Dry::Initializer::ClassDSL` (nepalez)
 - Add `Dry::Initializer::InstanceDSL` (nepalez)
+[Compare v1.4.0...v1.4.1](https://github.com/dry-rb/dry-initializer/compare/v1.4.0...v1.4.1)
+
 ## 1.4.0 2017-03-08
 
 
@@ -424,6 +446,8 @@ and to @gzigzigzeo for persuading me to do this refactoring.
 
 - The `@__options__` hash now collects all assigned attributes,
   collected via `#option` (as before), and `#param` (nepalez)
+[Compare v1.3.0...v1.4.0](https://github.com/dry-rb/dry-initializer/compare/v1.3.0...v1.4.0)
+
 ## 1.3.0 2017-03-05
 
 
@@ -453,12 +477,16 @@ and to @gzigzigzeo for persuading me to do this refactoring.
 ### Changed
 
 - Fixed method definitions for performance at the load time (nepalez, flash-gordon)
+[Compare v1.2.0...v1.3.0](https://github.com/dry-rb/dry-initializer/compare/v1.2.0...v1.3.0)
+
 ## 1.2.0 2017-03-05
 
 
 ### Fixed
 
 - The `@__options__` variable collects renamed options after default values and coercions were applied (nepalez)
+
+[Compare v1.1.3...v1.2.0](https://github.com/dry-rb/dry-initializer/compare/v1.1.3...v1.2.0)
 
 ## 1.1.3 2017-03-01
 
@@ -467,18 +495,24 @@ and to @gzigzigzeo for persuading me to do this refactoring.
 
 - Support for lambdas as default values (nepalez, gzigzigzeo)
 
+[Compare v1.1.2...v1.1.3](https://github.com/dry-rb/dry-initializer/compare/v1.1.2...v1.1.3)
+
 ## 1.1.2 2017-02-06
 
 
 ### Changed
 
 - Remove previously defined methods before redefining them (flash-gordon)
+[Compare v1.1.1...v1.1.2](https://github.com/dry-rb/dry-initializer/compare/v1.1.1...v1.1.2)
+
 ## 1.1.1 2017-02-04
 
 
 ### Fixed
 
 - `@__options__` collects defined options only (nepalez)
+
+[Compare v1.1.0...v1.1.1](https://github.com/dry-rb/dry-initializer/compare/v1.1.0...v1.1.1)
 
 ## 1.1.0 2017-01-28
 
@@ -505,6 +539,8 @@ and to @gzigzigzeo for persuading me to do this refactoring.
 ### Changed
 
 - optimize assignments for performance (nepalez)
+[Compare v1.0.0...v1.1.0](https://github.com/dry-rb/dry-initializer/compare/v1.0.0...v1.1.0)
+
 ## 1.0.0 2017-01-22
 
 In this version the code has been rewritten for simplicity
@@ -543,12 +579,16 @@ In this version the code has been rewritten for simplicity
 
 - [BREAKING] when `param` or `option` was not defined, the corresponding **variable** is set to `Dry::Initializer::UNDEFINED`, but the **reader** (when defined) will return `nil` (nepalez)
 - `Dry::Initializer` and `Dry::Initializer::Mixin` became aliases (nepalez)
+[Compare v0.11.0...v1.0.0](https://github.com/dry-rb/dry-initializer/compare/v0.11.0...v1.0.0)
+
 ## 0.11.0 2017-01-02
 
 
 ### Added
 
 - Support of reloading `#initializer` with `super` (nepalez)
+
+[Compare v0.10.2...v0.11.0](https://github.com/dry-rb/dry-initializer/compare/v0.10.2...v0.11.0)
 
 ## 0.10.2 2016-12-31
 
@@ -557,6 +597,8 @@ In this version the code has been rewritten for simplicity
 
 - Support of Ruby 2.4 (flas-gordon)
 
+[Compare v0.10.1...v0.10.2](https://github.com/dry-rb/dry-initializer/compare/v0.10.1...v0.10.2)
+
 ## 0.10.1 2016-12-27
 
 
@@ -564,8 +606,12 @@ In this version the code has been rewritten for simplicity
 
 - Wrong arity when there were no options and the last param had a default (nolith)
 
+[Compare v0.10.0...v0.10.1](https://github.com/dry-rb/dry-initializer/compare/v0.10.0...v0.10.1)
+
 ## 0.10.0 2016-11-20
 
+
+[Compare v0.9.3...v0.10.0](https://github.com/dry-rb/dry-initializer/compare/v0.9.3...v0.10.0)
 
 ## 0.9.3 2016-11-20
 
@@ -578,12 +624,16 @@ In this version the code has been rewritten for simplicity
   option :"First name", as: :first_name
   ```
 
+[Compare v0.9.2...v0.9.3](https://github.com/dry-rb/dry-initializer/compare/v0.9.2...v0.9.3)
+
 ## 0.9.2 2016-11-10
 
 
 ### Fixed
 
 - Validation of attributes (params and options) (nepalez)
+
+[Compare v0.9.1...v0.9.2](https://github.com/dry-rb/dry-initializer/compare/v0.9.1...v0.9.2)
 
 ## 0.9.1 2016-11-06
 
@@ -594,6 +644,8 @@ In this version the code has been rewritten for simplicity
 
   option :name, as: :username # to take :name option and create :username attribute
 
+[Compare v0.9.0...v0.9.1](https://github.com/dry-rb/dry-initializer/compare/v0.9.0...v0.9.1)
+
 ## 0.9.0 2016-11-06
 
 
@@ -603,6 +655,8 @@ In this version the code has been rewritten for simplicity
 
   In previous versions the method was defined only by `param` and `option` calls.
 
+[Compare v0.8.1...v0.9.0](https://github.com/dry-rb/dry-initializer/compare/v0.8.1...v0.9.0)
+
 ## 0.8.1 2016-11-05
 
 
@@ -611,6 +665,8 @@ In this version the code has been rewritten for simplicity
 - Support for `dry-struct`ish syntax for constraints (type as a second parameter) (nepalez)
 
     option :name, Dry::Types['strict.string']
+
+[Compare v0.8.0...v0.8.1](https://github.com/dry-rb/dry-initializer/compare/v0.8.0...v0.8.1)
 
 ## 0.8.0 2016-11-05
 
@@ -623,12 +679,16 @@ are deprecated and will be removed in the next version of the gem.
 ### Changed
 
 - switched from key arguments to serialized hash argument in the initializer (nepalez)
+[Compare v0.7.0...v0.8.0](https://github.com/dry-rb/dry-initializer/compare/v0.7.0...v0.8.0)
+
 ## 0.7.0 2016-10-11
 
 
 ### Added
 
 - Shared settings with `#using` method (nepalez)
+
+[Compare v0.6.0...v0.7.0](https://github.com/dry-rb/dry-initializer/compare/v0.6.0...v0.7.0)
 
 ## 0.6.0 2016-10-09
 
@@ -637,6 +697,8 @@ are deprecated and will be removed in the next version of the gem.
 
 - Support for private and protected readers in the `reader:` option (jmgarnier)
 
+[Compare v0.5.0...v0.6.0](https://github.com/dry-rb/dry-initializer/compare/v0.5.0...v0.6.0)
+
 ## 0.5.0 2016-08-21
 
 
@@ -644,11 +706,17 @@ are deprecated and will be removed in the next version of the gem.
 
 - Allow `optional` attribute to be left undefined (nepalez)
 
+[Compare v0.4.0...v0.5.0](https://github.com/dry-rb/dry-initializer/compare/v0.4.0...v0.5.0)
+
 ## 0.4.0 2016-05-28
 
 
+[Compare v0.3.3...v0.4.0](https://github.com/dry-rb/dry-initializer/compare/v0.3.3...v0.4.0)
+
 ## 0.3.3 2016-05-28
 
+
+[Compare v0.3.2...v0.3.3](https://github.com/dry-rb/dry-initializer/compare/v0.3.2...v0.3.3)
 
 ## 0.3.2 2016-05-25
 
@@ -657,12 +725,16 @@ are deprecated and will be removed in the next version of the gem.
 
 - Add explicit requirement for ruby 'set' (rickenharp)
 
+[Compare v0.3.1...v0.3.2](https://github.com/dry-rb/dry-initializer/compare/v0.3.1...v0.3.2)
+
 ## 0.3.1 2016-05-22
 
 
 ### Added
 
 - Support for tolerance to unknown options (nepalez)
+
+[Compare v0.3.0...v0.3.1](https://github.com/dry-rb/dry-initializer/compare/v0.3.0...v0.3.1)
 
 ## 0.3.0 2016-05-19
 
@@ -679,6 +751,8 @@ its method #register doesn't mutate the builder instance.
 - Make all instances (Builder and Signature) immutable (nepalez)
 - Decouple mixin from a builder to prevent pollution (nepalez)
 - Ensure default value block can use private variables (jeremyf)
+[Compare v0.2.1...v0.3.0](https://github.com/dry-rb/dry-initializer/compare/v0.2.1...v0.3.0)
+
 ## 0.2.1 2016-05-19
 
 
@@ -691,6 +765,8 @@ its method #register doesn't mutate the builder instance.
 - Make all instances (Builder and Signature) immutable (nepalez)
 - Decouple mixin from a builder to prevent pollution (nepalez)
 - Ensure default value block can use private variables (jeremyf)
+[Compare v0.2.0...v0.2.1](https://github.com/dry-rb/dry-initializer/compare/v0.2.0...v0.2.1)
+
 ## 0.2.0 2016-05-16
 
 Default assignments became slower (while plain type constraint are not)!
@@ -732,12 +808,16 @@ Default assignments became slower (while plain type constraint are not)!
     option :name, coercer: ->(v) { (String === v) ? v.to_sym : fail }
   end
   ```
+[Compare v0.1.1...v0.2.0](https://github.com/dry-rb/dry-initializer/compare/v0.1.1...v0.2.0)
+
 ## 0.1.1 2016-04-28
 
 
 ### Added
 
 - `include Dry::Initializer.define -> do ... end` syntax (flash-gordon)
+
+[Compare v0.1.0...v0.1.1](https://github.com/dry-rb/dry-initializer/compare/v0.1.0...v0.1.1)
 
 ## 0.1.0 2016-04-26
 
@@ -750,6 +830,8 @@ Backward compatibility is broken.
 ### Changed
 
 - Use `extend Dry::Initializer::Mixin` instead of `extend Dry::Initializer` (nepalez)
+[Compare v0.0.1...v0.1.0](https://github.com/dry-rb/dry-initializer/compare/v0.0.1...v0.1.0)
+
 ## 0.0.1 2016-04-09
 
 First public release
