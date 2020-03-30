@@ -150,7 +150,7 @@ class Parameter
   param :location, ->(value, param) { Location.new(value, param) }
 end
 
-offset = Parameter.new "offset", location: "query"
+offset = Parameter.new "offset", "query"
 offset.name     # => "offset"
 offset.location # => "query"
 offset.location.parameter == offset # true
