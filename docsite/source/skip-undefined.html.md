@@ -34,7 +34,7 @@ extend Dry::Initializer[undefined: false]
 ```
 
 ```ruby
-include Dry::Initializer[undefined: false] -> do
+include Dry::Initializer[undefined: false].define -> do
   # ...
 end
 ```
