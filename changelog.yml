@@ -1,4 +1,8 @@
 ---
+- version: 3.0.4
+  date: unreleased
+  fixed:
+  - 'Arity check for lambdas used for coercion (@flash-gordon)'
 - version: 3.0.3
   date: '2020-01-08'
   fixed:
