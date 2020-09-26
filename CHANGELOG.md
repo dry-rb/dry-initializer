@@ -1,3 +1,13 @@
+## 3.0.4 unreleased
+
+
+### Fixed
+
+- Arity check for lambdas used for coercion (@flash-gordon)
+
+
+[Compare v3.0.3...v3.0.4](https://github.com/dry-rb/dry-initializer/compare/v3.0.3...v3.0.4)
+
 ## 3.0.3 2020-01-08
 
 
