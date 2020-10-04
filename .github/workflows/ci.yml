@@ -24,13 +24,13 @@ jobs:
       matrix:
         ruby:
         - head
-        - 2.7.0
+        - 2.7.2
         - '2.6'
         - '2.5'
         - '2.4'
         - jruby
         include:
-        - ruby: 2.7.0
+        - ruby: 2.7.2
           coverage: 'true'
         - runtime_deps: dry-types-master
           dry_types_from_master: 'true'
