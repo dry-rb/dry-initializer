@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   spec.metadata['source_code_uri']   = 'https://github.com/dry-rb/dry-initializer'
   spec.metadata['bug_tracker_uri']   = 'https://github.com/dry-rb/dry-initializer/issues'
 
-  spec.required_ruby_version = ">= 2.4.0"
+  spec.required_ruby_version = ">= 2.5.0"
 
   # to update dependencies edit project.yml
   spec.add_development_dependency "rake"
