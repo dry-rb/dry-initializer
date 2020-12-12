@@ -1,12 +1,12 @@
-describe 'reader' do
-  shared_examples 'it has no public attr_reader' do
-    it 'does not define a public attr_reader' do
+describe "reader" do
+  shared_examples "it has no public attr_reader" do
+    it "does not define a public attr_reader" do
       expect(subject).not_to respond_to :foo
       expect(subject).not_to respond_to :bar
     end
   end
 
-  context 'with reader: :public or no reader: option' do
+  context "with reader: :public or no reader: option" do
     subject do
       class Test::Foo
         extend Dry::Initializer
@@ -20,14 +20,14 @@ describe 'reader' do
       Test::Foo.new 1, 2, bar: 3, bar2: 4
     end
 
-    it 'defines a public attr_reader by default' do
+    it "defines a public attr_reader by default" do
       expect(subject).to respond_to(:foo, :foo2)
       expect(subject).to respond_to :bar
       expect(subject).to respond_to :bar2
     end
   end
 
-  context 'with reader: false' do
+  context "with reader: false" do
     before do
       class Test::Foo
         extend Dry::Initializer
@@ -39,15 +39,15 @@ describe 'reader' do
 
     subject { Test::Foo.new 1, bar: 2 }
 
-    it_behaves_like 'it has no public attr_reader'
+    it_behaves_like "it has no public attr_reader"
 
-    it 'keeps assigning variables' do
+    it "keeps assigning variables" do
       expect(subject.instance_variable_get(:@foo)).to eql 1
       expect(subject.instance_variable_get(:@bar)).to eql 2
     end
   end
 
-  context 'with reader: :private' do
+  context "with reader: :private" do
     before do
       class Test::Foo
         extend Dry::Initializer
@@ -59,15 +59,15 @@ describe 'reader' do
 
     subject { Test::Foo.new 1, bar: 2 }
 
-    it_behaves_like 'it has no public attr_reader'
+    it_behaves_like "it has no public attr_reader"
 
-    it 'adds a private attr_reader' do
+    it "adds a private attr_reader" do
       expect(subject.send(:foo)).to eql 1
       expect(subject.send(:bar)).to eql 2
     end
   end
 
-  context 'with reader: :protected' do
+  context "with reader: :protected" do
     subject do
       class Test::Foo
         extend Dry::Initializer
@@ -79,7 +79,7 @@ describe 'reader' do
       Test::Foo.new 1, bar: 2
     end
 
-    it 'adds a protected attr_reader' do
+    it "adds a protected attr_reader" do
       protected_instance_methods = subject.class.protected_instance_methods
       expect(protected_instance_methods).to match_array(%i[foo bar])
     end

@@ -1,6 +1,6 @@
 Bundler.require(:benchmarks)
 
-require 'dry-initializer'
+require "dry-initializer"
 class DryTest
   extend Dry::Initializer[undefined: false]
 
@@ -24,39 +24,39 @@ class PlainRubyTest
   end
 end
 
-require 'anima'
+require "anima"
 class AnimaTest
   include Anima.new(:foo, :bar)
 end
 
-require 'kwattr'
+require "kwattr"
 class KwattrTest
   kwattr :foo, :bar
 end
 
-puts 'Benchmark for instantiation with plain options'
+puts "Benchmark for instantiation with plain options"
 
 Benchmark.ips do |x|
   x.config time: 15, warmup: 10
 
-  x.report('plain Ruby') do
-    PlainRubyTest.new foo: 'FOO', bar: 'BAR'
+  x.report("plain Ruby") do
+    PlainRubyTest.new foo: "FOO", bar: "BAR"
   end
 
-  x.report('dry-initializer') do
-    DryTest.new foo: 'FOO', bar: 'BAR'
+  x.report("dry-initializer") do
+    DryTest.new foo: "FOO", bar: "BAR"
   end
 
-  x.report('dry-initializer (with UNDEFINED)') do
-    DryTestUndefined.new foo: 'FOO', bar: 'BAR'
+  x.report("dry-initializer (with UNDEFINED)") do
+    DryTestUndefined.new foo: "FOO", bar: "BAR"
   end
 
-  x.report('anima') do
-    AnimaTest.new foo: 'FOO', bar: 'BAR'
+  x.report("anima") do
+    AnimaTest.new foo: "FOO", bar: "BAR"
   end
 
-  x.report('kwattr') do
-    KwattrTest.new foo: 'FOO', bar: 'BAR'
+  x.report("kwattr") do
+    KwattrTest.new foo: "FOO", bar: "BAR"
   end
 
   x.compare!

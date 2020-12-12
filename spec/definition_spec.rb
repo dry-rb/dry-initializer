@@ -1,4 +1,4 @@
-describe 'definition' do
+describe "definition" do
   shared_examples :initializer do |in_context|
     subject { Test::Foo.new(1, bar: 2) }
 
@@ -8,7 +8,7 @@ describe 'definition' do
     end
   end
 
-  it_behaves_like :initializer, 'extend Dry::Initializer' do
+  it_behaves_like :initializer, "extend Dry::Initializer" do
     before do
       class Test::Foo
         extend Dry::Initializer
@@ -17,7 +17,7 @@ describe 'definition' do
       end
     end
 
-    it 'preservers definition params' do
+    it "preservers definition params" do
       params = Test::Foo.dry_initializer.params.map do |definition|
         [definition.source, definition.options]
       end
@@ -27,7 +27,7 @@ describe 'definition' do
       ]
     end
 
-    it 'preservers definition options' do
+    it "preservers definition options" do
       options = Test::Foo.dry_initializer.options.map do |definition|
         [definition.source, definition.options]
       end
@@ -38,7 +38,7 @@ describe 'definition' do
     end
   end
 
-  it_behaves_like :initializer, 'extend Dry::Initializer' do
+  it_behaves_like :initializer, "extend Dry::Initializer" do
     before do
       class Test::Foo
         extend Dry::Initializer
@@ -48,7 +48,7 @@ describe 'definition' do
     end
   end
 
-  it_behaves_like :initializer, 'extend Dry::Initializer[undefined: false]' do
+  it_behaves_like :initializer, "extend Dry::Initializer[undefined: false]" do
     before do
       class Test::Foo
         extend Dry::Initializer[undefined: false]
@@ -58,7 +58,7 @@ describe 'definition' do
     end
   end
 
-  it_behaves_like :initializer, 'include Dry::Initializer with block' do
+  it_behaves_like :initializer, "include Dry::Initializer with block" do
     before do
       class Test::Foo
         include(
@@ -71,7 +71,7 @@ describe 'definition' do
     end
   end
 
-  it_behaves_like :initializer, 'include Dry::Initializer with lambda' do
+  it_behaves_like :initializer, "include Dry::Initializer with lambda" do
     before do
       class Test::Foo
         include Dry::Initializer.define -> do
@@ -82,7 +82,7 @@ describe 'definition' do
     end
   end
 
-  it_behaves_like :initializer, 'include Dry::Initializer[undefined: false]' do
+  it_behaves_like :initializer, "include Dry::Initializer[undefined: false]" do
     before do
       class Test::Foo
         include(
@@ -96,7 +96,7 @@ describe 'definition' do
   end
 
   # @deprecated
-  it_behaves_like :initializer, 'include Dry::Initializer::Mixin' do
+  it_behaves_like :initializer, "include Dry::Initializer::Mixin" do
     before do
       class Test::Foo
         include(

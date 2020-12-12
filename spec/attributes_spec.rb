@@ -1,7 +1,7 @@
-describe Dry::Initializer, 'dry_initializer.attributes' do
+describe Dry::Initializer, "dry_initializer.attributes" do
   subject { instance.class.dry_initializer.attributes(instance) }
 
-  context 'when class has params' do
+  context "when class has params" do
     before do
       class Test::Foo
         extend Dry::Initializer
@@ -13,12 +13,12 @@ describe Dry::Initializer, 'dry_initializer.attributes' do
 
     let(:instance) { Test::Foo.new(:FOO) }
 
-    it 'collects coerced params with default values' do
-      expect(subject).to eq({ foo: 'FOO', bar: 1 })
+    it "collects coerced params with default values" do
+      expect(subject).to eq({ foo: "FOO", bar: 1 })
     end
   end
 
-  context 'when class has options' do
+  context "when class has options" do
     before do
       class Test::Foo
         extend Dry::Initializer
@@ -31,8 +31,8 @@ describe Dry::Initializer, 'dry_initializer.attributes' do
 
     let(:instance) { Test::Foo.new(foo: :FOO, qux: :QUX) }
 
-    it 'collects coerced and renamed options with default values' do
-      expect(subject).to eq({ foo: :FOO, bar: 1, quxx: 'QUX' })
+    it "collects coerced and renamed options with default values" do
+      expect(subject).to eq({ foo: :FOO, bar: 1, quxx: "QUX" })
     end
   end
 end

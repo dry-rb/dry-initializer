@@ -1,6 +1,6 @@
 Bundler.require(:benchmarks)
 
-require 'dry-initializer'
+require "dry-initializer"
 class DryTest
   extend Dry::Initializer[undefined: false]
 
@@ -24,7 +24,7 @@ class PlainRubyTest
   end
 end
 
-require 'virtus'
+require "virtus"
 class VirtusTest
   include Virtus.model
 
@@ -32,7 +32,7 @@ class VirtusTest
   attribute :bar, String
 end
 
-require 'fast_attributes'
+require "fast_attributes"
 class FastAttributesTest
   extend FastAttributes
 
@@ -42,29 +42,29 @@ class FastAttributesTest
   end
 end
 
-puts 'Benchmark for instantiation with coercion'
+puts "Benchmark for instantiation with coercion"
 
 Benchmark.ips do |x|
   x.config time: 15, warmup: 10
 
-  x.report('plain Ruby') do
-    PlainRubyTest.new foo: 'FOO', bar: 'BAR'
+  x.report("plain Ruby") do
+    PlainRubyTest.new foo: "FOO", bar: "BAR"
   end
 
-  x.report('dry-initializer') do
-    DryTest.new foo: 'FOO', bar: 'BAR'
+  x.report("dry-initializer") do
+    DryTest.new foo: "FOO", bar: "BAR"
   end
 
-  x.report('dry-initializer (with UNDEFINED)') do
-    DryTestUndefined.new foo: 'FOO', bar: 'BAR'
+  x.report("dry-initializer (with UNDEFINED)") do
+    DryTestUndefined.new foo: "FOO", bar: "BAR"
   end
 
-  x.report('virtus') do
-    VirtusTest.new foo: 'FOO', bar: 'BAR'
+  x.report("virtus") do
+    VirtusTest.new foo: "FOO", bar: "BAR"
   end
 
-  x.report('fast_attributes') do
-    FastAttributesTest.new foo: 'FOO', bar: 'BAR'
+  x.report("fast_attributes") do
+    FastAttributesTest.new foo: "FOO", bar: "BAR"
   end
 
   x.compare!

@@ -1,4 +1,4 @@
-describe 'missed default values' do
+describe "missed default values" do
   subject do
     class Test::Foo
       extend Dry::Initializer
@@ -8,7 +8,7 @@ describe 'missed default values' do
     end
   end
 
-  it 'raises SyntaxError' do
+  it "raises SyntaxError" do
     expect { subject }.to raise_error SyntaxError, /bar/
   end
 end
