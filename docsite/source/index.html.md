@@ -8,7 +8,7 @@ name: dry-initializer
 sections:
   - container-version
   - params-and-options
-  - options-tolerance
+  - tolerance-to-unknown-arguments
   - optionals-and-defaults
   - type-constraints
   - readers
