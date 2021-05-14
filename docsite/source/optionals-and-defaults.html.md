@@ -41,7 +41,7 @@ class User
 end
 ```
 
-You should assign `nil` value explicitly. Otherwise an instance variable it will be left undefined. In both cases attribute reader method will return `nil`.
+You should assign `nil` value explicitly. Otherwise an instance variable will be left undefined. In both cases attribute reader method will return `nil`.
 
 ```ruby
 require 'dry-initializer'
