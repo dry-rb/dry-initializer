@@ -72,9 +72,21 @@ module Dry::Initializer::Builders
       arity = @type.is_a?(Proc) ? @type.arity : @type.method(:call).arity
 
       if arity.equal?(1) || arity.negative?
-        "#{@val} = #{@item}.type.call(#{@val}) unless #{@null} == #{@val}"
+        <<-METH
+          begin
+            #{@val} = #{@item}.type.call(#{@val}) unless #{@null} == #{@val}
+          rescue Dry::Types::ConstraintError => e
+            raise Dry::Initializer::CoercionError.new(e, '#{@source}')
+          end
+        METH
       else
-        "#{@val} = #{@item}.type.call(#{@val}, self) unless #{@null} == #{@val}"
+        <<-METH
+          begin
+            #{@val} = #{@item}.type.call(#{@val}, self) unless #{@null} == #{@val}
+          rescue Dry::Types::ConstraintError => e
+            raise Dry::Initializer::CoercionError.new(e, '#{@source}')
+          end
+        METH
       end
     end
 
