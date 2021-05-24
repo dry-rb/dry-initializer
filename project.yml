@@ -1,4 +1,5 @@
 name: dry-initializer
+custom_ci: true
 codacy_id: 03c8923afd734e9fb0f4bfe9cc893edb
 gemspec:
   authors: ["Vladimir Kochnev (marshall-lee)", "Andrew Kozin (nepalez)"]
