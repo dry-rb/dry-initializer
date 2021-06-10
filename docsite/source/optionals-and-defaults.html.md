@@ -115,7 +115,7 @@ user = User.new 'Andrew'
 user.email # => 'andrew@example.com'
 ```
 
-**Warning**: when using lambdas instead of procs, don't forget an argument, required by [instance_eval][instance_eval] (you can skip in in a proc).
+**Warning**: when using lambdas instead of procs, don't forget an argument, required by [instance_eval][instance_eval] (you can skip it in a proc).
 
 ```ruby
 require 'dry-initializer'
