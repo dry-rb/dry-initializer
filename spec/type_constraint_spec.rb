@@ -48,7 +48,7 @@ describe "type constraint" do
         subject { Test::Foo.new 1 }
 
         it "raises ArgumentError" do
-          expect { subject }.to raise_error Dry::Types::ConstraintError, /1/
+          expect { subject }.to raise_error Dry::Initializer::CoercionError, /1.*for field :foo/
         end
       end
 
@@ -85,7 +85,7 @@ describe "type constraint" do
         subject { Test::Foo.new "foo" }
 
         it "raises constraint error" do
-          expect { subject }.to raise_error(Dry::Types::ConstraintError, /foo/)
+          expect { subject }.to raise_error(Dry::Initializer::CoercionError, /foo/)
         end
       end
 

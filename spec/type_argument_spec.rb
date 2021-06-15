@@ -13,7 +13,7 @@ describe "type argument" do
     subject { Test::Foo.new 1, bar: "2" }
 
     it "raises TypeError" do
-      expect { subject }.to raise_error Dry::Types::ConstraintError, /1/
+      expect { subject }.to raise_error Dry::Initializer::CoercionError, /1.* for field :foo/
     end
   end
 
@@ -21,7 +21,7 @@ describe "type argument" do
     subject { Test::Foo.new "1", bar: 2 }
 
     it "raises TypeError" do
-      expect { subject }.to raise_error Dry::Types::ConstraintError, /2/
+      expect { subject }.to raise_error Dry::Initializer::CoercionError, /2.*for field :bar/
     end
   end
 
