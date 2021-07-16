@@ -4,7 +4,6 @@ module Dry::Initializer::Mixin
     private
 
     def initialize(*args, **kwargs)
-      puts "root initialize: #{args}, #{kwargs}"
       if kwargs.empty?
         __dry_initializer_initialize__(*args)
       else
