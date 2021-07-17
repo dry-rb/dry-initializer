@@ -8,12 +8,12 @@ module Dry::Initializer::Builders
     def call
       [
         *required_params,
-        *optional_params, 
+        *optional_params,
         rest_params,
         *required_options,
         *optional_options,
         rest_options
-      ].compact.join(', ')
+      ].compact.join(", ")
     end
 
     private

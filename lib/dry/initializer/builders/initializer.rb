@@ -55,10 +55,10 @@ module Dry::Initializer::Builders
       lines = []
       lines << "@#{@config.rest_params} = #{@config.rest_params}" if @config.rest_params
 
-      if @config.rest_params && @definitions.any?(&:option) 
+      if @config.rest_params && @definitions.any?(&:option)
         lines << "@#{@config.rest_options} = #{@config.rest_options}"
       end
-      lines.map { |line| '  ' << line }
+      lines.map { |line| "  " << line }
     end
 
     def end_line

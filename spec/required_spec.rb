@@ -11,7 +11,7 @@ describe "required param" do
   end
 
   it "raise ArgumentError" do
-    expect { Test::Foo.new() }.to raise_exception(ArgumentError)
+    expect { Test::Foo.new }.to raise_exception(ArgumentError)
   end
 end
 
@@ -26,6 +26,6 @@ describe "required option" do
   end
 
   it "raise ArgumentError" do
-    expect { Test::Foo.new() }.to raise_exception(ArgumentError)
+    expect { Test::Foo.new }.to raise_exception(ArgumentError)
   end
 end

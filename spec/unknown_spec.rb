@@ -26,7 +26,7 @@ describe "unknow param" do
     before do
       class Test::Bar
         extend Dry::Initializer
-  
+
         param :foo
         param :bar, optional: true
         rest_params :qux
@@ -44,7 +44,7 @@ describe "unknow param" do
     before do
       class Test::Bar
         extend Dry::Initializer
-  
+
         param :foo
         param :bar, optional: true
         rest_params false
@@ -77,7 +77,7 @@ describe "unknown option" do
     before do
       class Test::Bar
         extend Dry::Initializer
-  
+
         option :foo
         option :bar, optional: true
         rest_options :kwargs
@@ -86,7 +86,7 @@ describe "unknown option" do
 
     it "supports unknown options" do
       subject = Test::Bar.new(foo: 1, bar: 2, fizz: 3, buzz: 4)
-  
+
       expect(subject.kwargs).to eq(fizz: 3, buzz: 4)
     end
   end
@@ -95,7 +95,7 @@ describe "unknown option" do
     before do
       class Test::Bar
         extend Dry::Initializer
-  
+
         option :foo
         option :bar, optional: true
         rest_options false
