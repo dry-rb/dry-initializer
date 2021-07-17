@@ -16,7 +16,7 @@ module Dry::Initializer
     # @return [Hash<Symbol, Dry::Initializer::Definition>]
     #   hash of attribute definitions with their source names
 
-    attr_reader :null, :extended_class, :parent, :definitions
+    attr_reader :null, :extended_class, :parent, :definitions, :rest_params, :rest_options
 
     # @!attribute [r] mixin
     # @return [Module] reference to the module to be included into class
@@ -71,6 +71,24 @@ module Dry::Initializer
       add_definition(true, name, type, block, **opts)
     end
 
+    # Sets rest parameter name or turns rest params off
+    # @param  [Symbol, nil] name
+    def rest_params=(name)
+      # remove the old attr_reader
+      mixin.class_eval(undef_method_code(@rest_params)) if @rest_params
+      @rest_params = name
+      finalize
+    end
+
+    # Sets rest options name or turns rest options off
+    # @param  [Symbol, nil] name
+    def rest_options=(name)
+      # remove the old attr_reader
+      mixin.class_eval(undef_method_code(@rest_options)) if @rest_options
+      @rest_options = name
+      finalize
+    end
+
     # The hash of public attributes for an instance of the [#extended_class]
     # @param  [Dry::Initializer::Instance] instance
     # @return [Hash<Symbol, Object>]
@@ -107,6 +125,7 @@ module Dry::Initializer
       @definitions = final_definitions
       check_order_of_params
       mixin.class_eval(code)
+      mixin.class_eval(unknowns_code)
       children.each(&:finalize)
       self
     end
@@ -115,7 +134,6 @@ module Dry::Initializer
     # @return [String]
     def inch
       line  =  Builders::Signature[self]
-      line  =  line.gsub('__dry_initializer_options__', 'options')
       lines =  ["@!method initialize(#{line})"]
       lines += ["Initializes an instance of #{extended_class}"]
       lines += definitions.values.map(&:inch)
@@ -131,6 +149,8 @@ module Dry::Initializer
       @parent         = sklass.dry_initializer if sklass.is_a? Dry::Initializer
       @null           = null || parent&.null
       @definitions    = {}
+      @rest_params = "__dry_initializer_unknown_params__"
+      @rest_options = "__dry_initializer_unknown_options__"
       finalize
     end
 
@@ -159,6 +179,17 @@ module Dry::Initializer
       definitions.each_with_object(parent_definitions) do |(key, val), obj|
         obj[key] = check_type(obj[key], val)
       end
+    end
+
+    def unknowns_code
+      lines = [undef_method_code(rest_params), undef_method_code(rest_options)]
+      lines << "attr_reader :#{rest_params}" if rest_params
+      lines << "attr_reader :#{rest_options}" if rest_options
+      lines.join("\n")
+    end
+
+    def undef_method_code(name)
+      "undef :#{name} if method_defined? :#{name}"
     end
 
     def check_type(previous, current)
