@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Dry::Initializer, "dry_initializer.attributes" do
   subject { instance.class.dry_initializer.attributes(instance) }
 
@@ -14,7 +16,15 @@ describe Dry::Initializer, "dry_initializer.attributes" do
     let(:instance) { Test::Foo.new(:FOO) }
 
     it "collects coerced params with default values" do
-      expect(subject).to eq({ foo: "FOO", bar: 1 })
+      expect(subject).to eq({foo: "FOO", bar: 1})
+    end
+
+    context "with unknown params" do
+      let(:instance) { Test::Foo.new(:FOO, :BAR, :BAZ, :FUTZ) }
+
+      it "ignores extra params" do
+        expect(subject).to eq({foo: "FOO", bar: :BAR, baz: :BAZ})
+      end
     end
   end
 
@@ -32,7 +42,15 @@ describe Dry::Initializer, "dry_initializer.attributes" do
     let(:instance) { Test::Foo.new(foo: :FOO, qux: :QUX) }
 
     it "collects coerced and renamed options with default values" do
-      expect(subject).to eq({ foo: :FOO, bar: 1, quxx: "QUX" })
+      expect(subject).to eq({foo: :FOO, bar: 1, quxx: "QUX"})
+    end
+
+    context "with extra unknown options" do
+      let(:instance) { Test::Foo.new(foo: :FOO, qux: :QUX, futz: :FUTZ) }
+
+      it "ignores extra options" do
+        expect(subject).to eq({foo: :FOO, bar: 1, quxx: "QUX"})
+      end
     end
   end
 end

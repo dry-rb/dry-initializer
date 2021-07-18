@@ -9,7 +9,8 @@ module Dry::Initializer::Dispatchers::PrepareTarget
 
   # List of variable names reserved by the gem
   RESERVED = %i[
-    __dry_initializer_options__
+    __dry_initializer_unkown_params__
+    __dry_initializer_unkown_options__
     __dry_initializer_config__
     __dry_initializer_value__
     __dry_initializer_definition__
