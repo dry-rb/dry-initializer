@@ -25,7 +25,7 @@ module Dry::Initializer::Builders
         define_line,
         params_lines,
         options_lines,
-        unknown_lines,
+        rest_lines,
         end_line
       ]
     end
@@ -51,7 +51,7 @@ module Dry::Initializer::Builders
         .map { |line| '  ' << line }
     end
 
-    def unknown_lines
+    def rest_lines
       lines = []
       lines << "@#{@config.rest_params} = #{@config.rest_params}" if @config.rest_params
 
