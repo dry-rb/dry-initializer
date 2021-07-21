@@ -71,7 +71,7 @@ module Dry::Initializer::Builders
 
       arity = @type.is_a?(Proc) ? @type.arity : @type.method(:call).arity
       type_call_params = \
-        (arity.equal?(1) || arity.negative?) ? @val : "#{@val}, self"
+        arity.equal?(1) || arity.negative? ? @val : "#{@val}, self"
 
       <<-COERCE
         begin
@@ -82,30 +82,6 @@ module Dry::Initializer::Builders
           raise Dry::Initializer::CoercionError.new(e, '#{@source}')
         end
       COERCE
-    end
-
-    def coercion_lineSAVE
-      return unless @type
-
-      arity = @type.is_a?(Proc) ? @type.arity : @type.method(:call).arity
-
-      if arity.equal?(1) || arity.negative?
-        <<-METH
-          begin
-            #{@val} = #{@item}.type.call(#{@val}) unless #{@null} == #{@val}
-          rescue Dry::Types::ConstraintError => e
-            raise Dry::Initializer::CoercionError.new(e, '#{@source}')
-          end
-        METH
-      else
-        <<-METH
-          begin
-            #{@val} = #{@item}.type.call(#{@val}, self) unless #{@null} == #{@val}
-          rescue Dry::Types::ConstraintError => e
-            raise Dry::Initializer::CoercionError.new(e, '#{@source}')
-          end
-        METH
-      end
     end
 
     def assignment_line
