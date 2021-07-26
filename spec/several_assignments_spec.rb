@@ -6,7 +6,7 @@ describe "attribute with several assignments" do
       extend Dry::Initializer
 
       option :bar, proc(&:to_s), optional: true
-      option :some_foo, as: :bar, optional: true
+      option "some_foo", as: :bar, optional: true
     end
   end
 
@@ -29,7 +29,7 @@ describe "attribute with several assignments" do
   end
 
   context "when renamed" do
-    subject { Test::Foo.new some_foo: :BAZ }
+    subject { Test::Foo.new "some_foo": :BAZ }
 
     it "renames the attribute" do
       expect(subject.bar).to eq :BAZ
