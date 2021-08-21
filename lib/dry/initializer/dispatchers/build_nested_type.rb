@@ -53,7 +53,7 @@ module Dry::Initializer::Dispatchers::BuildNestedType
   end
 
   def build_struct(klass_name, block)
-    eval "class #{klass_name} < Dry::Initializer::Struct; end"
+    eval "class #{klass_name} < Dry::Initializer::Struct; end", binding, __FILE__, __LINE__
     const_get(klass_name).tap { |klass| klass.class_eval(&block) }
   end
 end

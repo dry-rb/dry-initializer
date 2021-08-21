@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# rubocop: disable Lint/ConstantDefinitionInBlock
 namespace :profile do
   def profile(name, execution, &definition)
     require "dry-initializer"
@@ -68,6 +71,7 @@ namespace :profile do
     end
   end
 end
+# rubocop: enable Lint/ConstantDefinitionInBlock
 
 desc "Makes all profiling at once"
 task profile: %i[

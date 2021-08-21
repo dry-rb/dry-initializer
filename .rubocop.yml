@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 # This is a config synced from dry-rb/template-gem repo
 
 AllCops:
@@ -11,23 +13,9 @@ AllCops:
     - Gemfile.devtools
     - "*.gemspec"
 
-Layout/SpaceAroundMethodCallOperator:
-  Enabled: false
-
-Layout/SpaceInLambdaLiteral:
-  Enabled: false
-
 Layout/MultilineMethodCallIndentation:
   Enabled: true
   EnforcedStyle: indented
-
-Layout/FirstArrayElementIndentation:
-  EnforcedStyle: consistent
-
-Layout/SpaceInsideHashLiteralBraces:
-  Enabled: true
-  EnforcedStyle: no_space
-  EnforcedStyleForEmptyBraces: no_space
 
 Layout/LineLength:
   Max: 100
@@ -40,18 +28,9 @@ Lint/AmbiguousBlockAssociation:
   Exclude:
     - "spec/**/*.rb"
 
-Lint/BooleanSymbol:
-  Enabled: false
-
 Lint/ConstantDefinitionInBlock:
   Exclude:
     - "spec/**/*.rb"
-
-Lint/RaiseException:
-  Enabled: false
-
-Lint/StructNewOverride:
-  Enabled: false
 
 Lint/SuppressedException:
   Exclude:
@@ -61,190 +40,59 @@ Lint/LiteralAsCondition:
   Exclude:
     - "spec/**/*.rb"
 
-Naming/PredicateName:
+Lint/UnderscorePrefixedVariableName:
   Enabled: false
 
 Naming/FileName:
   Exclude:
     - "lib/*-*.rb"
 
-Naming/MethodName:
-  Enabled: false
-
 Naming/MethodParameterName:
   Enabled: false
 
-Naming/MemoizedInstanceVariableName:
-  Enabled: false
-
-Metrics/MethodLength:
-  Enabled: false
-
-Metrics/ClassLength:
-  Enabled: false
-
-Metrics/BlockLength:
-  Enabled: false
-
-Metrics/AbcSize:
-  Max: 25
-
-Metrics/CyclomaticComplexity:
-  Enabled: true
-  Max: 12
-
-Style/ExponentialNotation:
-  Enabled: false
-
-Style/HashEachMethods:
-  Enabled: false
-
-Style/HashTransformKeys:
-  Enabled: false
-
-Style/HashTransformValues:
+Security/Eval:
   Enabled: false
 
 Style/AccessModifierDeclarations:
   Enabled: false
 
 Style/Alias:
-  Enabled: true
   EnforcedStyle: prefer_alias_method
 
-Style/AsciiComments:
-  Enabled: false
-
-Style/BlockDelimiters:
-  Enabled: false
-
 Style/ClassAndModuleChildren:
-  Exclude:
-    - "spec/**/*.rb"
-
-Style/ConditionalAssignment:
   Enabled: false
 
-Style/DateTime:
+Style/CollectionCompact:
+  Enabled: false
+
+Style/CommentedKeyword:
   Enabled: false
 
 Style/Documentation:
   Enabled: false
 
-Style/EachWithObject:
+Style/DocumentDynamicEvalDefinition:
   Enabled: false
 
-Style/FormatString:
+Style/ExponentialNotation:
   Enabled: false
 
-Style/GuardClause:
+Style/FrozenStringLiteralComment:
   Enabled: false
 
-Style/IfUnlessModifier:
+Style/HashTransformKeys:
   Enabled: false
 
 Style/Lambda:
   Enabled: false
 
-Style/LambdaCall:
-  Enabled: false
-
-Style/ParallelAssignment:
-  Enabled: false
-
-Style/StabbyLambdaParentheses:
-  Enabled: false
-
 Style/StringLiterals:
-  Enabled: true
   EnforcedStyle: double_quotes
   ConsistentQuotesInMultiline: false
 
 Style/StringLiteralsInInterpolation:
-  Enabled: true
   EnforcedStyle: double_quotes
-
-Style/SymbolArray:
-  Exclude:
-    - "spec/**/*.rb"
-
-Style/TrailingUnderscoreVariable:
-  Enabled: false
-
-Style/MultipleComparison:
-  Enabled: false
-
-Style/Next:
-  Enabled: false
-
-Style/AccessorGrouping:
-  Enabled: false
-
-Style/EmptyLiteral:
-  Enabled: false
 
 Style/Semicolon:
   Exclude:
     - "spec/**/*.rb"
-
-Style/HashAsLastArrayItem:
-  Exclude:
-    - "spec/**/*.rb"
-
-Style/CaseEquality:
-  Exclude:
-    - "lib/dry/monads/**/*.rb"
-    - "lib/dry/struct/**/*.rb"
-    - "lib/dry/types/**/*.rb"
-    - "spec/**/*.rb"
-
-Style/ExplicitBlockArgument:
-  Exclude:
-    - "lib/dry/types/**/*.rb"
-
-Style/CombinableLoops:
-  Enabled: false
-
-Style/EmptyElse:
-  Enabled: false
-
-Lint/UnusedBlockArgument:
-  Exclude:
-    - "spec/**/*.rb"
-
-Lint/Debugger:
-  Exclude:
-    - "bin/console"
-
-Lint/BinaryOperatorWithIdenticalOperands:
-  Exclude:
-    - "spec/**/*.rb"
-
-Metrics/ParameterLists:
-  Exclude:
-    - "spec/**/*.rb"
-
-Lint/EmptyBlock:
-  Exclude:
-    - "spec/**/*.rb"
-
-Lint/UselessMethodDefinition:
-  Exclude:
-    - "spec/**/*.rb"
-
-Lint/SelfAssignment:
-  Enabled: false
-
-Lint/EmptyClass:
-  Enabled: false
-
-Naming/ConstantName:
-  Exclude:
-    - "spec/**/*.rb"
-
-Naming/VariableNumber:
-  Exclude:
-    - "spec/**/*.rb"
-
-Naming/BinaryOperatorParameterName:
-  Enabled: false

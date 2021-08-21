@@ -6,8 +6,8 @@ module Dry::Initializer::Mixin
     def inspect
       "Dry::Initializer::Mixin::Local[#{klass}]"
     end
-    alias to_s   inspect
-    alias to_str inspect
+    alias_method :to_s, :inspect
+    alias_method :to_str, :inspect
 
     private
 

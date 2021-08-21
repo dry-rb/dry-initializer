@@ -24,11 +24,11 @@ module Dry::Initializer
     end
 
     def name
-      @name ||= (option ? 'option' : 'parameter') << " '#{source}'"
+      @name ||= (option ? "option" : "parameter") << " '#{source}'"
     end
-    alias to_s    name
-    alias to_str  name
-    alias inspect name
+    alias_method :to_s, :name
+    alias_method :to_str, :name
+    alias_method :inspect, :name
 
     def ==(other)
       other.instance_of?(self.class) && (other.source == source)
@@ -39,10 +39,10 @@ module Dry::Initializer
     end
 
     def inch
-      @inch ||= (option ? '@option' : '@param ').tap do |text|
-        text << ' [Object]'
+      @inch ||= (option ? "@option" : "@param ").tap do |text|
+        text << " [Object]"
         text << (option ? " :#{source}" : " #{source}")
-        text << (optional ? ' (optional)' : ' (required)')
+        text << (optional ? " (optional)" : " (required)")
         text << " #{desc}" if desc
       end
     end

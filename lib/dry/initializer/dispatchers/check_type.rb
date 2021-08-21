@@ -39,5 +39,4 @@ module Dry::Initializer::Dispatchers::CheckType
         option :foo, [->(a, b) { [a, b] }]
     MESSAGE
   end
-  # rubocop: enable Metrics/MethodLength
 end

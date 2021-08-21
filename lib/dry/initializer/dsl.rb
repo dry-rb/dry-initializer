@@ -10,7 +10,7 @@ module Dry::Initializer
     #   If unassigned params and options should be treated different from nil
     # @return [Dry::Initializer]
     def [](undefined: true, **)
-      null = (undefined == false) ? nil : UNDEFINED
+      null = undefined == false ? nil : UNDEFINED
       Module.new.tap do |mod|
         mod.extend DSL
         mod.include self
@@ -36,8 +36,10 @@ module Dry::Initializer
       klass.include Mixin::Root
     end
 
-    def self.extended(mod)
-      mod.instance_variable_set :@null, UNDEFINED
+    class << self
+      private def extended(mod)
+        mod.instance_variable_set :@null, UNDEFINED
+      end
     end
   end
 end

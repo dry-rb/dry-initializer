@@ -8,10 +8,10 @@
 module Dry::Initializer::Dispatchers::UnwrapType
   extend self
 
-  def call(type: nil, wrap: 0, **options)
+  def call(type: nil, **options)
     type, wrap = unwrap(type, 0)
 
-    { type: type, wrap: wrap, **options }
+    { type: type, **options, wrap: wrap }
   end
 
   private

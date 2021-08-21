@@ -6,9 +6,9 @@ module Dry::Initializer::Dispatchers::PrepareReader
 
   def call(target: nil, reader: :public, **options)
     reader = case reader.to_s
-             when 'false', ''                      then nil
-             when 'true'                           then :public
-             when 'public', 'private', 'protected' then reader.to_sym
+             when "false", ""                      then nil
+             when "true"                           then :public
+             when "public", "private", "protected" then reader.to_sym
              else invalid_reader!(target, reader)
              end
 
