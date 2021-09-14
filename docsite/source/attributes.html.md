@@ -6,7 +6,7 @@ name: dry-initializer
 
 Sometimes you need to access all attributes assigned via params and options of the object constructor.
 
-We support 2 methods: `attributes` and `public_attributes` for this goal. Both methods are wrapped into container accessible via `.dry_types` container:
+We support 2 methods: `attributes` and `public_attributes` for this goal. Both methods are wrapped into container accessible via `.dry_initializer` container:
 
 ```ruby
 require 'dry-initializer'
