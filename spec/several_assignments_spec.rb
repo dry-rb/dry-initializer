@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 describe "attribute with several assignments" do
   before do
     class Test::Foo
       extend Dry::Initializer
 
-      option :bar, proc(&:to_s),    optional: true
-      option :"some foo", as: :bar, optional: true
+      option :bar, proc(&:to_s), optional: true
+      option "some_foo", as: :bar, optional: true
     end
   end
 
@@ -13,7 +15,7 @@ describe "attribute with several assignments" do
 
     it "is left undefined" do
       expect(subject.bar).to be_nil
-      expect(subject.instance_variable_get :@bar)
+      expect(subject.instance_variable_get(:@bar))
         .to eq Dry::Initializer::UNDEFINED
     end
   end
@@ -27,7 +29,7 @@ describe "attribute with several assignments" do
   end
 
   context "when renamed" do
-    subject { Test::Foo.new "some foo": :BAZ }
+    subject { Test::Foo.new "some_foo": :BAZ }
 
     it "renames the attribute" do
       expect(subject.bar).to eq :BAZ

@@ -21,10 +21,9 @@ module Dry::Initializer::Builders
       @source     = definition.source
       @ivar       = definition.ivar
       @null       = definition.null ? 'Dry::Initializer::UNDEFINED' : 'nil'
-      @opts       = '__dry_initializer_options__'
       @congif     = '__dry_initializer_config__'
       @item       = '__dry_initializer_definition__'
-      @val        = @option ? '__dry_initializer_value__' : @source
+      @val        = @source
     end
     # rubocop: enable Metrics/MethodLength
 
@@ -32,26 +31,10 @@ module Dry::Initializer::Builders
       [
         '',
         definition_line,
-        reader_line,
         default_line,
         coercion_line,
         assignment_line
       ]
-    end
-
-    def reader_line
-      return unless @option
-
-      @optional ? optional_reader : required_reader
-    end
-
-    def optional_reader
-      "#{@val} = #{@opts}.fetch(:'#{@source}', #{@null})"
-    end
-
-    def required_reader
-      "#{@val} = #{@opts}.fetch(:'#{@source}')" \
-      " { raise KeyError, \"\#{self.class}: #{@definition} is required\" }"
     end
 
     def definition_line

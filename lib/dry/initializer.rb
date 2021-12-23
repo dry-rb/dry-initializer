@@ -48,6 +48,20 @@ module Dry
       self
     end
 
+    # Sets rest params name or turns off rest params of [#dry_initializer]
+    # @param  [Symbol, nil] name
+    def rest_params(name)
+      dry_initializer.rest_params = name
+      self
+    end
+
+    # Sets rest options name or turns off rest options of [#dry_initializer]
+    # @param  [Symbol, nil] name
+    def rest_options(name)
+      dry_initializer.rest_options = name
+      self
+    end
+
     private
 
     def inherited(klass)

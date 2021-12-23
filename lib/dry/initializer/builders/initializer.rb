@@ -25,6 +25,7 @@ module Dry::Initializer::Builders
         define_line,
         params_lines,
         options_lines,
+        rest_lines,
         end_line
       ]
     end
@@ -48,6 +49,16 @@ module Dry::Initializer::Builders
       @definitions.select(&:option)
         .flat_map { |item| Attribute[item] }
         .map { |line| '  ' << line }
+    end
+
+    def rest_lines
+      lines = []
+      lines << "@#{@config.rest_params} = #{@config.rest_params}" if @config.rest_params
+
+      if @config.rest_params && @definitions.any?(&:option)
+        lines << "@#{@config.rest_options} = #{@config.rest_options}"
+      end
+      lines.map { |line| "  " << line }
     end
 
     def end_line

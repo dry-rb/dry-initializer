@@ -6,7 +6,14 @@ module Dry::Initializer::Builders
     end
 
     def call
-      [*required_params, *optional_params, '*', options].compact.join(', ')
+      [
+        *required_params,
+        *optional_params,
+        rest_params,
+        *required_options,
+        *optional_options,
+        rest_options
+      ].compact.join(", ")
     end
 
     private
@@ -25,8 +32,20 @@ module Dry::Initializer::Builders
       @config.params.select(&:optional).map { |rec| "#{rec.source} = #{@null}" }
     end
 
-    def options
-      '**__dry_initializer_options__' if @options
+    def rest_params
+      "*#{@config.rest_params}" if @config.rest_params
+    end
+
+    def required_options
+      @config.options.reject(&:optional).map { |rec| "#{rec.source}:" }
+    end
+
+    def optional_options
+      @config.options.select(&:optional).map { |rec| "#{rec.source}: #{@null}" }
+    end
+
+    def rest_options
+      "**#{@config.rest_options}" if @options && @config.rest_options
     end
   end
 end
