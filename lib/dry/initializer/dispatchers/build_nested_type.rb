@@ -15,7 +15,7 @@ module Dry::Initializer::Dispatchers::BuildNestedType
     check_certainty!(source, type, block)
     check_name!(target, block)
     type ||= build_nested_type(parent, target, block)
-    { parent: parent, source: source, target: target, type: type, **options }
+    {parent: parent, source: source, target: target, type: type, **options}
   end
   # rubocop: enable Metrics/ParameterLists
 

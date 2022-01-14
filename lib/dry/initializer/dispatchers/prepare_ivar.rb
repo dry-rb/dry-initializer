@@ -5,8 +5,8 @@ module Dry::Initializer::Dispatchers::PrepareIvar
   module_function
 
   def call(target:, **options)
-    ivar = "@#{target}".delete('?').to_sym
+    ivar = "@#{target}".delete("?").to_sym
 
-    { target: target, ivar: ivar, **options }
+    {target: target, ivar: ivar, **options}
   end
 end

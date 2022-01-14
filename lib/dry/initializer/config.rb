@@ -115,7 +115,7 @@ module Dry::Initializer
     # @return [String]
     def inch
       line  =  Builders::Signature[self]
-      line  =  line.gsub('__dry_initializer_options__', 'options')
+      line  =  line.gsub("__dry_initializer_options__", "options")
       lines =  ["@!method initialize(#{line})"]
       lines += ["Initializes an instance of #{extended_class}"]
       lines += definitions.values.map(&:inch)
@@ -134,7 +134,6 @@ module Dry::Initializer
       finalize
     end
 
-    # rubocop: disable Metrics/MethodLength
     def add_definition(option, name, type, block, **opts)
       opts = {
         parent: extended_class,
@@ -152,7 +151,6 @@ module Dry::Initializer
       finalize
       mixin.class_eval definition.code
     end
-    # rubocop: enable Metrics/MethodLength
 
     def final_definitions
       parent_definitions = Hash(parent&.definitions&.dup)

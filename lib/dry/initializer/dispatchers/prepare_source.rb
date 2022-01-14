@@ -23,6 +23,6 @@ module Dry::Initializer::Dispatchers::PrepareSource
   module_function
 
   def call(source:, **options)
-    { source: source.to_s.to_sym, **options }
+    {source: source.to_s.to_sym, **options}
   end
 end

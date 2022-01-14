@@ -10,7 +10,7 @@ class Dry::Initializer::Struct
     def new(options)
       super(**Hash(options).each_with_object({}) { |(k, v), h| h[k.to_sym] = v })
     end
-    alias call new
+    alias_method :call, :new
   end
 
   #

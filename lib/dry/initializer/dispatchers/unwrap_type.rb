@@ -11,7 +11,7 @@ module Dry::Initializer::Dispatchers::UnwrapType
   def call(type: nil, wrap: 0, **options)
     type, wrap = unwrap(type, 0)
 
-    { type: type, wrap: wrap, **options }
+    {type: type, wrap: wrap, **options}
   end
 
   private

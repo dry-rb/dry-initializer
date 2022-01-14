@@ -10,7 +10,7 @@ module Dry::Initializer
     #   If unassigned params and options should be treated different from nil
     # @return [Dry::Initializer]
     def [](undefined: true, **)
-      null = (undefined == false) ? nil : UNDEFINED
+      null = undefined == false ? nil : UNDEFINED
       Module.new.tap do |mod|
         mod.extend DSL
         mod.include self

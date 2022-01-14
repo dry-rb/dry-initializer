@@ -23,7 +23,7 @@ describe "definition" do
       end
 
       expect(params).to eq [
-        [:foo, { as: :foo, reader: :public, optional: false }]
+        [:foo, {as: :foo, reader: :public, optional: false}]
       ]
     end
 
@@ -33,7 +33,7 @@ describe "definition" do
       end
 
       expect(options).to eq [
-        [:bar, { as: :bar, reader: :public, optional: false }]
+        [:bar, {as: :bar, reader: :public, optional: false}]
       ]
     end
   end

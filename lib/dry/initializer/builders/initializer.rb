@@ -1,8 +1,8 @@
 module Dry::Initializer::Builders
   # @private
   class Initializer
-    require_relative 'signature'
-    require_relative 'attribute'
+    require_relative "signature"
+    require_relative "attribute"
 
     def self.[](config)
       new(config).call
@@ -30,8 +30,8 @@ module Dry::Initializer::Builders
     end
 
     def undef_line
-      'undef :__dry_initializer_initialize__' \
-      ' if private_method_defined? :__dry_initializer_initialize__'
+      "undef :__dry_initializer_initialize__" \
+      " if private_method_defined? :__dry_initializer_initialize__"
     end
 
     def define_line
@@ -41,17 +41,17 @@ module Dry::Initializer::Builders
     def params_lines
       @definitions.reject(&:option)
         .flat_map { |item| Attribute[item] }
-        .map { |line| '  ' << line }
+        .map { |line| "  " << line }
     end
 
     def options_lines
       @definitions.select(&:option)
         .flat_map { |item| Attribute[item] }
-        .map { |line| '  ' << line }
+        .map { |line| "  " << line }
     end
 
     def end_line
-      'end'
+      "end"
     end
   end
 end

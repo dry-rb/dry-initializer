@@ -16,7 +16,7 @@ describe Dry::Initializer, ".dry_initializer.public_attributes" do
     let(:instance) { Test::Foo.new(:FOO, bar: :BAR, baz: :BAZ, qux: :QUX) }
 
     it "collects public options only" do
-      expect(subject).to eq({ foo: "FOO", moo: nil })
+      expect(subject).to eq({foo: "FOO", moo: nil})
     end
   end
 end

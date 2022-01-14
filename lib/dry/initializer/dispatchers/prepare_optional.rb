@@ -8,6 +8,6 @@ module Dry::Initializer::Dispatchers::PrepareOptional
     optional ||= default
     optional &&= !required
 
-    { optional: !!optional, default: default, **options }
+    {optional: !!optional, default: default, **options}
   end
 end

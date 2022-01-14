@@ -23,7 +23,7 @@ module Dry::Initializer::Dispatchers::PrepareTarget
     check_ruby_name!(target)
     check_reserved_names!(target)
 
-    { source: source, target: target, **options }
+    {source: source, target: target, **options}
   end
 
   private
