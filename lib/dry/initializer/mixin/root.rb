@@ -3,9 +3,8 @@ module Dry::Initializer::Mixin
   module Root
     private
 
-    def initialize(*args)
-      __dry_initializer_initialize__(*args)
+    def initialize(...)
+      __dry_initializer_initialize__(...)
     end
-    ruby2_keywords(:initialize) if respond_to?(:ruby2_keywords, true)
   end
 end

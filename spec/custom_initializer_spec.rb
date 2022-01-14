@@ -5,7 +5,7 @@ describe "custom initializer" do
 
       param :bar
 
-      def initialize(*args)
+      def initialize(...)
         super
         @bar *= 3
       end
@@ -14,7 +14,7 @@ describe "custom initializer" do
     class Test::Baz < Test::Foo
       param :qux
 
-      def initialize(*args)
+      def initialize(...)
         super
         @qux += 1
       end
