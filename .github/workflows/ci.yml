@@ -36,7 +36,7 @@ jobs:
       COVERAGE_TOKEN: ${{secrets.CODACY_PROJECT_TOKEN}}
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
       - name: Install package dependencies
         run: "[ -e $APT_DEPS ] || sudo apt-get install -y --no-install-recommends $APT_DEPS"
       - name: Set up Ruby
@@ -65,13 +65,13 @@ jobs:
       GITHUB_LOGIN: dry-bot
       GITHUB_TOKEN: ${{secrets.GH_PAT}}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Install package dependencies
         run: "[ -e $APT_DEPS ] || sudo apt-get install -y --no-install-recommends $APT_DEPS"
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6
+          ruby-version: 2.7
       - name: Install dependencies
         run: gem install ossy --no-document
       - name: Trigger release workflow
