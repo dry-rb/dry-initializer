@@ -1,4 +1,9 @@
 ---
+- version: 3.1
+  date: '2022-01-16'
+  changed:
+  - Improved error messages on type mismatch (@swerling)
+  - '[BREAKING] Minimal supported Ruby version is 2.7 (@flash-gordon)'
 - version: 3.0.4
   date: '2020-09-29'
   fixed:
