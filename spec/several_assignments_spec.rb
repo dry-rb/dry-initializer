@@ -1,4 +1,6 @@
-describe "attribute with several assignments" do
+# frozen_string_literal: true
+
+RSpec.describe "attribute with several assignments" do
   before do
     class Test::Foo
       extend Dry::Initializer

@@ -1,4 +1,6 @@
-describe "coercion of nil" do
+# frozen_string_literal: true
+
+RSpec.describe "coercion of nil" do
   before do
     class Test::Foo
       extend Dry::Initializer

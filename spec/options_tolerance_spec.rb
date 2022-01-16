@@ -1,4 +1,6 @@
-describe "options tolerance" do
+# frozen_string_literal: true
+
+RSpec.describe "options tolerance" do
   before do
     class Test::Foo
       extend Dry::Initializer

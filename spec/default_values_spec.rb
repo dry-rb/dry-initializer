@@ -1,4 +1,6 @@
-describe "default values" do
+# frozen_string_literal: true
+
+RSpec.describe "default values" do
   before do
     class Test::Foo
       extend Dry::Initializer

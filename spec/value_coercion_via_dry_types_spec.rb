@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require "dry-types"
 
-describe "value coercion via dry-types" do
+RSpec.describe "value coercion via dry-types" do
   before do
     module Test::Types
       include Dry.Types

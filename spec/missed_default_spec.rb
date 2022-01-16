@@ -1,4 +1,6 @@
-describe "missed default values" do
+# frozen_string_literal: true
+
+RSpec.describe "missed default values" do
   subject do
     class Test::Foo
       extend Dry::Initializer

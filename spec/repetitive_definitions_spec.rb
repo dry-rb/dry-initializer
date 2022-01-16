@@ -1,4 +1,6 @@
-describe "repetitive definitions" do
+# frozen_string_literal: true
+
+RSpec.describe "repetitive definitions" do
   subject { Test::Foo.new }
 
   context "of params" do

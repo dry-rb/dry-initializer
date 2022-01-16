@@ -1,4 +1,6 @@
-describe Dry::Initializer, ".dry_initializer.public_attributes" do
+# frozen_string_literal: true
+
+RSpec.describe Dry::Initializer, ".dry_initializer.public_attributes" do
   subject { instance.class.dry_initializer.public_attributes(instance) }
 
   context "when class has params" do

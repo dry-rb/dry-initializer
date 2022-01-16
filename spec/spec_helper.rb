@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "support/coverage"
 
 require "dry/initializer"
@@ -9,6 +11,7 @@ rescue LoadError
 end
 
 RSpec.configure do |config|
+  config.disable_monkey_patching!
   config.order = :random
   config.filter_run focus: true
   config.run_all_when_everything_filtered = true

@@ -1,4 +1,6 @@
-describe "nested type argument" do
+# frozen_string_literal: true
+
+RSpec.describe "nested type argument" do
   subject { Test::Xyz.new("bar" => {"baz" => 42}) }
 
   context "with nested definition only" do

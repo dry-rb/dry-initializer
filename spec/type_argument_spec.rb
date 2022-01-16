@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require "dry-types"
 
-describe "type argument" do
+RSpec.describe "type argument" do
   before do
     class Test::Foo
       extend Dry::Initializer

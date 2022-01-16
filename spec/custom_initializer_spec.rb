@@ -1,4 +1,6 @@
-describe "custom initializer" do
+# frozen_string_literal: true
+
+RSpec.describe "custom initializer" do
   before do
     class Test::Foo
       extend Dry::Initializer

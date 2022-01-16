@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require "dry-types"
 
-describe "type constraint" do
+RSpec.describe "type constraint" do
   context "by a proc with 1 argument" do
     before do
       class Test::Foo

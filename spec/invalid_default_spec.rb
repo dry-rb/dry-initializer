@@ -1,4 +1,6 @@
-describe "invalid default value assignment" do
+# frozen_string_literal: true
+
+RSpec.describe "invalid default value assignment" do
   subject do
     class Test::Foo
       extend Dry::Initializer

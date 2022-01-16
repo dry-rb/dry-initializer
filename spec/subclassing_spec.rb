@@ -1,4 +1,6 @@
-describe "subclassing" do
+# frozen_string_literal: true
+
+RSpec.describe "subclassing" do
   before do
     class Test::Foo
       extend Dry::Initializer[undefined: false]

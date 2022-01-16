@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require "dry-types"
 
-describe "list type argument" do
+RSpec.describe "list type argument" do
   before do
     class Test::Foo
       extend Dry::Initializer

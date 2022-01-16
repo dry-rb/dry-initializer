@@ -1,4 +1,6 @@
-describe "custom dispatchers" do
+# frozen_string_literal: true
+
+RSpec.describe "custom dispatchers" do
   subject { Test::Foo.new "123" }
 
   before do
