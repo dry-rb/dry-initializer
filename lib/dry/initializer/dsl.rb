@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Dry
   module Initializer
     # Module-level DSL
@@ -37,8 +39,12 @@ module Dry
         klass.include Mixin::Root
       end
 
-      def self.extended(mod)
-        mod.instance_variable_set :@null, UNDEFINED
+      class << self
+        private
+
+        def extended(mod)
+          mod.instance_variable_set :@null, UNDEFINED
+        end
       end
     end
   end

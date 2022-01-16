@@ -1,4 +1,5 @@
-#
+# frozen_string_literal: true
+
 # Takes `:type` and `:wrap` to construct the final value coercer
 #
 module Dry

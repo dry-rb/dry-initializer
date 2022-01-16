@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Dry
   module Initializer
     module Builders
@@ -41,15 +43,11 @@ module Dry
         end
 
         def params_lines
-          @definitions.reject(&:option)
-            .flat_map { |item| Attribute[item] }
-            .map { |line| "  " << line }
+          @definitions.reject(&:option).flat_map { Attribute[_1] }.map { "  #{_1}" }
         end
 
         def options_lines
-          @definitions.select(&:option)
-            .flat_map { |item| Attribute[item] }
-            .map { |line| "  " << line }
+          @definitions.select(&:option).flat_map { Attribute[_1] }.map { "  #{_1}" }
         end
 
         def end_line

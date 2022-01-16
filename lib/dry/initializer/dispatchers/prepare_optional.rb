@@ -1,4 +1,5 @@
-#
+# frozen_string_literal: true
+
 # Defines whether an argument is optional
 #
 module Dry

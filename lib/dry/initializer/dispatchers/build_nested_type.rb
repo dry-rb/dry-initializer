@@ -1,4 +1,5 @@
-#
+# frozen_string_literal: true
+
 # Prepare nested data type from a block
 #
 # @example
@@ -56,8 +57,15 @@ module Dry
         end
 
         def build_struct(klass_name, block)
-          eval "class #{klass_name} < Dry::Initializer::Struct; end"
-          const_get(klass_name).tap { |klass| klass.class_eval(&block) }
+          # rubocop: disable Security/Eval
+          # rubocop: disable Style/DocumentDynamicEvalDefinition
+          eval <<~RUBY, TOPLEVEL_BINDING, __FILE__, __LINE__ + 1
+            class #{klass_name} < Dry::Initializer::Struct
+            end
+          RUBY
+          # rubocop: enable Style/DocumentDynamicEvalDefinition
+          # rubocop: enable Security/Eval
+          const_get(klass_name).tap { _1.class_eval(&block) }
         end
       end
     end

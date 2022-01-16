@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Dry
   module Initializer
     #
@@ -21,11 +23,11 @@ module Dry
           default: default,
           reader: reader,
           desc: desc
-        }.reject { |_, value| value.nil? }
+        }.compact
       end
 
       def name
-        @name ||= (option ? "option" : "parameter") << " '#{source}'"
+        @name ||= "#{option ? "option" : "parameter"} '#{source}'"
       end
       alias_method :to_s, :name
       alias_method :to_str, :name

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # rubocop: disable Lint/ConstantDefinitionInBlock
 namespace :profile do
   def profile(name, execution, &definition)

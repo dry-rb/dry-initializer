@@ -1,4 +1,5 @@
-#
+# frozen_string_literal: true
+
 # The dispatcher verifies a correctness of the source name
 # of param or option, taken as a `:source` option.
 #

@@ -1,9 +1,10 @@
-#
+# frozen_string_literal: true
+
 # The nested structure that takes nested hashes with indifferent access
 #
-class Dry
+module Dry
   module Initializer
-    module Struct
+    class Struct
       extend ::Dry::Initializer
 
       class << self

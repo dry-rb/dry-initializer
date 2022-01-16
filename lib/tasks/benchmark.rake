@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :benchmark do
   desc "Runs benchmarks for plain params"
   task :plain_params do

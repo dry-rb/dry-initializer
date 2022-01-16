@@ -1,4 +1,5 @@
-#
+# frozen_string_literal: true
+
 # Prepares the `:default` option
 #
 # It must respond to `.call` without arguments

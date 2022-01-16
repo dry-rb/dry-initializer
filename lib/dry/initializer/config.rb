@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Dry
   module Initializer
     #
@@ -23,10 +25,10 @@ module Dry
       # @return [Module] reference to the module to be included into class
       def mixin
         @mixin ||= Module.new.tap do |mod|
-          __dry_initializer__ = self
+          initializer = self
           mod.extend(Mixin::Local)
-          mod.send :define_method, :__dry_initializer_config__ do
-            __dry_initializer__
+          mod.define_method(:__dry_initializer_config__) do
+            initializer
           end
           mod.send :private, :__dry_initializer_config__
         end
