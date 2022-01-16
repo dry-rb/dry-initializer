@@ -19,10 +19,16 @@
 # foo.second # => 666
 # ```
 #
-module Dry::Initializer::Dispatchers::PrepareSource
-  module_function
+module Dry
+  module Initializer
+    module Dispatchers
+      module PrepareSource
+        module_function
 
-  def call(source:, **options)
-    {source: source.to_s.to_sym, **options}
+        def call(source:, **options)
+          {source: source.to_s.to_sym, **options}
+        end
+      end
+    end
   end
 end

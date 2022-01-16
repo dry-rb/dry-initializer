@@ -1,3 +1,4 @@
+# rubocop: disable Lint/ConstantDefinitionInBlock
 namespace :profile do
   def profile(name, execution, &definition)
     require "dry-initializer"
@@ -76,3 +77,4 @@ task profile: %i[
   profile:coercion
   profile:default_coercion
 ]
+# rubocop: enable Lint/ConstantDefinitionInBlock
