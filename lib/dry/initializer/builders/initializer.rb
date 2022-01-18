@@ -35,7 +35,7 @@ module Dry
 
         def undef_line
           "undef :__dry_initializer_initialize__" \
-          " if private_method_defined? :__dry_initializer_initialize__"
+            " if private_method_defined? :__dry_initializer_initialize__"
         end
 
         def define_line

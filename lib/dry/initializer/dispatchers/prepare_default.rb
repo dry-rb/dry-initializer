@@ -38,8 +38,8 @@ module Dry
 
         def invalid!(default)
           raise TypeError, "The #{default.inspect} should be" \
-                          " either convertable to proc with no arguments," \
-                          " or respond to #call without arguments."
+                           " either convertable to proc with no arguments," \
+                           " or respond to #call without arguments."
         end
       end
     end

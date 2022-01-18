@@ -9,7 +9,7 @@ module Dry
       # @deprecated
       def self.extended(klass)
         warn "[DEPRECATED] Use Dry::Initializer instead of its alias" \
-            " Dry::Initializer::Mixin. The later will be removed in v2.1.0"
+             " Dry::Initializer::Mixin. The later will be removed in v2.1.0"
         super
       end
 

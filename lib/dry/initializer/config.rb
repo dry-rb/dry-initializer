@@ -177,7 +177,7 @@ module Dry
             current
           elsif optional
             raise SyntaxError, "#{extended_class}: required #{current}" \
-                              " goes after optional #{optional}"
+                               " goes after optional #{optional}"
           else
             optional
           end

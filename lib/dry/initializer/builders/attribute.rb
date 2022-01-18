@@ -53,7 +53,7 @@ module Dry
 
         def required_reader
           "#{@val} = #{@opts}.fetch(:'#{@source}')" \
-          " { raise KeyError, \"\#{self.class}: #{@definition} is required\" }"
+            " { raise KeyError, \"\#{self.class}: #{@definition} is required\" }"
         end
 
         def definition_line
@@ -88,7 +88,7 @@ module Dry
 
         def assignment_line
           "#{@ivar} = #{@val}" \
-          " unless #{@null} == #{@val} && instance_variable_defined?(:#{@ivar})"
+            " unless #{@null} == #{@val} && instance_variable_defined?(:#{@ivar})"
         end
       end
     end
