@@ -1,4 +1,9 @@
 ---
+- version: 3.1.1
+  date: '2022-01-19'
+  changed:
+  - Improved error messages were rolled back, they created
+    an implicit dependency on dry-types (@flash-gordon)
 - version: 3.1.0
   date: '2022-01-16'
   changed:
