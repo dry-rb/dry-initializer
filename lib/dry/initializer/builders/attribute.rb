@@ -72,18 +72,12 @@ module Dry
           return unless @type
 
           arity = @type.is_a?(Proc) ? @type.arity : @type.method(:call).arity
-          type_call_params = \
-            arity.equal?(1) || arity.negative? ? @val : "#{@val}, self"
 
-          <<-COERCE
-            begin
-              unless #{@null} == #{@val}
-                #{@val} = #{@item}.type.call(#{type_call_params})
-              end
-            rescue Dry::Types::ConstraintError => e
-              raise Dry::Initializer::CoercionError.new(e, '#{@source}')
-            end
-          COERCE
+          if arity.equal?(1) || arity.negative?
+            "#{@val} = #{@item}.type.call(#{@val}) unless #{@null} == #{@val}"
+          else
+            "#{@val} = #{@item}.type.call(#{@val}, self) unless #{@null} == #{@val}"
+          end
         end
 
         def assignment_line

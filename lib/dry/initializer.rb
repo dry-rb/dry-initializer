@@ -15,7 +15,6 @@ module Dry
     require_relative "initializer/config"
     require_relative "initializer/mixin"
     require_relative "initializer/dispatchers"
-    require_relative "initializer/errors"
 
     # Adds methods [.[]] and [.define]
     extend DSL
