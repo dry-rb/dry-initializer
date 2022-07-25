@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "set"
 
 # Namespace for gems in a dry-rb community
@@ -13,7 +15,6 @@ module Dry
     require_relative "initializer/config"
     require_relative "initializer/mixin"
     require_relative "initializer/dispatchers"
-    require_relative "initializer/errors"
 
     # Adds methods [.[]] and [.define]
     extend DSL

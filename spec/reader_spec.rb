@@ -1,4 +1,6 @@
-describe "reader" do
+# frozen_string_literal: true
+
+RSpec.describe "reader" do
   shared_examples "it has no public attr_reader" do
     it "does not define a public attr_reader" do
       expect(subject).not_to respond_to :foo

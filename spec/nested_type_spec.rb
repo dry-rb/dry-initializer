@@ -1,5 +1,7 @@
-describe "nested type argument" do
-  subject { Test::Xyz.new("bar" => { "baz" => 42 }) }
+# frozen_string_literal: true
+
+RSpec.describe "nested type argument" do
+  subject { Test::Xyz.new("bar" => {"baz" => 42}) }
 
   context "with nested definition only" do
     before do
@@ -20,7 +22,7 @@ describe "nested type argument" do
     end
 
     it "converts the nested type to hash" do
-      expect(subject.x.to_h).to eq("y" => { "z" => "42" })
+      expect(subject.x.to_h).to eq("y" => {"z" => "42"})
     end
   end
 

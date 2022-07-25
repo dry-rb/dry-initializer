@@ -1,4 +1,6 @@
-describe "attribute with several assignments" do
+# frozen_string_literal: true
+
+RSpec.describe "attribute with several assignments" do
   before do
     class Test::Foo
       extend Dry::Initializer
@@ -13,7 +15,7 @@ describe "attribute with several assignments" do
 
     it "is left undefined" do
       expect(subject.bar).to be_nil
-      expect(subject.instance_variable_get :@bar)
+      expect(subject.instance_variable_get(:@bar))
         .to eq Dry::Initializer::UNDEFINED
     end
   end

@@ -1,32 +1,38 @@
-module Dry::Initializer::Builders
-  # @private
-  class Signature
-    def self.[](config)
-      new(config).call
-    end
+# frozen_string_literal: true
 
-    def call
-      [*required_params, *optional_params, '*', options].compact.join(', ')
-    end
+module Dry
+  module Initializer
+    module Builders
+      # @private
+      class Signature
+        def self.[](config)
+          new(config).call
+        end
 
-    private
+        def call
+          [*required_params, *optional_params, "*", options].compact.join(", ")
+        end
 
-    def initialize(config)
-      @config  = config
-      @options = config.options.any?
-      @null    = config.null ? 'Dry::Initializer::UNDEFINED' : 'nil'
-    end
+        private
 
-    def required_params
-      @config.params.reject(&:optional).map(&:source)
-    end
+        def initialize(config)
+          @config  = config
+          @options = config.options.any?
+          @null    = config.null ? "Dry::Initializer::UNDEFINED" : "nil"
+        end
 
-    def optional_params
-      @config.params.select(&:optional).map { |rec| "#{rec.source} = #{@null}" }
-    end
+        def required_params
+          @config.params.reject(&:optional).map(&:source)
+        end
 
-    def options
-      '**__dry_initializer_options__' if @options
+        def optional_params
+          @config.params.select(&:optional).map { |rec| "#{rec.source} = #{@null}" }
+        end
+
+        def options
+          "**__dry_initializer_options__" if @options
+        end
+      end
     end
   end
 end

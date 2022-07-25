@@ -1,4 +1,6 @@
-describe Dry::Initializer, "dry_initializer.attributes" do
+# frozen_string_literal: true
+
+RSpec.describe Dry::Initializer, "dry_initializer.attributes" do
   subject { instance.class.dry_initializer.attributes(instance) }
 
   context "when class has params" do
@@ -14,7 +16,7 @@ describe Dry::Initializer, "dry_initializer.attributes" do
     let(:instance) { Test::Foo.new(:FOO) }
 
     it "collects coerced params with default values" do
-      expect(subject).to eq({ foo: "FOO", bar: 1 })
+      expect(subject).to eq({foo: "FOO", bar: 1})
     end
   end
 
@@ -32,7 +34,7 @@ describe Dry::Initializer, "dry_initializer.attributes" do
     let(:instance) { Test::Foo.new(foo: :FOO, qux: :QUX) }
 
     it "collects coerced and renamed options with default values" do
-      expect(subject).to eq({ foo: :FOO, bar: 1, quxx: "QUX" })
+      expect(subject).to eq({foo: :FOO, bar: 1, quxx: "QUX"})
     end
   end
 end

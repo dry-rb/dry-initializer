@@ -114,17 +114,3 @@ end
 user = User.new 'Andrew'
 user.email # => 'andrew@example.com'
 ```
-
-**Warning**: when using lambdas instead of procs, don't forget an argument, required by [instance_eval][instance_eval] (you can skip it in a proc).
-
-```ruby
-require 'dry-initializer'
-
-class User
-  extend Dry::Initializer
-
-  param :name, default: -> (obj) { 'Dude' }
-end
-```
-
-[instance_eval]: http://ruby-doc.org/core-2.2.0/BasicObject.html#method-i-instance_eval

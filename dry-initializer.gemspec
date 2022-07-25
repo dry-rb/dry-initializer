@@ -22,11 +22,11 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.metadata["allowed_push_host"] = "https://rubygems.org"
-  spec.metadata["changelog_uri"]     = "https://github.com/dry-rb/dry-initializer/blob/master/CHANGELOG.md"
+  spec.metadata["changelog_uri"]     = "https://github.com/dry-rb/dry-initializer/blob/main/CHANGELOG.md"
   spec.metadata["source_code_uri"]   = "https://github.com/dry-rb/dry-initializer"
   spec.metadata["bug_tracker_uri"]   = "https://github.com/dry-rb/dry-initializer/issues"
 
-  spec.required_ruby_version = ">= 2.6.0"
+  spec.required_ruby_version = ">= 2.7.0"
 
   # to update dependencies edit project.yml
 

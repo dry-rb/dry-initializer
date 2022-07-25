@@ -1,8 +1,8 @@
 # This is a config synced from dry-rb/template-gem repo
 
 AllCops:
-  TargetRubyVersion: 2.6
-  NewCops: enable
+  TargetRubyVersion: 2.7
+  NewCops: disable
   Exclude:
     - benchmarks/*.rb
     - spec/support/coverage.rb
@@ -137,6 +137,9 @@ Style/EachWithObject:
 Style/FormatString:
   Enabled: false
 
+Style/FormatStringToken:
+  Enabled: false
+
 Style/GuardClause:
   Enabled: false
 
@@ -213,6 +216,9 @@ Style/DoubleNegation:
 
 Style/MultilineBlockChain:
   Enabled: false
+
+Style/NumberedParametersLimit:
+  Max: 2
 
 Lint/UnusedBlockArgument:
   Exclude:

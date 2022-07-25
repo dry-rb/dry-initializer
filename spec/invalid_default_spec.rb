@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe "invalid default value assignment" do
+RSpec.describe "invalid default value assignment" do
   shared_examples "it has a TypeError" do
     it "raises TypeError" do
       expect { subject }.to raise_error TypeError

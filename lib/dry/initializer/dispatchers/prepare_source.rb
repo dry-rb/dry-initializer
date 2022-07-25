@@ -1,4 +1,5 @@
-#
+# frozen_string_literal: true
+
 # The dispatcher verifies a correctness of the source name
 # of param or option, taken as a `:source` option.
 #
@@ -19,10 +20,16 @@
 # foo.second # => 666
 # ```
 #
-module Dry::Initializer::Dispatchers::PrepareSource
-  module_function
+module Dry
+  module Initializer
+    module Dispatchers
+      module PrepareSource
+        module_function
 
-  def call(source:, **options)
-    { source: source.to_s.to_sym, **options }
+        def call(source:, **options)
+          {source: source.to_s.to_sym, **options}
+        end
+      end
+    end
   end
 end

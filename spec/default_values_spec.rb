@@ -1,4 +1,6 @@
-describe "default values" do
+# frozen_string_literal: true
+
+RSpec.describe "default values" do
   before do
     class Test::Foo
       extend Dry::Initializer
@@ -74,10 +76,10 @@ describe "default values" do
     end
 
     it "instantiates arguments also if the last is an hash" do
-      subject = Test::Bar.new(1, { baz: 2, qux: 3 })
+      subject = Test::Bar.new(1, {baz: 2, qux: 3})
 
       expect(subject.foo).to eql 1
-      expect(subject.bar).to eql({ baz: 2, qux: 3 })
+      expect(subject.bar).to eql({baz: 2, qux: 3})
     end
   end
 end

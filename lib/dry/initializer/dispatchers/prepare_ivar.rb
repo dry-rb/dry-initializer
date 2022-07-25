@@ -1,12 +1,19 @@
-#
+# frozen_string_literal: true
+
 # Prepares the variable name of a parameter or an option.
 #
-module Dry::Initializer::Dispatchers::PrepareIvar
-  module_function
+module Dry
+  module Initializer
+    module Dispatchers
+      module PrepareIvar
+        module_function
 
-  def call(target:, **options)
-    ivar = "@#{target}".delete('?').to_sym
+        def call(target:, **options)
+          ivar = "@#{target}".delete("?").to_sym
 
-    { target: target, ivar: ivar, **options }
+          {target: target, ivar: ivar, **options}
+        end
+      end
+    end
   end
 end

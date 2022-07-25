@@ -8,10 +8,10 @@
 # dry-initializer [![Join the chat at https://dry-rb.zulipchat.com](https://img.shields.io/badge/dry--rb-join%20chat-%23346b7a.svg)][chat]
 
 [![Gem Version](https://badge.fury.io/rb/dry-initializer.svg)][gem]
-[![CI Status](https://github.com/dry-rb/dry-initializer/workflows/CI/badge.svg)][actions]
+[![CI Status](https://github.com/dry-rb/dry-initializer/workflows/ci/badge.svg)][actions]
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/03c8923afd734e9fb0f4bfe9cc893edb)][codacy]
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/03c8923afd734e9fb0f4bfe9cc893edb)][codacy]
-[![Inline docs](http://inch-ci.org/github/dry-rb/dry-initializer.svg?branch=master)][inchpages]
+[![Inline docs](http://inch-ci.org/github/dry-rb/dry-initializer.svg?branch=main)][inchpages]
 
 ## Links
 
@@ -22,8 +22,8 @@
 
 This library officially supports the following Ruby versions:
 
-* MRI `>= 2.6.0`
-* ~~jruby~~ `>= 9.3` (we are waiting for [2.6 support](https://github.com/jruby/jruby/issues/6161))
+* MRI `>= 2.7.0`
+* jruby `>= 9.3` (postponed until 2.7 is supported)
 
 ## License
 

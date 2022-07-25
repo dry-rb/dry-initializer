@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require "dry-types"
 
-describe "type argument" do
+RSpec.describe "type argument" do
   before do
     class Test::Foo
       extend Dry::Initializer
@@ -13,7 +15,7 @@ describe "type argument" do
     subject { Test::Foo.new 1, bar: "2" }
 
     it "raises TypeError" do
-      expect { subject }.to raise_error Dry::Initializer::CoercionError, /1.* for field :foo/
+      expect { subject }.to raise_error Dry::Types::ConstraintError, /1/
     end
   end
 
@@ -21,7 +23,7 @@ describe "type argument" do
     subject { Test::Foo.new "1", bar: 2 }
 
     it "raises TypeError" do
-      expect { subject }.to raise_error Dry::Initializer::CoercionError, /2.*for field :bar/
+      expect { subject }.to raise_error Dry::Types::ConstraintError, /2/
     end
   end
 

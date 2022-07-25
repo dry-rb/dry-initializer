@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require "dry-types"
 
-describe "type constraint" do
+RSpec.describe "type constraint" do
   context "by a proc with 1 argument" do
     before do
       class Test::Foo
@@ -48,7 +50,7 @@ describe "type constraint" do
         subject { Test::Foo.new 1 }
 
         it "raises ArgumentError" do
-          expect { subject }.to raise_error Dry::Initializer::CoercionError, /1.*for field :foo/
+          expect { subject }.to raise_error Dry::Types::ConstraintError, /1/
         end
       end
 
@@ -85,7 +87,7 @@ describe "type constraint" do
         subject { Test::Foo.new "foo" }
 
         it "raises constraint error" do
-          expect { subject }.to raise_error(Dry::Initializer::CoercionError, /foo/)
+          expect { subject }.to raise_error(Dry::Types::ConstraintError, /foo/)
         end
       end
 

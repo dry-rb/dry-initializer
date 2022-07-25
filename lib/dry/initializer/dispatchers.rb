@@ -1,4 +1,5 @@
-#
+# frozen_string_literal: true
+
 # The module is responsible for __normalizing__ arguments
 # of `.param` and `.option`.
 #
@@ -60,53 +61,57 @@
 #     param :id, integer: true
 #   end
 #
-module Dry::Initializer::Dispatchers
-  extend self
+module Dry
+  module Initializer
+    module Dispatchers
+      extend self
 
-  # @!attribute [rw] null Defines a value to be set to unassigned attributes
-  # @return [Object]
-  attr_accessor :null
+      # @!attribute [rw] null Defines a value to be set to unassigned attributes
+      # @return [Object]
+      attr_accessor :null
 
-  #
-  # Registers a new dispatcher
-  #
-  # @param [#call] dispatcher
-  # @return [self] itself
-  #
-  def <<(dispatcher)
-    @pipeline = [dispatcher] + pipeline
-    self
-  end
+      #
+      # Registers a new dispatcher
+      #
+      # @param [#call] dispatcher
+      # @return [self] itself
+      #
+      def <<(dispatcher)
+        @pipeline = [dispatcher] + pipeline
+        self
+      end
 
-  #
-  # Normalizes the source set of options
-  #
-  # @param [Hash<Symbol, Object>] options
-  # @return [Hash<Symbol, Objct>] normalized set of options
-  #
-  def call(**options)
-    options = { null: null, **options }
-    pipeline.reduce(options) { |opts, dispatcher| dispatcher.call(**opts) }
-  end
+      #
+      # Normalizes the source set of options
+      #
+      # @param [Hash<Symbol, Object>] options
+      # @return [Hash<Symbol, Objct>] normalized set of options
+      #
+      def call(**options)
+        options = {null: null, **options}
+        pipeline.reduce(options) { |opts, dispatcher| dispatcher.call(**opts) }
+      end
 
-  private
+      private
 
-  require_relative 'dispatchers/build_nested_type'
-  require_relative 'dispatchers/check_type'
-  require_relative 'dispatchers/prepare_default'
-  require_relative 'dispatchers/prepare_ivar'
-  require_relative 'dispatchers/prepare_optional'
-  require_relative 'dispatchers/prepare_reader'
-  require_relative 'dispatchers/prepare_source'
-  require_relative 'dispatchers/prepare_target'
-  require_relative 'dispatchers/unwrap_type'
-  require_relative 'dispatchers/wrap_type'
+      require_relative "dispatchers/build_nested_type"
+      require_relative "dispatchers/check_type"
+      require_relative "dispatchers/prepare_default"
+      require_relative "dispatchers/prepare_ivar"
+      require_relative "dispatchers/prepare_optional"
+      require_relative "dispatchers/prepare_reader"
+      require_relative "dispatchers/prepare_source"
+      require_relative "dispatchers/prepare_target"
+      require_relative "dispatchers/unwrap_type"
+      require_relative "dispatchers/wrap_type"
 
-  def pipeline
-    @pipeline ||= [
-      PrepareSource, PrepareTarget, PrepareIvar, PrepareReader,
-      PrepareDefault, PrepareOptional,
-      UnwrapType, CheckType, BuildNestedType, WrapType
-    ]
+      def pipeline
+        @pipeline ||= [
+          PrepareSource, PrepareTarget, PrepareIvar, PrepareReader,
+          PrepareDefault, PrepareOptional,
+          UnwrapType, CheckType, BuildNestedType, WrapType
+        ]
+      end
+    end
   end
 end

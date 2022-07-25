@@ -1,4 +1,6 @@
-describe "definition" do
+# frozen_string_literal: true
+
+RSpec.describe "definition" do
   shared_examples :initializer do |in_context|
     subject { Test::Foo.new(1, bar: 2) }
 
@@ -23,7 +25,7 @@ describe "definition" do
       end
 
       expect(params).to eq [
-        [:foo, { as: :foo, reader: :public, optional: false }]
+        [:foo, {as: :foo, reader: :public, optional: false}]
       ]
     end
 
@@ -33,7 +35,7 @@ describe "definition" do
       end
 
       expect(options).to eq [
-        [:bar, { as: :bar, reader: :public, optional: false }]
+        [:bar, {as: :bar, reader: :public, optional: false}]
       ]
     end
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source "https://rubygems.org"
 
 eval_gemfile "Gemfile.devtools"
@@ -25,8 +27,8 @@ group :benchmarks do
   gem "fast_attributes"
   gem "kwattr"
   gem "ruby-prof", platform: :mri
-  gem "value_struct"
   gem "values"
+  gem "value_struct"
   gem "virtus"
 end
 

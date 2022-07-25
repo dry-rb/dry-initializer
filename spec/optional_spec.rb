@@ -1,4 +1,6 @@
-describe "optional value" do
+# frozen_string_literal: true
+
+RSpec.describe "optional value" do
   context "when has no default value" do
     before do
       class Test::Foo
