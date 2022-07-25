@@ -30,8 +30,8 @@ module Dry
         def check_arity!(default)
           return unless default
 
-          arity = default.method(:call).arity.to_i
-          return unless arity.positive?
+          arity = default.is_a?(Proc) ? default.arity : default.method(:call).arity
+          return if arity.equal?(0) || arity.equal?(-1)
 
           invalid!(default)
         end
