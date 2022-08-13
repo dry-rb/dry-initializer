@@ -38,7 +38,7 @@ user.name  # => 'Andrew'
 user.email # => 'andrew@email.com'
 ```
 
-Options can be renamed using `:as` key:
+Options can be renamed using `as:` key:
 
 ```ruby
 require 'dry-initializer'
