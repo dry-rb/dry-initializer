@@ -1,19 +1,14 @@
 <!--- this file is synced from dry-rb/template-gem project -->
 [gem]: https://rubygems.org/gems/dry-initializer
 [actions]: https://github.com/dry-rb/dry-initializer/actions
-[codacy]: https://www.codacy.com/gh/dry-rb/dry-initializer
-[chat]: https://dry-rb.zulipchat.com
-[inchpages]: http://inch-ci.org/github/dry-rb/dry-initializer
 
-# dry-initializer [![Join the chat at https://dry-rb.zulipchat.com](https://img.shields.io/badge/dry--rb-join%20chat-%23346b7a.svg)][chat]
-
-[![Gem Version](https://badge.fury.io/rb/dry-initializer.svg)][gem]
-[![CI Status](https://github.com/dry-rb/dry-initializer/workflows/ci/badge.svg)][actions]
+# dry-initializer [![Gem Version](https://badge.fury.io/rb/dry-initializer.svg)][gem] [![CI Status](https://github.com/dry-rb/dry-initializer/workflows/ci/badge.svg)][actions]
 
 ## Links
 
 * [User documentation](https://dry-rb.org/gems/dry-initializer)
 * [API documentation](http://rubydoc.info/gems/dry-initializer)
+* [Forum](https://discourse.dry-rb.org)
 
 ## Supported Ruby versions
 
