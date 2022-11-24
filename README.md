@@ -9,9 +9,6 @@
 
 [![Gem Version](https://badge.fury.io/rb/dry-initializer.svg)][gem]
 [![CI Status](https://github.com/dry-rb/dry-initializer/workflows/ci/badge.svg)][actions]
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/03c8923afd734e9fb0f4bfe9cc893edb)][codacy]
-[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/03c8923afd734e9fb0f4bfe9cc893edb)][codacy]
-[![Inline docs](http://inch-ci.org/github/dry-rb/dry-initializer.svg?branch=main)][inchpages]
 
 ## Links
 
