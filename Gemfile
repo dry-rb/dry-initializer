@@ -32,7 +32,3 @@ group :benchmarks do
   gem "virtus"
 end
 
-group :development, :test do
-  gem "pry", platform: :mri
-  gem "pry-byebug", platform: :mri
-end
