@@ -109,7 +109,7 @@ module Dry
       def finalize
         @definitions = final_definitions
         check_order_of_params
-        mixin.class_eval(code)
+        mixin.class_eval(code, "#{__FILE__}:#{__LINE__} class_eval")
         children.each(&:finalize)
         self
       end
