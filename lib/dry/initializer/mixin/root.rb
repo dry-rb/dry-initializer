@@ -7,8 +7,8 @@ module Dry
       module Root
         private
 
-        def initialize(...)
-          __dry_initializer_initialize__(...)
+        def initialize(args)
+          __dry_initializer_initialize__(**args)
         end
       end
     end
