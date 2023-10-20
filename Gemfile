@@ -27,3 +27,6 @@ group :development, :test do
   gem "pry", platform: :mri
   gem "pry-byebug", platform: :mri
 end
+
+gem 'dry-types', git: 'https://gitlab.overteam.ru/overteam/med/dry-types.git', branch: 'release-0.14-r3'
+gem 'dry-logic', git: 'https://gitlab.overteam.ru/overteam/med/dry-logic.git', branch: 'release-0.5-r3'

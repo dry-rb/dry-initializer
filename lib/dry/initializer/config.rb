@@ -58,7 +58,7 @@ module Dry::Initializer
     # @option opts [true, false, :protected, :public, :private] :reader
     # @return [self] itself
     def param(name, type = nil, **opts)
-      add_definition(false, name, type, opts)
+      add_definition(false, name, type, **opts)
     end
 
     # Adds or redefines an option of [#dry_initializer]
@@ -68,7 +68,7 @@ module Dry::Initializer
     # @return (see #param)
     #
     def option(name, type = nil, **opts)
-      add_definition(true, name, type, opts)
+      add_definition(true, name, type, **opts)
     end
 
     # The hash of public attributes for an instance of the [#extended_class]
@@ -133,8 +133,8 @@ module Dry::Initializer
       finalize
     end
 
-    def add_definition(option, name, type, opts)
-      definition = Definition.new(option, null, name, type, Dispatchers[opts])
+    def add_definition(option, name, type, **opts)
+      definition = Definition.new(option, null, name, type, **Dispatchers[opts])
       definitions[definition.source] = definition
       finalize
 
