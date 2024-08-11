@@ -9,7 +9,7 @@
 # - `:source`   -- the name of source option
 # - `:target`   -- the target name of the reader
 # - `:reader`   -- if the reader's privacy (:public, :protected, :private, nil)
-# - `:ivar`     -- the target nane of the variable
+# - `:ivar`     -- the target name of the variable
 # - `:type`     -- the callable coercer of the source value
 # - `:optional` -- if the argument is optional
 # - `:default`  -- the proc returning the default value of the source value
