@@ -31,4 +31,3 @@ group :benchmarks do
   gem "value_struct"
   gem "virtus"
 end
-

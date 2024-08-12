@@ -58,7 +58,6 @@ module Dry
 
         def build_struct(klass_name, block)
           # rubocop: disable Security/Eval
-          # rubocop: disable Style/DocumentDynamicEvalDefinition
           eval <<~RUBY, TOPLEVEL_BINDING, __FILE__, __LINE__ + 1
             class #{klass_name} < Dry::Initializer::Struct
             end
