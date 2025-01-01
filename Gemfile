@@ -13,12 +13,7 @@ else
 end
 
 group :benchmarks do
-  if RUBY_VERSION < "2.4"
-    gem "activesupport", "< 5"
-  else
-    gem "activesupport"
-  end
-
+  gem "activesupport"
   gem "active_attr"
   gem "anima"
   gem "attr_extras"
