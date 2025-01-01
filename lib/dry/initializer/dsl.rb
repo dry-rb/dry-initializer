@@ -26,7 +26,7 @@ module Dry
       # @yield proc defining params and options
       def define(procedure = nil, &block)
         config = Config.new(null: null)
-        config.instance_exec(&(procedure || block))
+        config.instance_exec(&procedure || block)
         config.mixin.include Mixin::Root
         config.mixin
       end

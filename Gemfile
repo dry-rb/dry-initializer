@@ -13,8 +13,8 @@ else
 end
 
 group :benchmarks do
-  gem "activesupport"
   gem "active_attr"
+  gem "activesupport"
   gem "anima"
   gem "attr_extras"
   gem "benchmark-ips", "~> 2.5"
