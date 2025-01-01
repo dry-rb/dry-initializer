@@ -1,4 +1,11 @@
 ---
+- version: 3.2.0
+  date: '2025-01-01'
+  changed:
+  - Set minimal supported Ruby version to 3.1 (@flash-gordon)
+  - |
+    Exclude block forwarding from `Root#initialize`. This helps
+    with tracking down calls that shouldn't pass a block in Ruby 3.4 (see #109) (@flash-gordon)
 - version: 3.1.1
   date: '2022-01-19'
   changed:
