@@ -18,11 +18,11 @@ module Dry
       def options
         {
           as: target,
-          type: type,
-          optional: optional,
-          default: default,
-          reader: reader,
-          desc: desc
+          type:,
+          optional:,
+          default:,
+          reader:,
+          desc:
         }.compact
       end
 

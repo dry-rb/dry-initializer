@@ -14,7 +14,7 @@ module Dry
           default = callable! default
           check_arity! default
 
-          {default: default, optional: (optional | default), **options}
+          {default:, optional: (optional | default), **options}
         end
 
         private

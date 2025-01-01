@@ -25,7 +25,7 @@ module Dry
       # @return [Module]
       # @yield proc defining params and options
       def define(procedure = nil, &block)
-        config = Config.new(null: null)
+        config = Config.new(null:)
         config.instance_exec(&procedure || block)
         config.mixin.include Mixin::Root
         config.mixin
@@ -34,7 +34,7 @@ module Dry
       private
 
       def extended(klass)
-        config = Config.new(klass, null: null)
+        config = Config.new(klass, null:)
         klass.send :instance_variable_set, :@dry_initializer, config
         klass.include Mixin::Root
       end

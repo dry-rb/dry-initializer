@@ -16,7 +16,7 @@ module Dry
                    else invalid_reader!(target, reader)
                    end
 
-          {target: target, reader: reader, **options}
+          {target:, reader:, **options}
         end
 
         private

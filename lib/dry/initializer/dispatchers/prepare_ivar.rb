@@ -11,7 +11,7 @@ module Dry
         def call(target:, **options)
           ivar = "@#{target}".delete("?").to_sym
 
-          {target: target, ivar: ivar, **options}
+          {target:, ivar:, **options}
         end
       end
     end

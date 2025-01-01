@@ -1,7 +1,7 @@
 # This is a config synced from dry-rb/template-gem repo
 
 AllCops:
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.1
   NewCops: disable
   SuggestExtensions: false
   Exclude:
