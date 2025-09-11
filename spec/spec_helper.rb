@@ -10,10 +10,14 @@ rescue LoadError
   nil
 end
 
+SPEC_ROOT = Pathname(__dir__)
+
+Dir.glob(SPEC_ROOT.join("support", "**", "*.rb")).each do |file|
+  require_relative file
+end
+
 RSpec.configure do |config|
-  config.disable_monkey_patching!
   config.order = :random
-  config.filter_run focus: true
   config.run_all_when_everything_filtered = true
 
   # Prepare the Test namespace for constants defined in specs
@@ -22,6 +26,4 @@ RSpec.configure do |config|
     example.run
     Object.send :remove_const, :Test
   end
-
-  config.warnings = true
 end
