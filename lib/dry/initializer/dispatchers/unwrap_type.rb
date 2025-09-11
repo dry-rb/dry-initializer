@@ -15,7 +15,7 @@ module Dry
         def call(type: nil, wrap: 0, **options)
           type, count = unwrap(type, wrap)
 
-          {type:, wrap: count, **options}
+          {type: type, wrap: count, **options}
         end
 
         private

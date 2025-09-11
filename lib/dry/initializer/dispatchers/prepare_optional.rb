@@ -12,7 +12,7 @@ module Dry
           optional ||= default
           optional &&= !required
 
-          {optional: !!optional, default:, **options}
+          {optional: !!optional, default: default, **options}
         end
       end
     end

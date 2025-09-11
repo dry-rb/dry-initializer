@@ -12,7 +12,7 @@ module Dry
           check_if_callable! source, type
           check_arity! source, type, wrap
 
-          {source:, type:, wrap:, **options}
+          {source: source, type: type, wrap: wrap, **options}
         end
 
         private

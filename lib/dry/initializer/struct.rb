@@ -11,7 +11,7 @@ module Dry
         undef_method :param
 
         def new(options)
-          super(**Hash(options).each_with_object({}) { |(k, v), h| h[k.to_sym] = v })
+          super(**Hash(options).transform_keys(&:to_sym))
         end
         alias_method :call, :new
       end

@@ -88,7 +88,7 @@ module Dry
       # @return [Hash<Symbol, Objct>] normalized set of options
       #
       def call(**options)
-        options = {null:, **options}
+        options = {null: null, **options}
         pipeline.reduce(options) { |opts, dispatcher| dispatcher.call(**opts) }
       end
 

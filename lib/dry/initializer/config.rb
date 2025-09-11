@@ -140,11 +140,11 @@ module Dry
       def add_definition(option, name, type, block, **opts)
         opts = {
           parent: extended_class,
-          option:,
-          null:,
+          option: option,
+          null: null,
           source: name,
-          type:,
-          block:,
+          type: type,
+          block: block,
           **opts
         }
 

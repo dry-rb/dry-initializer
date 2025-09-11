@@ -27,7 +27,7 @@ module Dry
           check_ruby_name!(target)
           check_reserved_names!(target)
 
-          {source:, target:, **options}
+          {source: source, target: target, **options}
         end
 
         private
