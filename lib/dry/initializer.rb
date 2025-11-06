@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "set"
-
 # Namespace for gems in a dry-rb community
 module Dry
   #

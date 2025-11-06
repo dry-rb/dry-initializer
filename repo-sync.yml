@@ -7,7 +7,6 @@ gemspec:
   email: ["info@hanakai.org"]
   summary: "DSL for declaring params and options of the initializer"
   homepage: "https://dry-rb.org/gems/dry-initializer"
-  required_ruby_version: ">= 3.1.0"
   development_dependencies:
     - bundler
     - rake
