@@ -14,7 +14,6 @@ module Dry
       module BuildNestedType
         extend self
 
-        # rubocop: disable Metrics/ParameterLists
         def call(parent:, source:, target:, type: nil, block: nil, **options)
           check_certainty!(source, type, block)
           check_name!(target, block)

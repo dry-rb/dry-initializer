@@ -9,5 +9,5 @@
 /spec/reports/
 /tmp/
 /*.gem
-
+/.rubocop-*
 .vscode
