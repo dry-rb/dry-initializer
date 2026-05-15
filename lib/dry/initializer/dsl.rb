@@ -35,7 +35,7 @@ module Dry
 
       def extended(klass)
         config = Config.new(klass, null: null)
-        klass.send :instance_variable_set, :@dry_initializer, config
+        klass.define_singleton_method(:dry_initializer) { config }
         klass.include Mixin::Root
       end
 
