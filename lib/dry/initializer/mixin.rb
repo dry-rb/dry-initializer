@@ -14,7 +14,6 @@ module Dry
       end
 
       require_relative "mixin/root"
-      require_relative "mixin/local"
     end
   end
 end
