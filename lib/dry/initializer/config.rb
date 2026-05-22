@@ -42,11 +42,21 @@ module Dry
       # Deeper descendants are reached transitively by recursing into each
       # child's own `#children` (as {#compile} does).
       #
+      # Skips subclasses that don't have their own `dry_initializer`
+      # singleton method yet — they'd inherit ours and we'd recurse into
+      # ourselves. `DSL#extended` and `Dry::Initializer#inherited` install
+      # those singletons; this guard keeps `#children` correct in between
+      # (e.g. while the parent's own Config is still being built).
+      #
       # @return [Array<Dry::Initializer::Config>]
       def children
         return [] unless extended_class
 
-        extended_class.subclasses.map(&:dry_initializer)
+        extended_class.subclasses.filter_map do |klass|
+          next unless klass.singleton_class.method_defined?(:dry_initializer, false)
+
+          klass.dry_initializer
+        end
       end
 
       # List of definitions for initializer params
@@ -162,19 +172,22 @@ module Dry
         lines.join("\n")
       end
 
-      private
+      protected
 
       # Rebuild the generated initializer on the mixin and recurse into
-      # children. Called on every DSL change. Private — it makes no
-      # Ractor-readiness guarantees; only {#finalize} does.
+      # children. Called on every DSL change. Protected — it makes no
+      # Ractor-readiness guarantees (only {#finalize} does), but the
+      # recompile chain crosses sibling Config instances.
       # @return [self]
       def compile
         @definitions = final_definitions
         check_order_of_params
         mixin.class_eval(code, "#{__FILE__}:#{__LINE__} class_eval")
-        children.each(&:compile)
+        children.each { |child| child.compile }
         self
       end
+
+      private
 
       def initialize(extended_class = nil, null: UNDEFINED)
         @extended_class = extended_class
