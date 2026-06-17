@@ -20,7 +20,7 @@ module Dry
         private
 
         def callable!(default)
-          return unless default
+          return if default.nil? # handles false case better than `unless default`
           return default if default.respond_to?(:call)
           return callable(default.to_proc) if default.respond_to?(:to_proc)
 
@@ -38,7 +38,7 @@ module Dry
 
         def invalid!(default)
           raise TypeError, "The #{default.inspect} should be" \
-                           " either convertable to proc with no arguments," \
+                           " either convertible to proc with no arguments," \
                            " or respond to #call without arguments."
         end
       end
