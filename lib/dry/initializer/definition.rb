@@ -12,8 +12,8 @@ module Dry
     #
     class Definition
       attr_reader :option, :null, :source, :target, :ivar,
-                  :type, :optional, :default, :reader,
-                  :desc
+        :type, :optional, :default, :reader,
+        :desc
 
       def options
         {

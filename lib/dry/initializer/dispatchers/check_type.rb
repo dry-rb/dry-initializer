@@ -22,7 +22,7 @@ module Dry
           return if type.respond_to?(:call)
 
           raise ArgumentError,
-                "The type of the argument '#{source}' should be callable"
+            "The type of the argument '#{source}' should be callable"
         end
 
         def check_arity!(_source, type, wrap)

@@ -167,8 +167,8 @@ module Dry
         return current if previous.option == current.option
 
         raise SyntaxError,
-              "cannot reload #{previous} of #{extended_class.superclass}" \
-              " by #{current} of its subclass #{extended_class}"
+          "cannot reload #{previous} of #{extended_class.superclass}" \
+          " by #{current} of its subclass #{extended_class}"
       end
 
       def check_order_of_params

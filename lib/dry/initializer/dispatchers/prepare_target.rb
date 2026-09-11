@@ -36,14 +36,14 @@ module Dry
           return if target[/\A[[:alpha:]_][[:alnum:]_]*\??\z/u]
 
           raise ArgumentError,
-                "The name `#{target}` is not allowed for Ruby methods"
+            "The name `#{target}` is not allowed for Ruby methods"
         end
 
         def check_reserved_names!(target)
           return unless RESERVED.include?(target)
 
           raise ArgumentError,
-                "The method name `#{target}` is reserved by the dry-initializer gem"
+            "The method name `#{target}` is reserved by the dry-initializer gem"
         end
       end
     end
