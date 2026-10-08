@@ -7,9 +7,13 @@ and this project adheres to [Break Versioning](https://www.taoensso.com/break-ve
 
 ## [Unreleased]
 
+### Added
+
+- `Dry::Initializer#finalize` seals the config so the class is usable from non-main Ractors. After `finalize` the definitions are deeply frozen — further `param`/`option` calls raise `FrozenError`. (@flash-gordon)
+
 ### Changed
 
-- Set minimum Ruby version to 3.2 (@timriley)
+- Set minimum Ruby version to 3.3 (@timriley)
 
 
 ## [3.2.0] - 2025-01-01

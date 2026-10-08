@@ -106,12 +106,20 @@ module Dry
       require_relative "dispatchers/wrap_type"
 
       def pipeline
-        @pipeline ||= [
-          PrepareSource, PrepareTarget, PrepareIvar, PrepareReader,
-          PrepareDefault, PrepareOptional,
-          UnwrapType, CheckType, BuildNestedType, WrapType
-        ]
+        @pipeline ||= begin
+          list = [
+            PrepareSource, PrepareTarget, PrepareIvar, PrepareReader,
+            PrepareDefault, PrepareOptional,
+            UnwrapType, CheckType, BuildNestedType, WrapType
+          ]
+          defined?(Ractor) ? Ractor.make_shareable(list) : list.freeze
+        end
       end
+
+      # Eagerly initialize so that the first read from a non-main Ractor
+      # doesn't trip the class-ivar-set restriction. Done at load time so
+      # the assignment happens in the main Ractor.
+      pipeline
     end
   end
 end
