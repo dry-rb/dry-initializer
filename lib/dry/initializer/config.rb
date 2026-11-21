@@ -6,6 +6,10 @@ module Dry
     # Gem-related configuration of some class
     #
     class Config
+      # Name of the constant {#finalize} sets on the mixin to hold this
+      # Config. Long enough to not collide with user-defined constants.
+      CONFIG_CONST = :DRY_INITIALIZER_CONFIG
+
       # @!attribute [r] null
       # @return [Dry::Initializer::UNDEFINED, nil] value of unassigned variable
 
@@ -26,7 +30,7 @@ module Dry
       def mixin
         @mixin ||= Module.new.tap do |mod|
           initializer = self
-          mod.extend(Mixin::Local)
+          mod.set_temporary_name("Dry::Initializer::Mixin::Local[#{extended_class&.inspect}]")
           mod.define_method(:__dry_initializer_config__) do
             initializer
           end
@@ -34,10 +38,25 @@ module Dry
         end
       end
 
-      # List of configs of all subclasses of the [#extended_class]
+      # Configs of {#extended_class}'s direct (one-level) subclasses.
+      # Deeper descendants are reached transitively by recursing into each
+      # child's own `#children` (as {#compile} does).
+      #
+      # Skips subclasses that don't have their own `dry_initializer`
+      # singleton method yet — they'd inherit ours and we'd recurse into
+      # ourselves. `DSL#extended` and `Dry::Initializer#inherited` install
+      # those singletons; this guard keeps `#children` correct in between
+      # (e.g. while the parent's own Config is still being built).
+      #
       # @return [Array<Dry::Initializer::Config>]
       def children
-        @children ||= Set.new
+        return [] unless extended_class
+
+        extended_class.subclasses.filter_map do |klass|
+          next unless klass.singleton_class.method_defined?(:dry_initializer, false)
+
+          klass.dry_initializer
+        end
       end
 
       # List of definitions for initializer params
@@ -104,13 +123,40 @@ module Dry
         Builders::Initializer[self]
       end
 
-      # Finalizes config
+      # Seal the config. After finalize the class is usable from non-main
+      # Ractors and the Config (with its definitions) is deeply frozen —
+      # further `param`/`option` calls raise `FrozenError`.
+      #
       # @return [self]
       def finalize
-        @definitions = final_definitions
-        check_order_of_params
-        mixin.class_eval(code, "#{__FILE__}:#{__LINE__} class_eval")
-        children.each(&:finalize)
+        return self if @finalized
+
+        compile
+
+        mixin.const_set(CONFIG_CONST, self) unless mixin.const_defined?(CONFIG_CONST, false)
+        mixin.send(:undef_method, :__dry_initializer_config__) \
+          if mixin.private_method_defined?(:__dry_initializer_config__)
+        mixin.module_eval(<<~RUBY, __FILE__, __LINE__ + 1)
+          private def __dry_initializer_config__
+            #{CONFIG_CONST}
+          end
+        RUBY
+
+        # Replace the bmethod `klass.dry_initializer` from `DSL#extended`
+        # / `Dry::Initializer#inherited` with a `def` reading the mixin
+        # constant, so it's callable from any Ractor.
+        if extended_class
+          extended_class.singleton_class.send(:undef_method, :dry_initializer) \
+            if extended_class.singleton_class.method_defined?(:dry_initializer, false)
+          extended_class.class_eval(<<~RUBY, __FILE__, __LINE__ + 1)
+            def self.dry_initializer
+              #{CONFIG_CONST}
+            end
+          RUBY
+        end
+
+        @finalized = true
+        Ractor.make_shareable(self) if defined?(Ractor)
         self
       end
 
@@ -126,32 +172,48 @@ module Dry
         lines.join("\n")
       end
 
+      protected
+
+      # Rebuild the generated initializer on the mixin and recurse into
+      # children. Called on every DSL change. Protected — it makes no
+      # Ractor-readiness guarantees (only {#finalize} does), but the
+      # recompile chain crosses sibling Config instances.
+      # @return [self]
+      def compile
+        @definitions = final_definitions
+        check_order_of_params
+        mixin.class_eval(code, "#{__FILE__}:#{__LINE__} class_eval")
+        children.each { |child| child.compile }
+        self
+      end
+
       private
 
       def initialize(extended_class = nil, null: UNDEFINED)
-        @extended_class = extended_class.tap { |klass| klass&.include mixin }
+        @extended_class = extended_class
         sklass          = extended_class&.superclass
         @parent         = sklass.dry_initializer if sklass.is_a? Dry::Initializer
         @null           = null || parent&.null
         @definitions    = {}
-        finalize
+        extended_class&.include(mixin)
+        compile
       end
 
       def add_definition(option, name, type, block, **opts)
         opts = {
           parent: extended_class,
-          option: option,
-          null: null,
+          option:,
+          null:,
           source: name,
-          type: type,
-          block: block,
+          type:,
+          block:,
           **opts
         }
 
         options = Dispatchers.call(**opts)
         definition = Definition.new(**options)
         definitions[definition.source] = definition
-        finalize
+        compile
         mixin.class_eval definition.code
       end
 

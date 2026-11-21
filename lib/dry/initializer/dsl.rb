@@ -34,12 +34,27 @@ module Dry
       private
 
       def extended(klass)
-        config = Config.new(klass, null: null)
-        klass.send :instance_variable_set, :@dry_initializer, config
+        null_value = null
+        config = Config.new(klass, null: null_value)
+        klass.define_singleton_method(:dry_initializer) { config }
         klass.include Mixin::Root
+        # `Dry::Initializer#inherited` only fires for classes subclassed
+        # *after* the extend. Pre-existing subclasses would otherwise
+        # inherit `klass`'s singleton `dry_initializer` and resolve to
+        # the parent's Config — so give each one its own Config now.
+        klass.subclasses.each { |sub| DSL.install_subclass_config(sub, null_value) }
       end
 
       class << self
+        # @api private
+        def install_subclass_config(klass, null_value)
+          return if klass.singleton_class.method_defined?(:dry_initializer, false)
+
+          config = Config.new(klass, null: null_value)
+          klass.define_singleton_method(:dry_initializer) { config }
+          klass.subclasses.each { |sub| install_subclass_config(sub, null_value) }
+        end
+
         private
 
         def extended(mod)

@@ -47,13 +47,22 @@ module Dry
       self
     end
 
+    # Seal the initializer config: freeze the definitions, reject
+    # further `param`/`option` calls, and (where supported) make the
+    # config Ractor-shareable.
+    # @see Dry::Initializer::Config#finalize
+    # @return [self]
+    def finalize
+      dry_initializer.finalize
+      self
+    end
+
     private
 
     def inherited(klass)
       super
       config = Config.new(klass, null: dry_initializer.null)
-      klass.send(:instance_variable_set, :@dry_initializer, config)
-      dry_initializer.children << config
+      klass.define_singleton_method(:dry_initializer) { config }
     end
 
     require_relative "initializer/struct"
